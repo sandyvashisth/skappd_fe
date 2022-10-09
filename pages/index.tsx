@@ -3,6 +3,7 @@ import type { NextPage } from 'next';
 import Container from '@mui/material/Container';
 import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
+import { Link } from '../src/components/atoms/Link';
 
 const Home: NextPage = () => {
   return (
@@ -22,6 +23,7 @@ const Home: NextPage = () => {
         <Typography component='h2' color='secondary'>
         with Material UI v5 with Next.js in TypeScript
         </Typography>
+        <Link href="/onboarding">User Onboarding</Link>
       </Box>
     </Container>
   );
