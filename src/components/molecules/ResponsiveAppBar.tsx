@@ -11,9 +11,10 @@ import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import Tooltip from '@mui/material/Tooltip';
 import MenuItem from '@mui/material/MenuItem';
-import AdbIcon from '@mui/icons-material/Adb';
 import Logo from '@images/logo.svg'
 import theme from 'src/theme';
+import Link from 'next/link';
+import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 
 const pages = ['Blog'];
 const settings = ['Profile', 'Account', 'Dashboard', 'Logout'];
@@ -38,10 +39,10 @@ export const ResponsiveAppBar = () => {
   };
 
   return (
-    <AppBar position="static">
+    <AppBar position="static" sx={{ background: '#FFFFFF', boxShadow: 'none', border: '1px  solid #f2f2f2' }}>
       <Container maxWidth="xl">
         <Toolbar disableGutters>
-          
+
           <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}>
             <IconButton
               size="large"
@@ -78,13 +79,23 @@ export const ResponsiveAppBar = () => {
               ))}
             </Menu>
           </Box>
-          <Box sx={{flexGrow: 1, [theme.breakpoints.up('md')]: {
-            flexGrow: 0
-          }}}>
-            <Logo/>
+          <Box sx={{
+            flexGrow: 1, [theme.breakpoints.up('md')]: {
+              flexGrow: 0
+            }
+          }}>
+            <Logo />
           </Box>
-          <Box sx={{ flexGrow: 1, ml: '264px', display: { xs: 'none', md: 'flex' } }}>
-            {pages.map((page) => (
+          <Box sx={{ flexGrow: 1, left: '264px', position: 'absolute', display: { xs: 'none', md: 'flex' } }}>
+            <Link href="/">
+              <Button
+                sx={{ color: '#1EC271' }}
+                startIcon={<ArrowBackIcon fontSize="small" />}
+              >
+                Back to Home
+              </Button>
+            </Link>
+            {/* {pages.map((page) => (
               <Button
                 key={page}
                 onClick={handleCloseNavMenu}
@@ -92,10 +103,10 @@ export const ResponsiveAppBar = () => {
               >
                 {page}
               </Button>
-            ))}
+            ))} */}
           </Box>
 
-          <Box sx={{ flexGrow: 0 }}>
+          <Box sx={{ flexGrow: 0, position: 'absolute', right: 0 }}>
             <Tooltip title="Open settings">
               <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
                 <Avatar alt="Sandy" src="/static/images/avatar/2.jpg" />
