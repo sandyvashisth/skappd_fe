@@ -1,4 +1,5 @@
 import { OnboardingDesktopTimeline } from "@components/molecules/OnboardingDesktopTimeline";
+import { OnboardingMobileTimeline } from "@components/molecules/OnboardingMobileTimeline";
 import { ResponsiveAppBar } from "@components/molecules/ResponsiveAppBar";
 import { BenefitsPriorities } from "@components/organisms/BenefitsPriorities";
 import { EducationCertification } from "@components/organisms/EducationCertification";
@@ -48,6 +49,23 @@ const Onboarding = () => {
             }
           />
         </Grid>
+        <Grid
+          item
+          sx={{
+            width: "100%",
+            flexDirection: "column",
+            display: { xs: "flex", md: "none" },
+          }}
+        >
+          <OnboardingMobileTimeline
+            steps={steps}
+            active={activeStep}
+            setActive={(value) =>
+              setActiveStep(value as keyof typeof ONBOARDING_VIEW)
+            }
+          />
+        </Grid>
+
         <Grid
           item
           sx={{
