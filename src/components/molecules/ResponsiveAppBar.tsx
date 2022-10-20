@@ -40,7 +40,7 @@ export const ResponsiveAppBar = () => {
 
   return (
     <AppBar position="static" sx={{ background: '#FFFFFF', boxShadow: 'none', border: '1px  solid #f2f2f2' }}>
-      <Container maxWidth="xl">
+      <Container maxWidth={false}>
         <Toolbar disableGutters>
 
           <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}>
