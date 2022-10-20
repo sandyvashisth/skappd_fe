@@ -7,6 +7,41 @@ import { Box, LinearProgress, Typography } from "@mui/material";
 import { TStep } from "src/constants/onboarding";
 import { DefaultTimeline } from "./DefaultTimeline";
 
+//component styles
+const styles = {
+  headerWrapper: {
+    p: 1,
+    display: "flex",
+    gap: "20px",
+    width: "100%",
+    alignItems: "center",
+  },
+  headingWrapper: {
+    width: "65%",
+    display: "flex",
+    gap: "10px",
+    alignItems: "baseline",
+  },
+  stepCounter: {
+    fontWeight: "bold",
+    fontSize: "14px",
+    color: "primary.main",
+  },
+  title: {
+    fontWeight: "bold",
+    fontSize: "14px",
+    color: "#012333",
+    textOverflow: "ellipsis",
+    overflow: "hidden",
+    whiteSpace: "nowrap",
+  },
+  linearProgress: {
+    height: "8px",
+    borderRadius: "4px",
+    width: "35%",
+  },
+};
+
 export const OnboardingMobileTimeline = ({
   steps,
   active,
@@ -37,51 +72,17 @@ export const OnboardingMobileTimeline = ({
   return (
     <Accordion expanded={expanded} onChange={handleChange}>
       <AccordionSummary expandIcon={<ExpandMoreIcon />}>
-        <Box
-          sx={{
-            p: 1,
-            display: "flex",
-            gap: "20px",
-            width: "100%",
-            alignItems: "center",
-          }}
-        >
-          <Box
-            sx={{
-              width: "65%",
-              display: "flex",
-              gap: "10px",
-              alignItems: "baseline",
-            }}
-          >
-            <Typography
-              sx={{
-                fontWeight: "bold",
-                fontSize: "14px",
-                color: "primary.main",
-              }}
-            >
+        <Box sx={styles.headerWrapper}>
+          <Box sx={styles.headingWrapper}>
+            <Typography sx={styles.stepCounter}>
               {`${activeStepIndex + 1}/${totalSteps}`}
             </Typography>
-            <Typography
-              sx={{
-                fontWeight: "bold",
-                fontSize: "14px",
-                color: "#012333",
-                textOverflow: "ellipsis",
-                overflow: "hidden",
-                whiteSpace: "nowrap",
-              }}
-            >
+            <Typography sx={styles.title}>
               {steps[activeStepIndex]?.title}
             </Typography>
           </Box>
           <LinearProgress
-            sx={{
-              height: "8px",
-              borderRadius: "4px",
-              width: "35%",
-            }}
+            sx={styles.linearProgress}
             color="success"
             variant="determinate"
             value={
