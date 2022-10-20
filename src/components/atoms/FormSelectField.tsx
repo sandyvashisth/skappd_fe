@@ -3,8 +3,10 @@ import {
     FormHelperText,
     MenuItem,
     Select,
+    Theme,
     useMediaQuery,
   } from '@mui/material';
+import { ReactNode } from 'react';
   import { Controller } from 'react-hook-form';
   import { IFormField } from 'types';
   
@@ -22,8 +24,7 @@ import {
   
   const responsiveMenuItem = (
     isSmallDevice: boolean,
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    label: any,
+    label: ReactNode,
     value: string,
   ) =>
     isSmallDevice ? (
@@ -38,8 +39,7 @@ import {
   
   export interface TFormSelectOptions {
     placeholder?: string;
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    options?: Array<{ label: string; value: any }>;
+    options?: Array<{ label: string; value: string }>;
     disabled?: boolean;
   }
   
@@ -48,8 +48,7 @@ import {
   };
   
   export const FormSelectField = ({ field }: TFormSelect) => {
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    const isSmallDevice = useMediaQuery((theme: any) =>
+    const isSmallDevice = useMediaQuery((theme: Theme) =>
       theme.breakpoints.down('sm'),
     );
   

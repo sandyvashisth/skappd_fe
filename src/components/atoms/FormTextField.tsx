@@ -47,8 +47,7 @@ export const FormTextField = (props: TFormTextField) => {
   } = props.field;
 
   const onChangeFormatted =
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    (onChange: (...event: any[]) => void) => (e: any) => {
+    (onChange: (...event: unknown[]) => void) => (e: any) => {
       onChange(formatInput(e.target.value));
       if (props.onChange) props.onChange();
     };

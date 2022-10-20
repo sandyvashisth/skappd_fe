@@ -97,7 +97,7 @@ export const PersonalDetails = () => {
             </Grid>
           </Grid>
         </Grid>
-        <Button type="submit" sx={{ backgroundColor: '#1EC271', color: "#fff", position: 'absolute', right: '32px', bottom: '32px' }}>Let's go</Button>
+        <Button type="submit" sx={{ backgroundColor: '#1EC271', color: "#fff", position: 'absolute', right: '32px', bottom: '32px' }}>Let&apos;s go</Button>
       </form>
     </Box>
   )

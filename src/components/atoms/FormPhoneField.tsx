@@ -45,7 +45,7 @@ export const FormPhoneField = ({ field }: TFormPhoneField) => {
               size="small"
               label={label}
               error={!!error}
-              helperText={error}
+              helperText={error?.message}
               data-testid={`field-${name}`}
               {...{
                 disabled,
