@@ -36,7 +36,7 @@ const Onboarding = () => {
                 </Box>
             </Grid>
             <Grid item sx={{ backgroundColor: '#DAE7E2', flexGrow: 1, minHeight: "calc(100vh - 68px)", maxWidth: 'calc(100vw - 264px)' }}>
-                <ONBOARDING_VIEW.job_preferences />
+                <ONBOARDING_VIEW.education_certifications />
             </Grid>
         </Grid>
     </main>);

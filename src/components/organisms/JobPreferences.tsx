@@ -1,15 +1,15 @@
 import { Box, Button, Grid, Typography } from "@mui/material";
-import React from "react";
 import AccessTimeIcon from "@mui/icons-material/AccessTime";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { FormCustomRadioGroup } from "@components/atoms/FormCustomRadioGroup";
 import { StepAccordion } from "@components/molecules/StepAccordion";
 import { FormCheckboxGrid } from "@components/atoms/FormCheckboxGrid";
-import { JobPreferencesSchema } from "src/schema/jobPreferencesSchema";
+import { JobPreferencesSchema } from "src/schema/onboardingSchema";
+import { useState } from "react";
 
 export const JobPreferences = () => {
-  const [expanded, setExpanded] = React.useState<string>("");
+  const [expanded, setExpanded] = useState<string>("");
   const formInstance = useForm({
     resolver: yupResolver(JobPreferencesSchema)
   });
@@ -125,7 +125,7 @@ export const JobPreferences = () => {
               <FormCheckboxGrid
                 field={{
                   name: "shift",
-                  label: "Shift (2 Selected)",
+                  label: "Shift",
                   control: control,
                   options: {
                     options: [

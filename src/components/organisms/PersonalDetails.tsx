@@ -3,8 +3,8 @@ import React from 'react'
 import AccessTimeIcon from '@mui/icons-material/AccessTime';
 import { useForm } from 'react-hook-form';
 import { FormTextField } from '@components/atoms/FormTextField';
-import { PersonalDetailsSchema } from 'src/schema/personalDetailsSchema';
 import { yupResolver } from '@hookform/resolvers/yup';
+import { PersonalDetailsSchema } from 'src/schema/onboardingSchema';
 
 export const PersonalDetails = () => {
   const {
