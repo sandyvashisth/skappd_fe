@@ -10,7 +10,6 @@ import { DefaultTimeline } from "./DefaultTimeline";
 //component styles
 const styles = {
   headerWrapper: {
-    p: 1,
     display: "flex",
     gap: "20px",
     width: "100%",
@@ -39,6 +38,7 @@ const styles = {
     height: "8px",
     borderRadius: "4px",
     width: "35%",
+    marginRight: '16px'
   },
 };
 
