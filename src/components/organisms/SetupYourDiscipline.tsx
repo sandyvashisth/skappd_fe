@@ -1,7 +1,106 @@
-import React from 'react'
+import { Box, Button, Grid, Typography } from "@mui/material";
+import AccessTimeIcon from "@mui/icons-material/AccessTime";
+import { useForm } from "react-hook-form";
+import { yupResolver } from "@hookform/resolvers/yup";
+import { StepAccordion } from "@components/molecules/StepAccordion";
+import { FormCheckboxGrid } from "@components/atoms/FormCheckboxGrid";
+import { SetupDiscipline } from "src/schema/onboardingSchema";
+import { useState } from "react";
+import { OtSkillsSelector } from "@components/molecules/OtSkillsSelector";
 
 export const SetupYourDiscipline = () => {
+  const [expanded, setExpanded] = useState<string>("");
+  const formInstance = useForm({
+    resolver: yupResolver(SetupDiscipline),
+  });
+
+  const {
+    control,
+    handleSubmit,
+    formState: { errors },
+    getValues,
+  } = formInstance;
+
+  const onSubmit = (formData: any) => {
+    console.log("lele", formData);
+  };
+
   return (
-    <div>SetupYourDiscipline</div>
-  )
-}
+    <Box>
+      <Box sx={{ mx: 3, mt: 3 }}>
+        <Typography variant="h6">Setup your Discipline</Typography>
+        <Typography
+          sx={{
+            display: "flex",
+            alignItems: "center",
+          }}
+        >
+          <AccessTimeIcon fontSize="small" /> 1-2 mins
+        </Typography>
+      </Box>
+      <form onSubmit={handleSubmit(onSubmit)}>
+        <Grid container sx={{ my: 4 }}>
+          <Grid item xs={12} sx={{ borderBottom: "1px solid #CEE0DB" }}>
+            <StepAccordion
+              title="Select Discipline"
+              value={getValues("discipline")}
+              name="discipline"
+              expanded={expanded}
+              handleChange={setExpanded}
+            >
+              <Typography sx={{ mb: 2 }}></Typography>
+              <FormCheckboxGrid
+                field={{
+                  name: "discipline",
+                  label: "Select Discipline",
+                  control: control,
+                  options: {
+                    options: [
+                      {
+                        value: "Occupational Therapist",
+                        label: "Occupational Therapist",
+                      },
+                    ],
+                  },
+                }}
+                formInstance={formInstance}
+              />
+            </StepAccordion>
+          </Grid>
+          <OtSkillsSelector
+            field={{
+              name: "otSkills",
+              label: "OT Skills",
+              control: control,
+              options: [
+                { key: "Amputee", title: "Amputee" },
+                { key: "Autism", title: "Autism" },
+                { key: "Dementia", title: "Dementia" },
+                { key: "Feeding", title: "Feeding" },
+                { key: "Home Modification", title: "Home Modification" },
+                { key: "Burns", title: "Burns" },
+                { key: "Community Re-entry", title: "Community Re-entry" },
+                { key: "IASTM", title: "IASTM" },
+                { key: "Manual Therapy", title: "Manual Therapy" },
+                { key: "Cupping", title: "Cupping" },
+              ],
+            }}
+            formInstance={formInstance}
+          />
+        </Grid>
+        <Button
+          type="submit"
+          sx={{
+            backgroundColor: "#1EC271",
+            color: "#fff",
+            position: "absolute",
+            right: "32px",
+            bottom: "32px",
+          }}
+        >
+          {`LET'S GO`}
+        </Button>
+      </form>
+    </Box>
+  );
+};

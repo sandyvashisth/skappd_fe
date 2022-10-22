@@ -9,7 +9,7 @@ import { LocationPreferences } from "@components/organisms/LocationPreferences";
 import { LoginSetup } from "@components/organisms/LoginSetup";
 import { PersonalDetails } from "@components/organisms/PersonalDetails";
 import { SetupYourDiscipline } from "@components/organisms/SetupYourDiscipline";
-import { Grid } from "@mui/material";
+import { Grid, useMediaQuery, Theme } from "@mui/material";
 import { useState } from "react";
 import { steps } from "src/constants/onboarding";
 
@@ -28,6 +28,9 @@ const Onboarding = () => {
   const [activeStep, setActiveStep] =
     useState<keyof typeof ONBOARDING_VIEW>("personal_details");
   const View = ONBOARDING_VIEW[activeStep] ?? null;
+  const isSmallDevice = useMediaQuery((theme: Theme) =>
+    theme.breakpoints.down("sm")
+  );
   return (
     <main>
       <ResponsiveAppBar />
@@ -72,7 +75,7 @@ const Onboarding = () => {
             backgroundColor: "#DAE7E2",
             flexGrow: 1,
             minHeight: "calc(100vh - 68px)",
-            maxWidth: "calc(100vw - 264px)",
+            maxWidth: `${isSmallDevice ? "auto" : "calc(100vw - 264px"}`,
           }}
         >
           <View />
