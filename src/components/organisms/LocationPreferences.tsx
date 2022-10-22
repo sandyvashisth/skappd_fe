@@ -1,4 +1,4 @@
-import { Box, Button, Grid, Typography } from "@mui/material";
+import { Box, Grid, Typography } from "@mui/material";
 import AccessTimeIcon from "@mui/icons-material/AccessTime";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
@@ -6,18 +6,19 @@ import { StepAccordion } from "@components/molecules/StepAccordion";
 import { FormCheckboxGrid } from "@components/atoms/FormCheckboxGrid";
 import { LocationPreferenceSchema } from "src/schema/onboardingSchema";
 import { useState } from "react";
+import { FormFooter } from "@components/atoms/FormFooter";
 
 export const LocationPreferences = () => {
   const [expanded, setExpanded] = useState<string>("");
   const formInstance = useForm({
-    resolver: yupResolver(LocationPreferenceSchema)
+    resolver: yupResolver(LocationPreferenceSchema),
   });
 
   const {
     control,
     handleSubmit,
     formState: { errors },
-    getValues
+    getValues,
   } = formInstance;
 
   const onSubmit = (formData: any) => {
@@ -42,7 +43,7 @@ export const LocationPreferences = () => {
           <Grid item xs={12} sx={{ borderBottom: "1px solid #CEE0DB" }}>
             <StepAccordion
               title="Are you open to relocating?"
-              value={getValues('relocating')}
+              value={getValues("relocating")}
               name="relocating"
               expanded={expanded}
               handleChange={setExpanded}
@@ -61,7 +62,7 @@ export const LocationPreferences = () => {
                       {
                         value: "No",
                         label: "No",
-                      }
+                      },
                     ],
                   },
                 }}
@@ -72,7 +73,7 @@ export const LocationPreferences = () => {
           <Grid item xs={12} sx={{ borderBottom: "1px solid #CEE0DB" }}>
             <StepAccordion
               title="States you prefer"
-              value={getValues('statePrefer')}
+              value={getValues("statePrefer")}
               name="statePrefer"
               expanded={expanded}
               handleChange={setExpanded}
@@ -109,18 +110,7 @@ export const LocationPreferences = () => {
             </StepAccordion>
           </Grid>
         </Grid>
-        <Button
-          type="submit"
-          sx={{
-            backgroundColor: "#1EC271",
-            color: "#fff",
-            position: "absolute",
-            right: "32px",
-            bottom: "32px",
-          }}
-        >
-          Let&apos;s go
-        </Button>
+        <FormFooter />
       </form>
     </Box>
   );

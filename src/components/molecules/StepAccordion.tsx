@@ -1,10 +1,10 @@
 import styled from "@emotion/styled";
-import { Button } from "@mui/material";
+import { Theme, useMediaQuery } from "@mui/material";
 import {
   Accordion,
-  AccordionDetails,
   AccordionSummary,
   Typography,
+  AccordionDetails,
 } from "@mui/material";
 import React, { ReactNode } from "react";
 
@@ -15,7 +15,13 @@ const StyledAccordion = styled(Accordion)`
   box-shadow: none;
   display: flex;
   padding: 0 8px;
-  background: ${({ expanded }) => `${expanded ? '#fff': 'transparent'}`};
+  background: ${({
+    expanded,
+    bgColor,
+  }: {
+    expanded: boolean;
+    bgColor: string;
+  }) => `${expanded ? bgColor : "transparent"}`};
 `;
 
 const StyledTitle = styled(Typography)`
@@ -45,6 +51,23 @@ const Edit = styled(Typography)`
   color: #1ec271;
 `;
 
+const StyledAccordionSummary = styled(AccordionSummary)(
+  ({ isDesktop }: { isDesktop: boolean }) => ({
+    "& .MuiAccordionSummary-content": {
+      flexDirection: isDesktop ? "row" : "column",
+      gap: "10px",
+      "& p": {
+        marginLeft: "0",
+      },
+      "& p:nth-last-child(1)": {
+        color: "#1EC271",
+        lineHeight: "1.2rem",
+        paddingRight: "10px",
+      },
+    },
+  })
+);
+
 type TProps = {
   name: string;
   title: ReactNode;
@@ -52,6 +75,7 @@ type TProps = {
   expanded: string;
   handleChange: (accordionName: string) => void;
   children: ReactNode;
+  fieldsType: string;
 };
 
 export const StepAccordion = ({
@@ -61,22 +85,38 @@ export const StepAccordion = ({
   expanded,
   handleChange,
   children,
+  fieldsType,
 }: TProps) => {
+  const isDesktop = useMediaQuery((theme: Theme) => theme.breakpoints.up("sm"));
+  const selectedValues =
+    fieldsType === "comboButtonWithInput"
+      ? Array.isArray(value) &&
+        value.map(({ key, value }) => `${key} ${value}yrs`)
+      : value;
   return (
-    <StyledAccordion square expanded={expanded === name}>
+    <StyledAccordion
+      square
+      expanded={expanded === name}
+      bgColor={fieldsType === "comboButtonWithInput" ? "#DAE7E2" : "#fff"}
+    >
       {expanded !== name && (
-        <AccordionSummary
+        <StyledAccordionSummary
           aria-controls={`${name}-content`}
           id={`${name}-header`}
-          sx={{ minWidth: '100%'}}
+          sx={{
+            minWidth: "100%",
+          }}
+          isDesktop={isDesktop}
           expandIcon={
-            value && <Edit
-              onClick={() => {
-                handleChange(name);
-              }}
-            >
-              Edit
-            </Edit>
+            value && (
+              <Edit
+                onClick={() => {
+                  handleChange(name);
+                }}
+              >
+                Edit
+              </Edit>
+            )
           }
         >
           <StyledTitle
@@ -86,11 +126,11 @@ export const StepAccordion = ({
           >
             {title}
           </StyledTitle>
-          {value ? (
-            <StyledValue
-              sx={{ ml: 2 }}
-            >
-              {Array.isArray(value)? value.join(', '): value}
+          {selectedValues ? (
+            <StyledValue sx={{ ml: 2 }}>
+              {Array.isArray(selectedValues)
+                ? selectedValues.join(", ")
+                : selectedValues}
             </StyledValue>
           ) : (
             <EmptyValue
@@ -101,9 +141,14 @@ export const StepAccordion = ({
               Select
             </EmptyValue>
           )}
-        </AccordionSummary>
+        </StyledAccordionSummary>
       )}
       <AccordionDetails>{children}</AccordionDetails>
     </StyledAccordion>
   );
+};
+
+StepAccordion.defaultProps = {
+  fieldsType: "checkbox",
+  value: [],
 };

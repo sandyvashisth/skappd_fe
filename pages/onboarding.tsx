@@ -25,7 +25,7 @@ export const ONBOARDING_VIEW = {
 };
 
 const Onboarding = () => {
-  const isDesktop = useMediaQuery((theme: Theme) => theme.breakpoints.up('sm'));
+  const isDesktop = useMediaQuery((theme: Theme) => theme.breakpoints.up("sm"));
   const [activeStep, setActiveStep] =
     useState<keyof typeof ONBOARDING_VIEW>("personal_details");
   const View = ONBOARDING_VIEW[activeStep] ?? null;
@@ -33,22 +33,24 @@ const Onboarding = () => {
     <main>
       <ResponsiveAppBar />
       <Grid container>
-        {isDesktop ? <Grid
-          item
-          sx={{
-            width: "264px",
-            p: 2,
-            flexDirection: "column",
-          }}
-        >
-          <OnboardingDesktopTimeline
-            steps={steps}
-            active={activeStep}
-            setActive={(value) =>
-              setActiveStep(value as keyof typeof ONBOARDING_VIEW)
-            }
-          />
-        </Grid> :
+        {isDesktop ? (
+          <Grid
+            item
+            sx={{
+              width: "264px",
+              p: 2,
+              flexDirection: "column",
+            }}
+          >
+            <OnboardingDesktopTimeline
+              steps={steps}
+              active={activeStep}
+              setActive={(value) =>
+                setActiveStep(value as keyof typeof ONBOARDING_VIEW)
+              }
+            />
+          </Grid>
+        ) : (
           <Grid
             item
             sx={{
@@ -63,14 +65,15 @@ const Onboarding = () => {
                 setActiveStep(value as keyof typeof ONBOARDING_VIEW)
               }
             />
-          </Grid>}
+          </Grid>
+        )}
 
         <Grid
           item
           xs
           sx={{
             backgroundColor: "#DAE7E2",
-            minHeight: `calc(100vh - ${isDesktop? '68px' : '104px'})`,
+            minHeight: `calc(100vh - ${isDesktop ? "68px" : "104px"})`,
           }}
         >
           <View />
