@@ -16,8 +16,8 @@ import theme from 'src/theme';
 import Link from 'next/link';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 
-const pages = ['Blog'];
-const settings = ['Profile', 'Account', 'Dashboard', 'Logout'];
+const pages: string[] = [];
+const settings = ['Profile', 'Logout'];
 
 export const ResponsiveAppBar = () => {
   const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(null);
@@ -54,7 +54,7 @@ export const ResponsiveAppBar = () => {
             >
               <MenuIcon />
             </IconButton>
-            <Menu
+            {pages.length > 0 && <Menu
               id="menu-appbar"
               anchorEl={anchorElNav}
               anchorOrigin={{
@@ -77,7 +77,7 @@ export const ResponsiveAppBar = () => {
                   <Typography textAlign="center">{page}</Typography>
                 </MenuItem>
               ))}
-            </Menu>
+            </Menu>}
           </Box>
           <Box sx={{
             flexGrow: 1, [theme.breakpoints.up('md')]: {

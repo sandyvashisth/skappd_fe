@@ -9,7 +9,7 @@ import { LocationPreferences } from "@components/organisms/LocationPreferences";
 import { LoginSetup } from "@components/organisms/LoginSetup";
 import { PersonalDetails } from "@components/organisms/PersonalDetails";
 import { SetupYourDiscipline } from "@components/organisms/SetupYourDiscipline";
-import { Grid, useMediaQuery, Theme } from "@mui/material";
+import { Grid, Theme, useMediaQuery } from "@mui/material";
 import { useState } from "react";
 import { steps } from "src/constants/onboarding";
 
@@ -25,6 +25,7 @@ export const ONBOARDING_VIEW = {
 };
 
 const Onboarding = () => {
+  const isDesktop = useMediaQuery((theme: Theme) => theme.breakpoints.up("sm"));
   const [activeStep, setActiveStep] =
     useState<keyof typeof ONBOARDING_VIEW>("personal_details");
   const View = ONBOARDING_VIEW[activeStep] ?? null;
@@ -35,46 +36,48 @@ const Onboarding = () => {
     <main>
       <ResponsiveAppBar />
       <Grid container>
-        <Grid
-          item
-          sx={{
-            width: "264px",
-            p: 2,
-            flexDirection: "column",
-            display: { xs: "none", md: "flex" },
-          }}
-        >
-          <OnboardingDesktopTimeline
-            steps={steps}
-            active={activeStep}
-            setActive={(value) =>
-              setActiveStep(value as keyof typeof ONBOARDING_VIEW)
-            }
-          />
-        </Grid>
-        <Grid
-          item
-          sx={{
-            width: "100%",
-            flexDirection: "column",
-            display: { xs: "flex", md: "none" },
-          }}
-        >
-          <OnboardingMobileTimeline
-            steps={steps}
-            active={activeStep}
-            setActive={(value) =>
-              setActiveStep(value as keyof typeof ONBOARDING_VIEW)
-            }
-          />
-        </Grid>
+        {isDesktop ? (
+          <Grid
+            item
+            sx={{
+              width: "264px",
+              p: 2,
+              flexDirection: "column",
+            }}
+          >
+            <OnboardingDesktopTimeline
+              steps={steps}
+              active={activeStep}
+              setActive={(value) =>
+                setActiveStep(value as keyof typeof ONBOARDING_VIEW)
+              }
+            />
+          </Grid>
+        ) : (
+          <Grid
+            item
+            sx={{
+              width: "100%",
+              flexDirection: "column",
+            }}
+          >
+            <OnboardingMobileTimeline
+              steps={steps}
+              active={activeStep}
+              setActive={(value) =>
+                setActiveStep(value as keyof typeof ONBOARDING_VIEW)
+              }
+            />
+          </Grid>
+        )}
 
         <Grid
           item
+          xs
           sx={{
             backgroundColor: "#DAE7E2",
             flexGrow: 1,
-            minHeight: "calc(100vh - 68px)",
+            minHeight: `calc(100vh - ${isDesktop ? "68px" : "104px"})`,
             maxWidth: `${isSmallDevice ? "auto" : "calc(100vw - 264px"}`,
           }}
         >
