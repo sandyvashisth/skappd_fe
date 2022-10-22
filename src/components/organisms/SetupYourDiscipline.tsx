@@ -1,4 +1,4 @@
-import { Box, Button, Grid, Typography } from "@mui/material";
+import { Box, Grid, Typography } from "@mui/material";
 import AccessTimeIcon from "@mui/icons-material/AccessTime";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
@@ -7,6 +7,7 @@ import { FormCheckboxGrid } from "@components/atoms/FormCheckboxGrid";
 import { SetupDiscipline } from "src/schema/onboardingSchema";
 import { useState } from "react";
 import { OtSkillsSelector } from "@components/molecules/OtSkillsSelector";
+import { FormFooter } from "@components/atoms/FormFooter";
 
 export const SetupYourDiscipline = () => {
   const [expanded, setExpanded] = useState<string>("");
@@ -22,7 +23,7 @@ export const SetupYourDiscipline = () => {
   } = formInstance;
 
   const onSubmit = (formData: any) => {
-    console.log("lele", formData);
+    console.log("Form Data ===> ", formData);
   };
 
   return (
@@ -67,39 +68,38 @@ export const SetupYourDiscipline = () => {
               />
             </StepAccordion>
           </Grid>
-          <OtSkillsSelector
-            field={{
-              name: "otSkills",
-              label: "OT Skills",
-              control: control,
-              options: [
-                { key: "Amputee", title: "Amputee" },
-                { key: "Autism", title: "Autism" },
-                { key: "Dementia", title: "Dementia" },
-                { key: "Feeding", title: "Feeding" },
-                { key: "Home Modification", title: "Home Modification" },
-                { key: "Burns", title: "Burns" },
-                { key: "Community Re-entry", title: "Community Re-entry" },
-                { key: "IASTM", title: "IASTM" },
-                { key: "Manual Therapy", title: "Manual Therapy" },
-                { key: "Cupping", title: "Cupping" },
-              ],
-            }}
-            formInstance={formInstance}
-          />
+          <StepAccordion
+            title="Select Discipline"
+            value={getValues("otSkills")}
+            name="otSkills"
+            expanded={expanded}
+            handleChange={setExpanded}
+            fieldsType="comboButtonWithInput"
+          >
+            <OtSkillsSelector
+              field={{
+                name: "otSkills",
+                label: "OT Skills",
+                control: control,
+                options: [
+                  { key: "Amputee", title: "Amputee" },
+                  { key: "Autism", title: "Autism" },
+                  { key: "Dementia", title: "Dementia" },
+                  { key: "Feeding", title: "Feeding" },
+                  { key: "Home Modification", title: "Home Modification" },
+                  { key: "Burns", title: "Burns" },
+                  { key: "Community Re-entry", title: "Community Re-entry" },
+                  { key: "IASTM", title: "IASTM" },
+                  { key: "Manual Therapy", title: "Manual Therapy" },
+                  { key: "Cupping", title: "Cupping" },
+                ],
+              }}
+              selectedValues={getValues("otSkills")}
+              formInstance={formInstance}
+            />
+          </StepAccordion>
         </Grid>
-        <Button
-          type="submit"
-          sx={{
-            backgroundColor: "#1EC271",
-            color: "#fff",
-            position: "absolute",
-            right: "32px",
-            bottom: "32px",
-          }}
-        >
-          {`LET'S GO`}
-        </Button>
+        <FormFooter />
       </form>
     </Box>
   );

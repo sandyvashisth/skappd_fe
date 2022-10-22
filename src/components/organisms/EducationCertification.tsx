@@ -1,4 +1,4 @@
-import { Box, Button, Grid, Typography } from "@mui/material";
+import { Box, Grid, Typography } from "@mui/material";
 import AccessTimeIcon from "@mui/icons-material/AccessTime";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
@@ -6,18 +6,19 @@ import { StepAccordion } from "@components/molecules/StepAccordion";
 import { FormCheckboxGrid } from "@components/atoms/FormCheckboxGrid";
 import { educationCertificateSchema } from "src/schema/onboardingSchema";
 import { useState } from "react";
+import { FormFooter } from "@components/atoms/FormFooter";
 
 export const EducationCertification = () => {
   const [expanded, setExpanded] = useState<string>("");
   const formInstance = useForm({
-    resolver: yupResolver(educationCertificateSchema)
+    resolver: yupResolver(educationCertificateSchema),
   });
 
   const {
     control,
     handleSubmit,
     formState: { errors },
-    getValues
+    getValues,
   } = formInstance;
 
   const onSubmit = (formData: any) => {
@@ -42,7 +43,7 @@ export const EducationCertification = () => {
           <Grid item xs={12} sx={{ borderBottom: "1px solid #CEE0DB" }}>
             <StepAccordion
               title="Comfort Setting"
-              value={getValues('comfortSetting')}
+              value={getValues("comfortSetting")}
               name="comfortSetting"
               expanded={expanded}
               handleChange={setExpanded}
@@ -76,7 +77,7 @@ export const EducationCertification = () => {
           <Grid item xs={12} sx={{ borderBottom: "1px solid #CEE0DB" }}>
             <StepAccordion
               title="Patient Population"
-              value={getValues('patientPopulation')}
+              value={getValues("patientPopulation")}
               name="patientPopulation"
               expanded={expanded}
               handleChange={setExpanded}
@@ -113,18 +114,7 @@ export const EducationCertification = () => {
             </StepAccordion>
           </Grid>
         </Grid>
-        <Button
-          type="submit"
-          sx={{
-            backgroundColor: "#1EC271",
-            color: "#fff",
-            position: "absolute",
-            right: "32px",
-            bottom: "32px",
-          }}
-        >
-          Let&apos;s go
-        </Button>
+        <FormFooter />
       </form>
     </Box>
   );

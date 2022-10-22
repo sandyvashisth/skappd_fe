@@ -37,13 +37,17 @@ export const ComboButtonWithInput = ({
   title,
   skillId,
   updateSkill,
+  selectedValue,
 }: {
   title: string;
   skillId: string;
   updateSkill: Function;
+  selectedValue: string;
 }) => {
-  const [value, setValue] = useState<string | number>(0);
-  const [selected, setSelected] = useState<boolean>(false);
+  const [value, setValue] = useState<string | number>(selectedValue || 0);
+  const [selected, setSelected] = useState<boolean>(
+    selectedValue ? true : false
+  );
 
   const handleClick = () => {
     setValue(0);

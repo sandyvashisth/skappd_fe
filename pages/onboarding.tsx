@@ -29,9 +29,6 @@ const Onboarding = () => {
   const [activeStep, setActiveStep] =
     useState<keyof typeof ONBOARDING_VIEW>("personal_details");
   const View = ONBOARDING_VIEW[activeStep] ?? null;
-  const isSmallDevice = useMediaQuery((theme: Theme) =>
-    theme.breakpoints.down("sm")
-  );
   return (
     <main>
       <ResponsiveAppBar />
@@ -76,9 +73,7 @@ const Onboarding = () => {
           xs
           sx={{
             backgroundColor: "#DAE7E2",
-            flexGrow: 1,
             minHeight: `calc(100vh - ${isDesktop ? "68px" : "104px"})`,
-            maxWidth: `${isSmallDevice ? "auto" : "calc(100vw - 264px"}`,
           }}
         >
           <View />

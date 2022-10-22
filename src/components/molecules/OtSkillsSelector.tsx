@@ -11,14 +11,28 @@ import { useController } from "react-hook-form";
 export const OtSkillsSelector = ({
   field,
   formInstance,
+  selectedValues,
 }: {
   field: any;
   formInstance: any;
+  selectedValues: any;
 }) => {
   const {
     control,
     formState: { errors },
   } = formInstance;
+
+  interface skill {
+    key: string;
+    value: number;
+  }
+
+  const sanitizedSelectedValues = selectedValues?.length
+    ? selectedValues.reduce(function (map: any, skill: skill) {
+        map[skill.key] = skill.value;
+        return map;
+      }, {})
+    : null;
 
   const { options = [] } = field;
 
@@ -56,6 +70,7 @@ export const OtSkillsSelector = ({
         break;
     }
   };
+
   const isSmallDevice = useMediaQuery((theme: Theme) =>
     theme.breakpoints.down("sm")
   );
@@ -63,9 +78,10 @@ export const OtSkillsSelector = ({
     <Grid
       container
       sx={{
-        p: isSmallDevice ? 2 : 4,
+        p: isSmallDevice ? 0 : 4,
         bgcolor: isSmallDevice ? "#DAE7E2" : "white",
-        pr: isSmallDevice ? 2 : 10,
+        pr: isSmallDevice ? 0 : 10,
+        pt: isSmallDevice ? 0 : 2,
       }}
     >
       <Grid item xs={12} md={1.5} sx={{ lineHeight: 1 }}>
@@ -92,6 +108,9 @@ export const OtSkillsSelector = ({
             title={title}
             key={key}
             updateSkill={updateSkill}
+            selectedValue={
+              sanitizedSelectedValues && sanitizedSelectedValues[key]
+            }
           />
         ))}
       </Grid>

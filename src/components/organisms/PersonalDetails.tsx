@@ -1,10 +1,11 @@
-import { Box, Button, Grid, Typography } from '@mui/material'
-import React from 'react'
-import AccessTimeIcon from '@mui/icons-material/AccessTime';
-import { useForm } from 'react-hook-form';
-import { FormTextField } from '@components/atoms/FormTextField';
-import { yupResolver } from '@hookform/resolvers/yup';
-import { PersonalDetailsSchema } from 'src/schema/onboardingSchema';
+import { Box, Grid, Typography } from "@mui/material";
+import React from "react";
+import AccessTimeIcon from "@mui/icons-material/AccessTime";
+import { useForm } from "react-hook-form";
+import { FormTextField } from "@components/atoms/FormTextField";
+import { yupResolver } from "@hookform/resolvers/yup";
+import { PersonalDetailsSchema } from "src/schema/onboardingSchema";
+import { FormFooter } from "@components/atoms/FormFooter";
 
 export const PersonalDetails = () => {
   const {
@@ -22,15 +23,19 @@ export const PersonalDetails = () => {
   });
 
   const onSubmit = (formData: any) => {
-    console.log(formData)
-  }
+    console.log(formData);
+  };
   return (
     <Box sx={{ p: [2, 4] }}>
       <Typography variant="h6">Personal Details</Typography>
-      <Typography sx={{
-        display: 'flex',
-        alignItems: "center"
-      }}><AccessTimeIcon fontSize="small" /> 1-2 mins</Typography>
+      <Typography
+        sx={{
+          display: "flex",
+          alignItems: "center",
+        }}
+      >
+        <AccessTimeIcon fontSize="small" /> 1-2 mins
+      </Typography>
 
       <form onSubmit={handleSubmit(onSubmit)}>
         <Grid container spacing={4} sx={{ my: 4 }}>
@@ -38,7 +43,7 @@ export const PersonalDetails = () => {
             <Typography sx={{ mb: 2 }}>Name</Typography>
             <FormTextField
               field={{
-                label: 'Full name',
+                label: "Full name",
                 name: `fullName`,
                 control: control,
                 error: errors?.fullName,
@@ -52,7 +57,7 @@ export const PersonalDetails = () => {
               <Grid item xs={6}>
                 <FormTextField
                   field={{
-                    label: 'Street Address',
+                    label: "Street Address",
                     name: `address`,
                     control: control,
                     error: errors?.address,
@@ -63,7 +68,7 @@ export const PersonalDetails = () => {
               <Grid item xs={6}>
                 <FormTextField
                   field={{
-                    label: 'State/Province',
+                    label: "State/Province",
                     name: `state`,
                     control: control,
                     error: errors?.state,
@@ -76,7 +81,7 @@ export const PersonalDetails = () => {
               <Grid item xs={6}>
                 <FormTextField
                   field={{
-                    label: 'City',
+                    label: "City",
                     name: `city`,
                     control: control,
                     error: errors?.city,
@@ -87,7 +92,7 @@ export const PersonalDetails = () => {
               <Grid item xs={6}>
                 <FormTextField
                   field={{
-                    label: 'Zip Code',
+                    label: "Zip Code",
                     name: `zip`,
                     control: control,
                     error: errors?.zip,
@@ -97,8 +102,8 @@ export const PersonalDetails = () => {
             </Grid>
           </Grid>
         </Grid>
-        <Button type="submit" sx={{ backgroundColor: '#1EC271', color: "#fff", position: 'absolute', right: '32px', bottom: '32px' }}>Let&apos;s go</Button>
+        <FormFooter />
       </form>
     </Box>
-  )
-}
+  );
+};
