@@ -97,7 +97,10 @@ export const StepAccordion = ({
     <StyledAccordion
       square
       expanded={expanded === name}
-      bgColor={fieldsType === "comboButtonWithInput" ? "#DAE7E2" : "#fff"}
+      bgColor={fieldsType === "comboButtonWithInput" ? "#fff" : "transparent"}
+      sx={{
+        m: `${fieldsType === "comboButtonWithInput" ? "0 !important" : "auto"}`,
+      }}
     >
       {expanded !== name && (
         <StyledAccordionSummary
