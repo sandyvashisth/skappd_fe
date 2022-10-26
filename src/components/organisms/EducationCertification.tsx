@@ -51,6 +51,7 @@ export const EducationCertification = () => {
               name="comfortSetting"
               expanded={expanded}
               handleChange={setExpanded}
+              isError={errors["comfortSetting"]}
             >
               <FormCheckboxGrid
                 field={{
@@ -85,6 +86,7 @@ export const EducationCertification = () => {
               name="patientPopulation"
               expanded={expanded}
               handleChange={setExpanded}
+              isError={errors["patientPopulation"]}
             >
               <Typography sx={{ mb: 2 }}></Typography>
               <FormCheckboxGrid

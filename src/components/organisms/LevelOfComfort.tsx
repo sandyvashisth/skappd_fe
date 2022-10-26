@@ -51,6 +51,7 @@ export const LevelOfComfort = () => {
               name="hightestEducation"
               expanded={expanded}
               handleChange={setExpanded}
+              isError={errors["hightestEducation"]}
             >
               <FormCheckboxGrid
                 field={{
@@ -85,6 +86,7 @@ export const LevelOfComfort = () => {
               name="otherCertificates"
               expanded={expanded}
               handleChange={setExpanded}
+              isError={errors["otherCertificates"]}
             >
               <Typography sx={{ mb: 2 }}></Typography>
               <FormCheckboxGrid
@@ -124,6 +126,7 @@ export const LevelOfComfort = () => {
               name="bonus"
               expanded={expanded}
               handleChange={setExpanded}
+              isError={errors["bonus"]}
             >
               <Typography sx={{ mb: 2 }}></Typography>
               <FormCheckboxGrid

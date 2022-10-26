@@ -52,6 +52,7 @@ export const SetupYourDiscipline = () => {
               name="discipline"
               expanded={expanded}
               handleChange={setExpanded}
+              isError={errors["discipline"]}
             >
               <Typography sx={{ mb: 2 }}></Typography>
               <FormCheckboxGrid
@@ -79,6 +80,7 @@ export const SetupYourDiscipline = () => {
             expanded={expanded}
             handleChange={setExpanded}
             fieldsType="comboButtonWithInput"
+            isError={errors["otSkills"]}
           >
             <OtSkillsSelector
               field={{

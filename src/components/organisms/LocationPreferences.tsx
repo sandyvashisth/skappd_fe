@@ -51,6 +51,7 @@ export const LocationPreferences = () => {
               name="relocating"
               expanded={expanded}
               handleChange={setExpanded}
+              isError={errors["relocating"]}
             >
               <FormCheckboxGrid
                 field={{
@@ -81,6 +82,7 @@ export const LocationPreferences = () => {
               name="statePrefer"
               expanded={expanded}
               handleChange={setExpanded}
+              isError={errors["statePrefer"]}
             >
               <Typography sx={{ mb: 2 }}></Typography>
               <FormCheckboxGrid

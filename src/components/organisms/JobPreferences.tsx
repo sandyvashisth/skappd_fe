@@ -52,6 +52,7 @@ export const JobPreferences = () => {
               name="jobStatus"
               expanded={expanded}
               handleChange={setExpanded}
+              isError={errors["jobStatus"]}
             >
               <FormCustomRadioGroup
                 field={{
@@ -86,6 +87,7 @@ export const JobPreferences = () => {
               name="typeOfPosition"
               expanded={expanded}
               handleChange={setExpanded}
+              isError={errors["typeOfPosition"]}
             >
               <Typography sx={{ mb: 2 }}></Typography>
               <FormCheckboxGrid
@@ -125,6 +127,7 @@ export const JobPreferences = () => {
               name="shift"
               expanded={expanded}
               handleChange={setExpanded}
+              isError={errors["shift"]}
             >
               <Typography sx={{ mb: 2 }}></Typography>
               <FormCheckboxGrid

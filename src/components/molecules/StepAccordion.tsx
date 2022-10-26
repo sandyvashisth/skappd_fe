@@ -35,7 +35,6 @@ const StyledValue = styled(Typography)`
 const EmptyValue = styled(Typography)`
   font-size: 16px;
   line-height: 15px;
-  color: rgba(6, 87, 64, 0.4);
 `;
 
 const Edit = styled(Typography)`
@@ -66,6 +65,7 @@ type TProps = {
   handleChange: (accordionName: string) => void;
   children: ReactNode;
   fieldsType: string;
+  isError?: any;
 };
 
 export const StepAccordion = ({
@@ -76,6 +76,7 @@ export const StepAccordion = ({
   handleChange,
   children,
   fieldsType,
+  isError,
 }: TProps) => {
   const isDesktop = useMediaQuery((theme: Theme) => theme.breakpoints.up("sm"));
   const selectedValues =
@@ -83,6 +84,9 @@ export const StepAccordion = ({
       ? Array.isArray(value) &&
         value.map(({ key, value }) => `${key} ${value}yrs`)
       : value;
+  const haveSelectedValues = Array.isArray(selectedValues)
+    ? selectedValues.length > 0
+    : selectedValues;
   const bgColor =
     fieldsType === "comboButtonWithInput" ? "#fff" : "transparent";
   return (
@@ -103,7 +107,7 @@ export const StepAccordion = ({
             minWidth: "100%",
           }}
           expandIcon={
-            value && (
+            haveSelectedValues && (
               <Edit
                 onClick={() => {
                   handleChange(name);
@@ -121,7 +125,7 @@ export const StepAccordion = ({
           >
             {title}
           </StyledTitle>
-          {selectedValues ? (
+          {haveSelectedValues ? (
             <StyledValue sx={{ ml: 2 }}>
               {Array.isArray(selectedValues)
                 ? selectedValues.join(", ")
@@ -131,6 +135,11 @@ export const StepAccordion = ({
             <EmptyValue
               onClick={() => {
                 handleChange(name);
+              }}
+              sx={{
+                color: isError?.message
+                  ? "#d32f2f !important"
+                  : "rgba(6, 87, 64, 0.4) !important",
               }}
             >
               Select
