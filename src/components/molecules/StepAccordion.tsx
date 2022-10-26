@@ -15,13 +15,6 @@ const StyledAccordion = styled(Accordion)`
   box-shadow: none;
   display: flex;
   padding: 0 8px;
-  background: ${({
-    expanded,
-    bgColor,
-  }: {
-    expanded: boolean;
-    bgColor: string;
-  }) => `${expanded ? bgColor : "transparent"}`};
 `;
 
 const StyledTitle = styled(Typography)`
@@ -51,22 +44,19 @@ const Edit = styled(Typography)`
   color: #1ec271;
 `;
 
-const StyledAccordionSummary = styled(AccordionSummary)(
-  ({ isDesktop }: { isDesktop: boolean }) => ({
-    "& .MuiAccordionSummary-content": {
-      flexDirection: isDesktop ? "row" : "column",
-      gap: "10px",
-      "& p": {
-        marginLeft: "0",
-      },
-      "& p:nth-last-child(1)": {
-        color: "#1EC271",
-        lineHeight: "1.2rem",
-        paddingRight: "10px",
-      },
+const StyledAccordionSummary = styled(AccordionSummary)(() => ({
+  "& .MuiAccordionSummary-content": {
+    gap: "10px",
+    "& p": {
+      marginLeft: "0",
     },
-  })
-);
+    "& p:nth-last-of-type(1)": {
+      color: "#1EC271",
+      lineHeight: "1.2rem",
+      paddingRight: "10px",
+    },
+  },
+}));
 
 type TProps = {
   name: string;
@@ -93,12 +83,14 @@ export const StepAccordion = ({
       ? Array.isArray(value) &&
         value.map(({ key, value }) => `${key} ${value}yrs`)
       : value;
+  const bgColor =
+    fieldsType === "comboButtonWithInput" ? "#fff" : "transparent";
   return (
     <StyledAccordion
       square
       expanded={expanded === name}
-      bgColor={fieldsType === "comboButtonWithInput" ? "#fff" : "transparent"}
       sx={{
+        background: expanded === name ? bgColor : "transparent",
         m: `${fieldsType === "comboButtonWithInput" ? "0 !important" : "auto"}`,
       }}
     >
@@ -107,9 +99,9 @@ export const StepAccordion = ({
           aria-controls={`${name}-content`}
           id={`${name}-header`}
           sx={{
+            flexDirection: isDesktop ? "row" : "column",
             minWidth: "100%",
           }}
-          isDesktop={isDesktop}
           expandIcon={
             value && (
               <Edit

@@ -44,10 +44,8 @@ export const FormCheckboxGrid = ({
 
   return (
     <FormControl>
-      <StyledLabel error={!!errors[field?.name]}>
-        {field.label}
-      </StyledLabel>
-      <Grid container columnSpacing={2} sx={{ mt:2 }}>
+      <StyledLabel>{field.label}</StyledLabel>
+      <Grid container columnSpacing={2} sx={{ mt: 2 }}>
         {options?.map((option: TCheckboxOptions) => (
           <Grid item xs={12} sm={6} key={option.value}>
             <FormControlLabel

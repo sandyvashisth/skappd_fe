@@ -11,7 +11,7 @@ import { IFormField } from "types";
 import { useController, UseFormReturn } from "react-hook-form";
 import { StyledLabel } from "./common";
 
-const StyledFormControlLabel = styled(FormControlLabel) <{selected: boolean}>`
+const StyledFormControlLabel = styled(FormControlLabel)<{ selected: boolean }>`
   box-sizing: border-box;
   display: inline-flex;
   justify-content: center;
@@ -59,19 +59,14 @@ export const FormCustomRadioGroup = ({
   const { field: controlledField } = useController({
     name: field.name,
     control,
-    defaultValue: field?.defaultValue || '',
+    defaultValue: field?.defaultValue || "",
   });
 
   const { value, onChange } = controlledField;
 
   return (
     <FormControl>
-      <StyledLabel
-        error={!!errors[field?.name]}
-        sx={{ my: 4, display: "block" }}
-      >
-        {field.label}
-      </StyledLabel>
+      <StyledLabel sx={{ my: 4, display: "block" }}>{field.label}</StyledLabel>
       <RadioGroup
         value={value}
         onChange={onChange}
