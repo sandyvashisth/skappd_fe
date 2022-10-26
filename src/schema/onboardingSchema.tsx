@@ -33,6 +33,10 @@ export const LevelOfComfortSchema = yup.object().shape({
   otherCertificates: yup.array().min(1, "Please select an option."),
 });
 
+export const BenefitsSchema = yup.object().shape({
+  benifits: yup.array().min(1, "Please select an option."),
+});
+
 export const LocationPreferenceSchema = yup.object().shape({
   relocating: yup.string().nullable().required("Please select an option."),
   statePrefer: yup.array().min(1, "Please select an option."),
