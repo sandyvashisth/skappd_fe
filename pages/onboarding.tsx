@@ -10,9 +10,8 @@ import { LoginSetup } from "@components/organisms/LoginSetup";
 import { PersonalDetails } from "@components/organisms/PersonalDetails";
 import { SetupYourDiscipline } from "@components/organisms/SetupYourDiscipline";
 import { Grid, Theme, useMediaQuery } from "@mui/material";
-import { useState } from "react";
-import { steps } from "src/constants/onboarding";
-
+import { onboarding_steps, udpate_step } from "@state/onboarding";
+import { useAtom } from "jotai";
 export const ONBOARDING_VIEW = {
   login_setup: LoginSetup,
   personal_details: PersonalDetails,
@@ -25,10 +24,12 @@ export const ONBOARDING_VIEW = {
 };
 
 const Onboarding = () => {
+  const [activeStepData, setActiveStep] = useAtom(udpate_step);
+  const [allSteps] = useAtom(onboarding_steps);
+  const { activeStep }: { activeStep: any } = activeStepData;
+  const { id: activeStepId }: { id: keyof typeof ONBOARDING_VIEW } = activeStep;
   const isDesktop = useMediaQuery((theme: Theme) => theme.breakpoints.up("sm"));
-  const [activeStep, setActiveStep] =
-    useState<keyof typeof ONBOARDING_VIEW>("personal_details");
-  const View = ONBOARDING_VIEW[activeStep] ?? null;
+  const View = ONBOARDING_VIEW[activeStepId] ?? null;
   return (
     <main>
       <ResponsiveAppBar />
@@ -43,8 +44,8 @@ const Onboarding = () => {
             }}
           >
             <OnboardingDesktopTimeline
-              steps={steps}
-              active={activeStep}
+              steps={allSteps}
+              active={activeStepId}
               setActive={(value) =>
                 setActiveStep(value as keyof typeof ONBOARDING_VIEW)
               }
@@ -59,8 +60,8 @@ const Onboarding = () => {
             }}
           >
             <OnboardingMobileTimeline
-              steps={steps}
-              active={activeStep}
+              steps={allSteps}
+              active={activeStepId}
               setActive={(value) =>
                 setActiveStep(value as keyof typeof ONBOARDING_VIEW)
               }

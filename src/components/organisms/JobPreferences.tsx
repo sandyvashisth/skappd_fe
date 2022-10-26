@@ -8,6 +8,8 @@ import { FormCheckboxGrid } from "@components/atoms/FormCheckboxGrid";
 import { JobPreferencesSchema } from "src/schema/onboardingSchema";
 import { useState } from "react";
 import { FormFooter } from "@components/atoms/FormFooter";
+import { set_step_completed } from "@state/onboarding";
+import { useAtom } from "jotai";
 
 export const JobPreferences = () => {
   const [expanded, setExpanded] = useState<string>("");
@@ -22,8 +24,10 @@ export const JobPreferences = () => {
     getValues,
   } = formInstance;
 
+  const [activeStep, setStepComplete] = useAtom(set_step_completed);
   const onSubmit = (formData: any) => {
-    console.log(formData);
+    console.log("Form Data ===> ", formData);
+    setStepComplete(activeStep?.id);
   };
 
   return (
