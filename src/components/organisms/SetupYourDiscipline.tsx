@@ -8,6 +8,8 @@ import { SetupDiscipline } from "src/schema/onboardingSchema";
 import { useState } from "react";
 import { OtSkillsSelector } from "@components/molecules/OtSkillsSelector";
 import { FormFooter } from "@components/atoms/FormFooter";
+import { set_step_completed } from "@state/onboarding";
+import { useAtom } from "jotai";
 
 export const SetupYourDiscipline = () => {
   const [expanded, setExpanded] = useState<string>("");
@@ -22,8 +24,10 @@ export const SetupYourDiscipline = () => {
     getValues,
   } = formInstance;
 
+  const [activeStep, setStepComplete] = useAtom(set_step_completed);
   const onSubmit = (formData: any) => {
     console.log("Form Data ===> ", formData);
+    setStepComplete(activeStep?.id);
   };
 
   return (
@@ -48,6 +52,7 @@ export const SetupYourDiscipline = () => {
               name="discipline"
               expanded={expanded}
               handleChange={setExpanded}
+              isError={errors["discipline"]}
             >
               <Typography sx={{ mb: 2 }}></Typography>
               <FormCheckboxGrid
@@ -75,6 +80,7 @@ export const SetupYourDiscipline = () => {
             expanded={expanded}
             handleChange={setExpanded}
             fieldsType="comboButtonWithInput"
+            isError={errors["otSkills"]}
           >
             <OtSkillsSelector
               field={{

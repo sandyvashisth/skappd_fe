@@ -7,6 +7,8 @@ import { FormCheckboxGrid } from "@components/atoms/FormCheckboxGrid";
 import { educationCertificateSchema } from "src/schema/onboardingSchema";
 import { useState } from "react";
 import { FormFooter } from "@components/atoms/FormFooter";
+import { set_step_completed } from "@state/onboarding";
+import { useAtom } from "jotai";
 
 export const EducationCertification = () => {
   const [expanded, setExpanded] = useState<string>("");
@@ -21,8 +23,10 @@ export const EducationCertification = () => {
     getValues,
   } = formInstance;
 
+  const [activeStep, setStepComplete] = useAtom(set_step_completed);
   const onSubmit = (formData: any) => {
-    console.log(formData);
+    console.log("Form Data ===> ", formData);
+    setStepComplete(activeStep?.id);
   };
 
   return (
@@ -47,6 +51,7 @@ export const EducationCertification = () => {
               name="comfortSetting"
               expanded={expanded}
               handleChange={setExpanded}
+              isError={errors["comfortSetting"]}
             >
               <FormCheckboxGrid
                 field={{
@@ -81,6 +86,7 @@ export const EducationCertification = () => {
               name="patientPopulation"
               expanded={expanded}
               handleChange={setExpanded}
+              isError={errors["patientPopulation"]}
             >
               <Typography sx={{ mb: 2 }}></Typography>
               <FormCheckboxGrid

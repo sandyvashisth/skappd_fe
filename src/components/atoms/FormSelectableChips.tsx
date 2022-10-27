@@ -43,12 +43,7 @@ export const FormSelectableChips = ({
 
   return (
     <FormControl>
-      <StyledLabel
-        sx={{ my: 3, display: "block" }}
-        error={!!errors[field?.name]}
-      >
-        {field.label}
-      </StyledLabel>
+      <StyledLabel sx={{ my: 3, display: "block" }}>{field.label}</StyledLabel>
       <Grid container sx={{ gap: "1rem", mb: "16px" }}>
         {options?.map((option: TCheckboxOptions) => (
           <Grid key={option.value}>

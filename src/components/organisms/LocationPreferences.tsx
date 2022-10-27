@@ -7,6 +7,8 @@ import { FormCheckboxGrid } from "@components/atoms/FormCheckboxGrid";
 import { LocationPreferenceSchema } from "src/schema/onboardingSchema";
 import { useState } from "react";
 import { FormFooter } from "@components/atoms/FormFooter";
+import { set_step_completed } from "@state/onboarding";
+import { useAtom } from "jotai";
 
 export const LocationPreferences = () => {
   const [expanded, setExpanded] = useState<string>("");
@@ -21,8 +23,10 @@ export const LocationPreferences = () => {
     getValues,
   } = formInstance;
 
+  const [activeStep, setStepComplete] = useAtom(set_step_completed);
   const onSubmit = (formData: any) => {
-    console.log(formData);
+    console.log("Form Data ===> ", formData);
+    setStepComplete(activeStep?.id);
   };
 
   return (
@@ -47,6 +51,7 @@ export const LocationPreferences = () => {
               name="relocating"
               expanded={expanded}
               handleChange={setExpanded}
+              isError={errors["relocating"]}
             >
               <FormCheckboxGrid
                 field={{
@@ -77,6 +82,7 @@ export const LocationPreferences = () => {
               name="statePrefer"
               expanded={expanded}
               handleChange={setExpanded}
+              isError={errors["statePrefer"]}
             >
               <Typography sx={{ mb: 2 }}></Typography>
               <FormCheckboxGrid

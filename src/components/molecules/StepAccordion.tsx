@@ -15,13 +15,6 @@ const StyledAccordion = styled(Accordion)`
   box-shadow: none;
   display: flex;
   padding: 0 8px;
-  background: ${({
-    expanded,
-    bgColor,
-  }: {
-    expanded: boolean;
-    bgColor: string;
-  }) => `${expanded ? bgColor : "transparent"}`};
 `;
 
 const StyledTitle = styled(Typography)`
@@ -42,7 +35,6 @@ const StyledValue = styled(Typography)`
 const EmptyValue = styled(Typography)`
   font-size: 16px;
   line-height: 15px;
-  color: rgba(6, 87, 64, 0.4);
 `;
 
 const Edit = styled(Typography)`
@@ -51,22 +43,19 @@ const Edit = styled(Typography)`
   color: #1ec271;
 `;
 
-const StyledAccordionSummary = styled(AccordionSummary)(
-  ({ isDesktop }: { isDesktop: boolean }) => ({
-    "& .MuiAccordionSummary-content": {
-      flexDirection: isDesktop ? "row" : "column",
-      gap: "10px",
-      "& p": {
-        marginLeft: "0",
-      },
-      "& p:nth-last-child(1)": {
-        color: "#1EC271",
-        lineHeight: "1.2rem",
-        paddingRight: "10px",
-      },
+const StyledAccordionSummary = styled(AccordionSummary)(() => ({
+  "& .MuiAccordionSummary-content": {
+    gap: "10px",
+    "& p": {
+      marginLeft: "0",
     },
-  })
-);
+    "& p:nth-last-of-type(1)": {
+      color: "#1EC271",
+      lineHeight: "1.2rem",
+      paddingRight: "10px",
+    },
+  },
+}));
 
 type TProps = {
   name: string;
@@ -76,6 +65,7 @@ type TProps = {
   handleChange: (accordionName: string) => void;
   children: ReactNode;
   fieldsType: string;
+  isError?: any;
 };
 
 export const StepAccordion = ({
@@ -86,6 +76,7 @@ export const StepAccordion = ({
   handleChange,
   children,
   fieldsType,
+  isError,
 }: TProps) => {
   const isDesktop = useMediaQuery((theme: Theme) => theme.breakpoints.up("sm"));
   const selectedValues =
@@ -93,12 +84,17 @@ export const StepAccordion = ({
       ? Array.isArray(value) &&
         value.map(({ key, value }) => `${key} ${value}yrs`)
       : value;
+  const haveSelectedValues = Array.isArray(selectedValues)
+    ? selectedValues.length > 0
+    : selectedValues;
+  const bgColor =
+    fieldsType === "comboButtonWithInput" ? "#fff" : "transparent";
   return (
     <StyledAccordion
       square
       expanded={expanded === name}
-      bgColor={fieldsType === "comboButtonWithInput" ? "#fff" : "transparent"}
       sx={{
+        background: expanded === name ? bgColor : "transparent",
         m: `${fieldsType === "comboButtonWithInput" ? "0 !important" : "auto"}`,
       }}
     >
@@ -107,11 +103,11 @@ export const StepAccordion = ({
           aria-controls={`${name}-content`}
           id={`${name}-header`}
           sx={{
+            flexDirection: isDesktop ? "row" : "column",
             minWidth: "100%",
           }}
-          isDesktop={isDesktop}
           expandIcon={
-            value && (
+            haveSelectedValues && (
               <Edit
                 onClick={() => {
                   handleChange(name);
@@ -129,7 +125,7 @@ export const StepAccordion = ({
           >
             {title}
           </StyledTitle>
-          {selectedValues ? (
+          {haveSelectedValues ? (
             <StyledValue sx={{ ml: 2 }}>
               {Array.isArray(selectedValues)
                 ? selectedValues.join(", ")
@@ -139,6 +135,11 @@ export const StepAccordion = ({
             <EmptyValue
               onClick={() => {
                 handleChange(name);
+              }}
+              sx={{
+                color: isError?.message
+                  ? "#d32f2f !important"
+                  : "rgba(6, 87, 64, 0.4) !important",
               }}
             >
               Select

@@ -6,6 +6,8 @@ import { FormTextField } from "@components/atoms/FormTextField";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { PersonalDetailsSchema } from "src/schema/onboardingSchema";
 import { FormFooter } from "@components/atoms/FormFooter";
+import { set_step_completed } from "@state/onboarding";
+import { useAtom } from "jotai";
 
 export const PersonalDetails = () => {
   const {
@@ -22,9 +24,12 @@ export const PersonalDetails = () => {
     resolver: yupResolver(PersonalDetailsSchema),
   });
 
+  const [activeStep, setStepComplete] = useAtom(set_step_completed);
   const onSubmit = (formData: any) => {
-    console.log(formData);
+    console.log("Form Data ===> ", formData);
+    setStepComplete(activeStep?.id);
   };
+
   return (
     <Box sx={{ p: [2, 4] }}>
       <Typography variant="h6">Personal Details</Typography>

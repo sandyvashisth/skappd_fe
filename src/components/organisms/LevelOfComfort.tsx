@@ -7,6 +7,8 @@ import { FormCheckboxGrid } from "@components/atoms/FormCheckboxGrid";
 import { LevelOfComfortSchema } from "src/schema/onboardingSchema";
 import { useState } from "react";
 import { FormFooter } from "@components/atoms/FormFooter";
+import { set_step_completed } from "@state/onboarding";
+import { useAtom } from "jotai";
 
 export const LevelOfComfort = () => {
   const [expanded, setExpanded] = useState<string>("");
@@ -21,8 +23,10 @@ export const LevelOfComfort = () => {
     getValues,
   } = formInstance;
 
+  const [activeStep, setStepComplete] = useAtom(set_step_completed);
   const onSubmit = (formData: any) => {
-    console.log(formData);
+    console.log("Form Data ===> ", formData);
+    setStepComplete(activeStep?.id);
   };
 
   return (
@@ -47,6 +51,7 @@ export const LevelOfComfort = () => {
               name="hightestEducation"
               expanded={expanded}
               handleChange={setExpanded}
+              isError={errors["hightestEducation"]}
             >
               <FormCheckboxGrid
                 field={{
@@ -81,6 +86,7 @@ export const LevelOfComfort = () => {
               name="otherCertificates"
               expanded={expanded}
               handleChange={setExpanded}
+              isError={errors["otherCertificates"]}
             >
               <Typography sx={{ mb: 2 }}></Typography>
               <FormCheckboxGrid
@@ -120,6 +126,7 @@ export const LevelOfComfort = () => {
               name="bonus"
               expanded={expanded}
               handleChange={setExpanded}
+              isError={errors["bonus"]}
             >
               <Typography sx={{ mb: 2 }}></Typography>
               <FormCheckboxGrid

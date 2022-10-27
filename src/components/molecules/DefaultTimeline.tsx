@@ -46,6 +46,8 @@ export const DefaultTimeline = ({
           <TimelineContent
             onClick={() => setActive(step.id)}
             sx={{
+              pointerEvents: step.id === "login_setup" ? "none" : "auto",
+              userSelect: "none",
               "&:hover": {
                 cursor: "pointer",
               },

@@ -5,6 +5,8 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import { BenefitsSchema } from "src/schema/onboardingSchema";
 import { FormFooter } from "@components/atoms/FormFooter";
 import { FormSelectableChips } from "@components/atoms/FormSelectableChips";
+import { set_step_completed } from "@state/onboarding";
+import { useAtom } from "jotai";
 
 export const BenefitsPriorities = () => {
   const formInstance = useForm({
@@ -17,8 +19,10 @@ export const BenefitsPriorities = () => {
     formState: { errors },
   } = formInstance;
 
+  const [activeStep, setStepComplete] = useAtom(set_step_completed);
   const onSubmit = (formData: any) => {
     console.log("Form Data ===> ", formData);
+    setStepComplete(activeStep?.id);
   };
 
   return (
@@ -35,7 +39,7 @@ export const BenefitsPriorities = () => {
         </Typography>
       </Box>
       <form onSubmit={handleSubmit(onSubmit)}>
-        <Grid container md={6} sx={{ px: 3 }}>
+        <Grid container md={6} sx={{ px: 3 }} item>
           <FormSelectableChips
             field={{
               name: "benifits",
