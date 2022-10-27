@@ -6,6 +6,7 @@ import {
   Typography,
   AccordionDetails,
 } from "@mui/material";
+import theme from "src/theme";
 import React, { ReactNode } from "react";
 
 const StyledAccordion = styled(Accordion)`
@@ -88,7 +89,7 @@ export const StepAccordion = ({
     ? selectedValues.length > 0
     : selectedValues;
   const bgColor =
-    fieldsType === "comboButtonWithInput" ? "#fff" : "transparent";
+    fieldsType === "comboButtonWithInput" && isDesktop ? "#fff" : "transparent";
   return (
     <StyledAccordion
       square
@@ -96,6 +97,7 @@ export const StepAccordion = ({
       sx={{
         background: expanded === name ? bgColor : "transparent",
         m: `${fieldsType === "comboButtonWithInput" ? "0 !important" : "auto"}`,
+        flexDirection: "column",
       }}
     >
       {expanded !== name && (
@@ -103,8 +105,13 @@ export const StepAccordion = ({
           aria-controls={`${name}-content`}
           id={`${name}-header`}
           sx={{
-            flexDirection: isDesktop ? "row" : "column",
-            minWidth: "100%",
+            "& .MuiPaper-root": {
+              flexDirection: isDesktop ? "row" : "column",
+              minWidth: "100%",
+            },
+            "& .MuiAccordionSummary-content": {
+              flexDirection: isDesktop ? "row" : "column",
+            },
           }}
           expandIcon={
             haveSelectedValues && (

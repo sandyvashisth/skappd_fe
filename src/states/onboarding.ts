@@ -111,10 +111,11 @@ function setActiveStepById(steps: TStep[], id: string) {
 
 function setNextStepActive(steps: TStep[]) {
   const currentActiveStepIndex = steps.findIndex((step) => step.active);
-  steps[currentActiveStepIndex].active = false;
   const newActiveStepIndex = currentActiveStepIndex + 1;
-  if (newActiveStepIndex < steps.length)
+  if (newActiveStepIndex < steps.length) {
+    steps[currentActiveStepIndex].active = false;
     steps[newActiveStepIndex].active = true;
+  }
   return steps;
 }
 
