@@ -1,12 +1,12 @@
 import React from "react";
-import { LoginSetup } from "@components/organisms/LogIn";
+import { SingUp } from "@components/organisms/SingUp";
 import { ResponsiveAppBar } from "@components/molecules/ResponsiveAppBar";
 
 const Login = () => {
   return (
     <main>
       <ResponsiveAppBar />
-      <LoginSetup />
+      <SingUp />
     </main>
   );
 };
