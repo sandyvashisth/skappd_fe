@@ -9,6 +9,7 @@ import { IFormField } from "types";
 interface TFormInputWithIconOptions {
   type?: string;
   defaultValue?: string;
+  autoFocus?: boolean;
 }
 
 type TFormInputWithIcon = {
@@ -17,6 +18,12 @@ type TFormInputWithIcon = {
 };
 
 const StyledTextField = styled(TextField)`
+  & input:-webkit-autofill,
+  & input:-webkit-autofill:hover,
+  & input:-webkit-autofill:focus,
+  & input:-webkit-autofill:active {
+    transition: background-color 5000s ease-in-out 0s;
+  }
   margin-bottom: 25px;
   width: 100%;
 `;
@@ -28,13 +35,12 @@ const FormInputWithIcon: FunctionComponent<TFormInputWithIcon> = ({
   const {
     name,
     label = "",
-    options: { type = "text", defaultValue = "" } = {},
+    options: { type = "text", defaultValue = "", autoFocus } = {},
     control,
   } = field;
   const {
     formState,
     formState: { errors },
-    getFieldState,
     trigger,
   } = formInstance;
   const [showIcon, setShowIcon] = useState(false);
@@ -58,6 +64,7 @@ const FormInputWithIcon: FunctionComponent<TFormInputWithIcon> = ({
               setShowIcon(true);
               trigger(name);
             }}
+            autoFocus={autoFocus}
             autoComplete={type === "password" ? "new-password" : ""}
             InputProps={{
               endAdornment: showIcon && (

@@ -8,7 +8,7 @@ import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { SignInSchema } from "src/schema/onboardingSchema";
 
-export const LoginSetup = () => {
+export const LoginSetup = ({ isDesktop }: { isDesktop: boolean }) => {
   const formInstance = useForm({
     resolver: yupResolver(SignInSchema),
   });
@@ -19,7 +19,13 @@ export const LoginSetup = () => {
   return (
     <Grid container sx={{ background: "#f0f5f3" }}>
       <Grid
-        sx={{ background: "#f0f5f3", pl: "156px", pt: "56px", height: "100vh" }}
+        sx={{
+          background: "#f0f5f3",
+          pl: isDesktop ? "156px" : "30px",
+          pr: isDesktop ? "auto" : "30px",
+          pt: "56px",
+          height: "100vh",
+        }}
         item
         md={8}
         xs={12}
@@ -60,7 +66,7 @@ export const LoginSetup = () => {
                   name: "email",
                   label: "Email Address",
                   control: control,
-                  options: { type: "email" },
+                  options: { type: "email", autoFocus: true },
                 }}
                 formInstance={formInstance}
               />
