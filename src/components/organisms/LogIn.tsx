@@ -3,19 +3,25 @@ import { Box, Grid, Typography, Button } from "@mui/material";
 import GoogleIcon from "@mui/icons-material/Google";
 import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
 import Image from "next/image";
+import { useRouter } from "next/router";
 import FormInputWithIcon from "@components/atoms/FormInputWithIcon";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { SignInSchema } from "src/schema/onboardingSchema";
 
 export const LoginSetup = ({ isDesktop }: { isDesktop: boolean }) => {
+  const router = useRouter();
   const formInstance = useForm({
     resolver: yupResolver(SignInSchema),
   });
+
   const { control, handleSubmit } = formInstance;
+
   const onSubmit = (formData: any) => {
     console.log("Form Data ===> ", formData);
+    router.push("/onboarding");
   };
+
   return (
     <Grid container sx={{ background: "#f0f5f3" }}>
       <Grid
