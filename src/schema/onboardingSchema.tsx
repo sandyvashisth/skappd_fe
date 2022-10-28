@@ -14,7 +14,7 @@ export const PersonalDetailsSchema = yup.object().shape({
     .required("Please enter a ZIP code."),
 });
 
-export const educationCertificateSchema = yup.object().shape({
+export const LevelOfComfortSchema = yup.object().shape({
   comfortSetting: yup.array().min(1, "Please select an option."),
   patientPopulation: yup.array().min(1, "Please select an option."),
 });
@@ -25,11 +25,8 @@ export const JobPreferencesSchema = yup.object().shape({
   shift: yup.array().min(1, "Please select at least an option."),
 });
 
-export const LevelOfComfortSchema = yup.object().shape({
-  hightestEducation: yup
-    .string()
-    .nullable()
-    .required("Please select an option."),
+export const educationCertificateSchema = yup.object().shape({
+  hightestEducation: yup.array().min(1, "Please select an option."),
   otherCertificates: yup.array().min(1, "Please select an option."),
 });
 
