@@ -20,8 +20,7 @@ const StyledGrid = styled(Grid)`
   display: flex;
   position: fixed;
   bottom: 0;
-  padding: 32px;
-  justify-content: space-between;
+  padding: 15px;
   z-index: 1;
   right: 0;
   background-color: #dae7e2;
@@ -46,11 +45,17 @@ export const FormFooter = () => {
         width: isDesktop ? "calc(100% - 264px)" : "100%",
         borderTop: isDesktop ? "none" : "1px solid #CEE0DB",
         userSelect: "none",
+        justifyContent:
+          activeStep?.id === "personal_details" ? "end" : "space-between",
       }}
     >
       <BackButton
         type="reset"
         disabled={activeStep?.id === "personal_details"}
+        sx={{
+          display:
+            activeStep?.id === "personal_details" ? "none" : "inline-flex",
+        }}
         onClick={onBackClick}
       >{`GO BACK`}</BackButton>
       <NextButton type="submit">{`LET'S GO`}</NextButton>

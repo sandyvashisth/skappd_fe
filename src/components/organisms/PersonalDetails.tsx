@@ -43,7 +43,7 @@ export const PersonalDetails = () => {
       </Typography>
 
       <form onSubmit={handleSubmit(onSubmit)}>
-        <Grid container spacing={4} sx={{ my: 4 }}>
+        <Grid container spacing={4} sx={{ mt: 4, mb: 8 }}>
           <Grid item xs={12} md={6}>
             <Typography sx={{ mb: 2 }}>Name</Typography>
             <FormTextField
@@ -59,7 +59,7 @@ export const PersonalDetails = () => {
           <Grid item xs={12}>
             <Typography sx={{ mb: 2 }}>Address</Typography>
             <Grid container spacing={4} sx={{ mb: 4 }}>
-              <Grid item xs={6}>
+              <Grid item xs={12} md={6}>
                 <FormTextField
                   field={{
                     label: "Street Address",
@@ -70,7 +70,7 @@ export const PersonalDetails = () => {
                   }}
                 />
               </Grid>
-              <Grid item xs={6}>
+              <Grid item xs={12} md={6}>
                 <FormTextField
                   field={{
                     label: "State/Province",
@@ -83,7 +83,7 @@ export const PersonalDetails = () => {
               </Grid>
             </Grid>
             <Grid container spacing={4} sx={{ mb: 4 }}>
-              <Grid item xs={6}>
+              <Grid item xs={12} md={6}>
                 <FormTextField
                   field={{
                     label: "City",
@@ -94,7 +94,7 @@ export const PersonalDetails = () => {
                   }}
                 />
               </Grid>
-              <Grid item xs={6}>
+              <Grid item xs={12} md={6}>
                 <FormTextField
                   field={{
                     label: "Zip Code",

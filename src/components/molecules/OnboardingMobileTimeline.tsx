@@ -4,7 +4,7 @@ import AccordionDetails from "@mui/material/AccordionDetails";
 import AccordionSummary from "@mui/material/AccordionSummary";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import { Box, LinearProgress, Typography } from "@mui/material";
-import { TStep } from "src/constants/onboarding";
+import { TprogressStatus, TStep } from "src/constants/onboarding";
 import { DefaultTimeline } from "./DefaultTimeline";
 
 //component styles
@@ -38,7 +38,7 @@ const styles = {
     height: "8px",
     borderRadius: "4px",
     width: "35%",
-    marginRight: '16px'
+    marginRight: "16px",
   },
 };
 
@@ -46,10 +46,12 @@ export const OnboardingMobileTimeline = ({
   steps,
   active,
   setActive,
+  progressStatus,
 }: {
   steps: TStep[];
   active: string;
   setActive: (id: string) => void;
+  progressStatus: TprogressStatus;
 }) => {
   const [expanded, setExpanded] = React.useState<boolean>(false);
 
@@ -85,10 +87,7 @@ export const OnboardingMobileTimeline = ({
             sx={styles.linearProgress}
             color="success"
             variant="determinate"
-            value={
-              steps.length /
-              steps.filter((step) => step.status === "completed").length
-            }
+            value={progressStatus.progressPercent}
           />
         </Box>
       </AccordionSummary>

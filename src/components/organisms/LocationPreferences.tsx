@@ -46,7 +46,7 @@ export const LocationPreferences = () => {
         </Typography>
       </Box>
       <form onSubmit={handleSubmit(onSubmit)}>
-        <Grid container sx={{ my: 4 }}>
+        <Grid container sx={{ mt: 4, mb: 8 }}>
           <Grid item xs={12} sx={{ borderBottom: "1px solid #CEE0DB" }}>
             <StepAccordion
               title="Are you open to relocating?"

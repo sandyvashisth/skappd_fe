@@ -39,7 +39,7 @@ export const BenefitsPriorities = () => {
         </Typography>
       </Box>
       <form onSubmit={handleSubmit(onSubmit)}>
-        <Grid container md={6} sx={{ px: 3 }} item>
+        <Grid container md={6} sx={{ px: 3, mt: 4, mb: 8 }} item>
           <FormSelectableChips
             field={{
               name: "benifits",

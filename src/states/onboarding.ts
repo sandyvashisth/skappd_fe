@@ -7,48 +7,56 @@ const initialState = [
     title: "Login Setup",
     active: false,
     status: "completed",
+    approxCompletionTime: 1,
   },
   {
     id: "personal_details",
     title: "Personal Details",
     active: true,
     status: null,
+    approxCompletionTime: 1,
   },
   {
     id: "job_preferences",
     title: "Job Preferences",
     active: false,
     status: null,
+    approxCompletionTime: 1,
   },
   {
     id: "setup_your_discipline",
     title: "Setup your Discipline",
     active: false,
     status: null,
+    approxCompletionTime: 1,
   },
   {
     id: "education_certifications",
     title: "Education & Certifications",
     active: false,
     status: null,
+    approxCompletionTime: 1,
   },
   {
     id: "level_of_comfort",
     title: "Level of Comfort",
     active: false,
     status: null,
+    approxCompletionTime: 1,
   },
   {
     id: "location_preferences",
     title: "Location Preferences",
     active: false,
     status: null,
+    approxCompletionTime: 1,
   },
   {
     id: "benefits_priorities",
     title: "Benefits & Priorities",
     active: false,
     status: null,
+    approxCompletionTime: 1,
   },
 ];
 
@@ -86,6 +94,9 @@ export const set_step_completed = atom(
   }
 );
 
+export const progress_status = atom((get) =>
+  getProgressStatus(get(onboarding_steps))
+);
 //Helper functions
 
 function setActiveStepById(steps: TStep[], id: string) {
@@ -100,9 +111,24 @@ function setActiveStepById(steps: TStep[], id: string) {
 
 function setNextStepActive(steps: TStep[]) {
   const currentActiveStepIndex = steps.findIndex((step) => step.active);
-  steps[currentActiveStepIndex].active = false;
   const newActiveStepIndex = currentActiveStepIndex + 1;
-  if (newActiveStepIndex < steps.length)
+  if (newActiveStepIndex < steps.length) {
+    steps[currentActiveStepIndex].active = false;
     steps[newActiveStepIndex].active = true;
+  }
   return steps;
+}
+
+function getProgressStatus(steps: TStep[]) {
+  let totalTime = 0;
+  let remainingTime = 0;
+  let timeCompleted = 0;
+  steps.forEach(({ status, approxCompletionTime }) => {
+    if (status === "completed")
+      timeCompleted = timeCompleted + approxCompletionTime;
+    totalTime = totalTime + approxCompletionTime;
+  });
+  remainingTime = totalTime - timeCompleted;
+  const progressPercent = (timeCompleted / totalTime) * 100;
+  return { totalTime, remainingTime, progressPercent };
 }
