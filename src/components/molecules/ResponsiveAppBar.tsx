@@ -1,27 +1,31 @@
-import * as React from 'react';
-import AppBar from '@mui/material/AppBar';
-import Box from '@mui/material/Box';
-import Toolbar from '@mui/material/Toolbar';
-import IconButton from '@mui/material/IconButton';
-import Typography from '@mui/material/Typography';
-import Menu from '@mui/material/Menu';
-import MenuIcon from '@mui/icons-material/Menu';
-import Container from '@mui/material/Container';
-import Avatar from '@mui/material/Avatar';
-import Button from '@mui/material/Button';
-import Tooltip from '@mui/material/Tooltip';
-import MenuItem from '@mui/material/MenuItem';
-import Logo from '@images/logo.svg'
-import theme from 'src/theme';
-import Link from 'next/link';
-import ArrowBackIcon from '@mui/icons-material/ArrowBack';
+import * as React from "react";
+import AppBar from "@mui/material/AppBar";
+import Box from "@mui/material/Box";
+import Toolbar from "@mui/material/Toolbar";
+import IconButton from "@mui/material/IconButton";
+import Typography from "@mui/material/Typography";
+import Menu from "@mui/material/Menu";
+import MenuIcon from "@mui/icons-material/Menu";
+import Container from "@mui/material/Container";
+import Avatar from "@mui/material/Avatar";
+import Button from "@mui/material/Button";
+import Tooltip from "@mui/material/Tooltip";
+import MenuItem from "@mui/material/MenuItem";
+import Logo from "@images/logo.svg";
+import theme from "src/theme";
+import Link from "next/link";
+import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 
 const pages: string[] = [];
-const settings = ['Profile', 'Logout'];
+const settings = ["Profile", "Logout"];
 
 export const ResponsiveAppBar = () => {
-  const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(null);
-  const [anchorElUser, setAnchorElUser] = React.useState<null | HTMLElement>(null);
+  const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(
+    null
+  );
+  const [anchorElUser, setAnchorElUser] = React.useState<null | HTMLElement>(
+    null
+  );
 
   const handleOpenNavMenu = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorElNav(event.currentTarget);
@@ -39,11 +43,20 @@ export const ResponsiveAppBar = () => {
   };
 
   return (
-    <AppBar position="static" sx={{ background: '#FFFFFF', boxShadow: 'none', border: '1px  solid #f2f2f2' }}>
+    <AppBar
+      position="static"
+      sx={{
+        background: "#FFFFFF",
+        boxShadow: "none",
+        border: "1px  solid #f2f2f2",
+      }}
+    >
       <Container maxWidth={false}>
-        <Toolbar disableGutters>
-
-          <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}>
+        <Toolbar
+          disableGutters
+          sx={{ display: "flex", justifyContent: "space-between" }}
+        >
+          <Box sx={{ display: { xs: "flex", md: "none" } }}>
             <IconButton
               size="large"
               aria-label="account of current user"
@@ -51,45 +64,50 @@ export const ResponsiveAppBar = () => {
               aria-haspopup="true"
               onClick={handleOpenNavMenu}
               color="inherit"
+              sx={{ p: 0 }}
             >
               <MenuIcon />
             </IconButton>
-            {pages.length > 0 && <Menu
-              id="menu-appbar"
-              anchorEl={anchorElNav}
-              anchorOrigin={{
-                vertical: 'bottom',
-                horizontal: 'left',
-              }}
-              keepMounted
-              transformOrigin={{
-                vertical: 'top',
-                horizontal: 'left',
-              }}
-              open={Boolean(anchorElNav)}
-              onClose={handleCloseNavMenu}
-              sx={{
-                display: { xs: 'block', md: 'none' },
-              }}
-            >
-              {pages.map((page) => (
-                <MenuItem key={page} onClick={handleCloseNavMenu}>
-                  <Typography textAlign="center">{page}</Typography>
-                </MenuItem>
-              ))}
-            </Menu>}
+            {pages.length > 0 && (
+              <Menu
+                id="menu-appbar"
+                anchorEl={anchorElNav}
+                anchorOrigin={{
+                  vertical: "bottom",
+                  horizontal: "left",
+                }}
+                keepMounted
+                transformOrigin={{
+                  vertical: "top",
+                  horizontal: "left",
+                }}
+                open={Boolean(anchorElNav)}
+                onClose={handleCloseNavMenu}
+                sx={{
+                  display: { xs: "block", md: "none" },
+                }}
+              >
+                {pages.map((page) => (
+                  <MenuItem key={page} onClick={handleCloseNavMenu}>
+                    <Typography textAlign="center">{page}</Typography>
+                  </MenuItem>
+                ))}
+              </Menu>
+            )}
           </Box>
-          <Box sx={{
-            flexGrow: 1, [theme.breakpoints.up('md')]: {
-              flexGrow: 0
-            }
-          }}>
+          <Box>
             <Logo />
           </Box>
-          <Box sx={{ flexGrow: 1, left: '264px', position: 'absolute', display: { xs: 'none', md: 'flex' } }}>
+          <Box
+            sx={{
+              left: "264px",
+              position: "absolute",
+              display: { xs: "none", md: "flex" },
+            }}
+          >
             <Link href="/">
               <Button
-                sx={{ color: '#1EC271' }}
+                sx={{ color: "#1EC271" }}
                 startIcon={<ArrowBackIcon fontSize="small" />}
               >
                 Back to Home
@@ -105,25 +123,31 @@ export const ResponsiveAppBar = () => {
               </Button>
             ))} */}
           </Box>
-
-          <Box sx={{ flexGrow: 0, position: 'absolute', right: 0 }}>
+          <Box
+            sx={{
+              [theme.breakpoints.up("md")]: {
+                position: "absolute",
+                right: 0,
+              },
+            }}
+          >
             <Tooltip title="Open settings">
               <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
                 <Avatar alt="Sandy" src="/static/images/avatar/2.jpg" />
               </IconButton>
             </Tooltip>
             <Menu
-              sx={{ mt: '45px' }}
+              sx={{ mt: "45px" }}
               id="menu-appbar"
               anchorEl={anchorElUser}
               anchorOrigin={{
-                vertical: 'top',
-                horizontal: 'right',
+                vertical: "top",
+                horizontal: "right",
               }}
               keepMounted
               transformOrigin={{
-                vertical: 'top',
-                horizontal: 'right',
+                vertical: "top",
+                horizontal: "right",
               }}
               open={Boolean(anchorElUser)}
               onClose={handleCloseUserMenu}
