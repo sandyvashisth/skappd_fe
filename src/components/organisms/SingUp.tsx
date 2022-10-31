@@ -1,10 +1,11 @@
-import React from "react";
-import { Box, Grid, Typography, Button } from "@mui/material";
+import React, { useState } from "react";
+import { Box, Grid, Typography, Button, InputAdornment } from "@mui/material";
 import GoogleLogo from "@images/google.svg";
+import DoneIcon from "@mui/icons-material/Done";
 import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
 import Image from "next/image";
 import { useRouter } from "next/router";
-import FormInputWithIcon from "@components/atoms/FormInputWithIcon";
+import { FormTextField } from "@components/atoms/FormTextField";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { SignUpSchema } from "src/schema/onboardingSchema";
@@ -14,10 +15,34 @@ export const SingUp = ({ isDesktop }: { isDesktop: boolean }) => {
   const formInstance = useForm({
     resolver: yupResolver(SignUpSchema),
   });
-  const { control, handleSubmit } = formInstance;
+  const [adornmentMap, setAdornmentMap] = useState<{ [k: string]: any }>({});
+  const {
+    control,
+    handleSubmit,
+    formState: { errors },
+    trigger,
+  } = formInstance;
+
   const onSubmit = (formData: any) => {
     console.log("Form Data ===> ", formData);
     router.push("/onboarding");
+  };
+
+  const onBlur = (event: any) => {
+    event.stopPropagation();
+    const fieldName = event.target.name;
+    trigger(fieldName);
+    setAdornmentMap({ ...adornmentMap, [fieldName]: true });
+  };
+
+  const getAdornmentIcon = (field: any) => {
+    if (adornmentMap[field] && !errors[field]?.message)
+      return (
+        <InputAdornment position="end">
+          <DoneIcon sx={{ color: "#1EC271" }} />
+        </InputAdornment>
+      );
+    else return null;
   };
   return (
     <Grid container sx={{ background: "#f0f5f3" }}>
@@ -64,31 +89,46 @@ export const SingUp = ({ isDesktop }: { isDesktop: boolean }) => {
             sx={{ flexDirection: "coloum", maxWidth: "456px", gap: "25px" }}
           >
             <form onSubmit={handleSubmit(onSubmit)}>
-              <FormInputWithIcon
+              <FormTextField
                 field={{
                   name: "email",
                   label: "Email Address",
                   control: control,
-                  options: { type: "email", autoFocus: true },
+                  options: {
+                    autoFocus: true,
+                    endAdornment: getAdornmentIcon("email"),
+                  },
+                  error: errors["email"],
                 }}
+                onBlur={onBlur}
                 formInstance={formInstance}
               />
-              <FormInputWithIcon
+              <FormTextField
                 field={{
                   name: "password",
                   label: "Password",
                   control: control,
-                  options: { type: "password" },
+                  options: {
+                    type: "password",
+                    endAdornment: getAdornmentIcon("password"),
+                  },
+                  error: errors["password"],
                 }}
+                onBlur={onBlur}
                 formInstance={formInstance}
               />
-              <FormInputWithIcon
+              <FormTextField
                 field={{
                   name: "cnfPassword",
                   label: "Confirm Password",
                   control: control,
-                  options: { type: "password" },
+                  options: {
+                    type: "password",
+                    endAdornment: getAdornmentIcon("password"),
+                  },
+                  error: errors["password"],
                 }}
+                onBlur={onBlur}
                 formInstance={formInstance}
               />
               <Button

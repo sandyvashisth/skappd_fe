@@ -1,30 +1,35 @@
-import { ReactNode } from 'react';
-import { TextField } from '@mui/material';
-import { Controller } from 'react-hook-form';
-import { IFormField } from 'types';
+import { ReactNode } from "react";
+import { TextField } from "@mui/material";
+import { Controller, UseFormReturn } from "react-hook-form";
+import { IFormField } from "types";
 
 export interface TFormationTextFieldOptions {
   placeholder?: string;
   inputMode?:
-    | 'none'
-    | 'text'
-    | 'tel'
-    | 'url'
-    | 'email'
-    | 'numeric'
-    | 'decimal'
-    | 'search';
+    | "none"
+    | "text"
+    | "tel"
+    | "url"
+    | "email"
+    | "numeric"
+    | "decimal"
+    | "search";
   maxLength?: number;
   autoCapitalize?: boolean;
   autoFocus?: boolean;
   startAdornment?: ReactNode;
+  endAdornment?: ReactNode;
+  type?: string;
   formatInput?: (value: string | undefined | null) => string | undefined | null;
   disabled?: boolean;
+  isValidateOnBlur?: boolean;
 }
 
 export type TFormTextField = {
   field: IFormField<TFormationTextFieldOptions>;
+  formInstance: UseFormReturn;
   onChange?: () => void;
+  onBlur?: (event: any) => void;
 };
 
 export const FormTextField = (props: TFormTextField) => {
@@ -33,13 +38,15 @@ export const FormTextField = (props: TFormTextField) => {
     label,
     error,
     control,
-    defaultValue = '',
+    defaultValue = "",
     options: {
-      placeholder = '',
-      inputMode = 'text',
+      type = "text",
+      placeholder = "",
+      inputMode = "text",
       autoCapitalize = false,
       autoFocus = false,
       startAdornment = null,
+      endAdornment = null,
       maxLength,
       formatInput = (value: string) => value,
       disabled = false,
@@ -52,15 +59,20 @@ export const FormTextField = (props: TFormTextField) => {
       if (props.onChange) props.onChange();
     };
 
+  const handleOnBlur = (e: any) => {
+    if (props.onBlur) props.onBlur(e);
+  };
+
   return (
     <Controller
       name={name}
       control={control}
       defaultValue={defaultValue}
-      render={({ field: { onChange, value = '' } }) => (
+      render={({ field: { onChange, value = "" } }) => (
         <TextField
           name={name}
           onChange={onChangeFormatted(onChange)}
+          onBlur={handleOnBlur}
           value={value}
           variant="filled"
           fullWidth
@@ -70,17 +82,20 @@ export const FormTextField = (props: TFormTextField) => {
           error={!!error}
           helperText={error?.message}
           size="small"
+          type={type}
           InputProps={{
             startAdornment,
+            endAdornment,
             inputProps: {
               inputMode,
               maxLength,
               style: {
-                textTransform: autoCapitalize ? 'capitalize' : 'none',
+                textTransform: autoCapitalize ? "capitalize" : "none",
               },
-              autoCapitalize: autoCapitalize ? 'on' : 'off',
+              autoCapitalize: autoCapitalize ? "on" : "off",
             },
           }}
+          sx={{ mb: "24px" }}
           data-testid={`field-${name}`}
           autoFocus={autoFocus}
         />

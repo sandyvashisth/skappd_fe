@@ -53,7 +53,17 @@ export const SignInSchema = yup.object().shape({
     .email("Must be a valid email")
     .max(255)
     .required("Email is required"),
-  password: yup.string().max(255).required("Password is required"),
+  password: yup
+    .string()
+    .required("required")
+    .min(
+      8,
+      "password must contain 8 or more characters with at least one of each: uppercase, lowercase, number and special"
+    )
+    .matches(
+      /^(?=.*\d)(?=.*[!@#$%^&*])(?=.*[a-z])(?=.*[A-Z]).{8,}$/,
+      "password must contain at least a symbol, upper and lower case letters and a number"
+    ),
 });
 
 export const SignUpSchema = yup.object().shape({
