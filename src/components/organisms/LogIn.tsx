@@ -12,7 +12,10 @@ import GoogleLogo from "@images/google.svg";
 
 export const LoginSetup = ({ isDesktop }: { isDesktop: boolean }) => {
   const router = useRouter();
-  const formInstance = useForm({
+  const formInstance = useForm<{
+    email?: string;
+    password?: string;
+  }>({
     resolver: yupResolver(SignInSchema),
   });
   const [adornmentMap, setAdornmentMap] = useState<{ [k: string]: any }>({});
@@ -35,7 +38,7 @@ export const LoginSetup = ({ isDesktop }: { isDesktop: boolean }) => {
     setAdornmentMap({ ...adornmentMap, [fieldName]: true });
   };
 
-  const getAdornmentIcon = (field: any) => {
+  const getAdornmentIcon = (field: "email" | "password") => {
     if (adornmentMap[field] && !errors[field]?.message)
       return (
         <InputAdornment position="end">
@@ -98,8 +101,9 @@ export const LoginSetup = ({ isDesktop }: { isDesktop: boolean }) => {
                   options: {
                     autoFocus: true,
                     endAdornment: getAdornmentIcon("email"),
+                    style: { mb: "24px" },
                   },
-                  error: errors["email"],
+                  error: errors?.email,
                 }}
                 onBlur={onBlur}
                 formInstance={formInstance}
@@ -109,11 +113,12 @@ export const LoginSetup = ({ isDesktop }: { isDesktop: boolean }) => {
                   name: "password",
                   label: "Password",
                   control: control,
+                  error: errors?.password,
                   options: {
                     type: "password",
                     endAdornment: getAdornmentIcon("password"),
+                    style: { mb: "24px" },
                   },
-                  error: errors["password"],
                 }}
                 onBlur={onBlur}
                 formInstance={formInstance}

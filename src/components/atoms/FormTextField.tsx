@@ -23,11 +23,21 @@ export interface TFormationTextFieldOptions {
   formatInput?: (value: string | undefined | null) => string | undefined | null;
   disabled?: boolean;
   isValidateOnBlur?: boolean;
+  style?: any;
 }
 
 export type TFormTextField = {
   field: IFormField<TFormationTextFieldOptions>;
-  formInstance: UseFormReturn;
+  formInstance?: UseFormReturn<{
+    fullName?: string;
+    address?: string;
+    city?: string;
+    state?: string;
+    zip?: string;
+    email?: string;
+    password?: string;
+    cnfpassword?: string;
+  }>;
   onChange?: () => void;
   onBlur?: (event: any) => void;
 };
@@ -50,6 +60,7 @@ export const FormTextField = (props: TFormTextField) => {
       maxLength,
       formatInput = (value: string) => value,
       disabled = false,
+      style,
     } = {},
   } = props.field;
 
@@ -95,9 +106,9 @@ export const FormTextField = (props: TFormTextField) => {
               autoCapitalize: autoCapitalize ? "on" : "off",
             },
           }}
-          sx={{ mb: "24px" }}
           data-testid={`field-${name}`}
           autoFocus={autoFocus}
+          sx={style}
         />
       )}
     />

@@ -12,7 +12,11 @@ import { SignUpSchema } from "src/schema/onboardingSchema";
 
 export const SingUp = ({ isDesktop }: { isDesktop: boolean }) => {
   const router = useRouter();
-  const formInstance = useForm({
+  const formInstance = useForm<{
+    email?: string;
+    password?: string;
+    cnfpassword?: string;
+  }>({
     resolver: yupResolver(SignUpSchema),
   });
   const [adornmentMap, setAdornmentMap] = useState<{ [k: string]: any }>({});
@@ -35,7 +39,7 @@ export const SingUp = ({ isDesktop }: { isDesktop: boolean }) => {
     setAdornmentMap({ ...adornmentMap, [fieldName]: true });
   };
 
-  const getAdornmentIcon = (field: any) => {
+  const getAdornmentIcon = (field: "email" | "password" | "cnfpassword") => {
     if (adornmentMap[field] && !errors[field]?.message)
       return (
         <InputAdornment position="end">
@@ -97,8 +101,9 @@ export const SingUp = ({ isDesktop }: { isDesktop: boolean }) => {
                   options: {
                     autoFocus: true,
                     endAdornment: getAdornmentIcon("email"),
+                    style: { mb: "24px" },
                   },
-                  error: errors["email"],
+                  error: errors?.email,
                 }}
                 onBlur={onBlur}
                 formInstance={formInstance}
@@ -111,8 +116,9 @@ export const SingUp = ({ isDesktop }: { isDesktop: boolean }) => {
                   options: {
                     type: "password",
                     endAdornment: getAdornmentIcon("password"),
+                    style: { mb: "24px" },
                   },
-                  error: errors["password"],
+                  error: errors?.password,
                 }}
                 onBlur={onBlur}
                 formInstance={formInstance}
@@ -125,8 +131,9 @@ export const SingUp = ({ isDesktop }: { isDesktop: boolean }) => {
                   options: {
                     type: "password",
                     endAdornment: getAdornmentIcon("password"),
+                    style: { mb: "24px" },
                   },
-                  error: errors["password"],
+                  error: errors?.password,
                 }}
                 onBlur={onBlur}
                 formInstance={formInstance}
