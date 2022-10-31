@@ -1,6 +1,6 @@
 import React from "react";
 import { Box, Grid, Typography, Button } from "@mui/material";
-import GoogleIcon from "@mui/icons-material/Google";
+import GoogleLogo from "@images/google.svg";
 import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
 import Image from "next/image";
 import { useRouter } from "next/router";
@@ -53,7 +53,7 @@ export const SingUp = ({ isDesktop }: { isDesktop: boolean }) => {
           <Button
             variant="outlined"
             sx={{ padding: "8px 10px", borderRadius: "30px", mb: "30px" }}
-            startIcon={<GoogleIcon />}
+            startIcon={<GoogleLogo />}
           >
             Sign Up with Google
           </Button>

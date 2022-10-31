@@ -1,6 +1,5 @@
 import React from "react";
 import { Box, Grid, Typography, Button } from "@mui/material";
-import GoogleIcon from "@mui/icons-material/Google";
 import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
 import Image from "next/image";
 import { useRouter } from "next/router";
@@ -8,6 +7,7 @@ import FormInputWithIcon from "@components/atoms/FormInputWithIcon";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { SignInSchema } from "src/schema/onboardingSchema";
+import GoogleLogo from "@images/google.svg";
 
 export const LoginSetup = ({ isDesktop }: { isDesktop: boolean }) => {
   const router = useRouter();
@@ -56,7 +56,7 @@ export const LoginSetup = ({ isDesktop }: { isDesktop: boolean }) => {
           <Button
             variant="outlined"
             sx={{ padding: "8px 10px", borderRadius: "30px", mb: "30px" }}
-            startIcon={<GoogleIcon />}
+            startIcon={<GoogleLogo />}
           >
             Sign In with Google
           </Button>

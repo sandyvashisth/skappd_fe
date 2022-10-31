@@ -17,7 +17,7 @@ export const OnboardingDesktopTimeline = ({
     <>
       <Box sx={{ w: "200px", p: 2 }}>
         <Box
-          sx={{ display: "flex", justifyContent: "space-between", mb: "7px" }}
+          sx={{ display: "flex", justifyContent: "space-between", mb: "8px" }}
         >
           <Typography sx={{ fontSize: "12px", fontWeight: "bold" }}>
             Progress
