@@ -14,7 +14,7 @@ export const PersonalDetailsSchema = yup.object().shape({
     .required("Please enter a ZIP code."),
 });
 
-export const educationCertificateSchema = yup.object().shape({
+export const LevelOfComfortSchema = yup.object().shape({
   comfortSetting: yup.array().min(1, "Please select an option."),
   patientPopulation: yup.array().min(1, "Please select an option."),
 });
@@ -25,11 +25,8 @@ export const JobPreferencesSchema = yup.object().shape({
   shift: yup.array().min(1, "Please select at least an option."),
 });
 
-export const LevelOfComfortSchema = yup.object().shape({
-  hightestEducation: yup
-    .string()
-    .nullable()
-    .required("Please select an option."),
+export const educationCertificateSchema = yup.object().shape({
+  hightestEducation: yup.array().min(1, "Please select an option."),
   otherCertificates: yup.array().min(1, "Please select an option."),
 });
 
@@ -48,4 +45,45 @@ export const SetupDiscipline = yup.object().shape({
     .array()
     .of(yup.object().shape({ key: yup.string(), experience: yup.number() }))
     .min(1, "Please select at least one skill."),
+});
+
+export const SignInSchema = yup.object().shape({
+  email: yup
+    .string()
+    .email("Must be a valid email")
+    .max(255)
+    .required("Email is required"),
+  password: yup
+    .string()
+    .required("required")
+    .min(
+      8,
+      "password must contain 8 or more characters with at least one of each: uppercase, lowercase, number and special"
+    )
+    .matches(
+      /^(?=.*\d)(?=.*[!@#$%^&*])(?=.*[a-z])(?=.*[A-Z]).{8,}$/,
+      "password must contain at least a symbol, upper and lower case letters and a number"
+    ),
+});
+
+export const SignUpSchema = yup.object().shape({
+  email: yup
+    .string()
+    .email("Must be a valid email")
+    .max(255)
+    .required("Email is required"),
+  password: yup
+    .string()
+    .required("required")
+    .min(
+      8,
+      "password must contain 8 or more characters with at least one of each: uppercase, lowercase, number and special"
+    )
+    .matches(
+      /^(?=.*\d)(?=.*[!@#$%^&*])(?=.*[a-z])(?=.*[A-Z]).{8,}$/,
+      "password must contain at least a symbol, upper and lower case letters and a number"
+    ),
+  cnfPassword: yup
+    .string()
+    .oneOf([yup.ref("password"), null], "Passwords must match"),
 });

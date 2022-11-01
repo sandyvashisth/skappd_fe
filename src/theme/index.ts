@@ -1,26 +1,26 @@
-import { createTheme } from '@mui/material/styles';
+import { createTheme } from "@mui/material/styles";
 
 const theme = createTheme({
-    palette: {
-        primary: {
-            main: '#1EC271',
-        },
-        secondary: {
-            main: '#9CFF2E',
-        },
+  palette: {
+    primary: {
+      main: "#1EC271",
     },
-    components: {
-        MuiFilledInput: {
-            styleOverrides: {
-                root: {
-                    background: "#FFF",
-                    '& ::before':{
-                        borderColor: 'green'
-                    }
-                }
-            }
+    secondary: {
+      main: "#9CFF2E",
+    },
+  },
+  components: {
+    MuiFilledInput: {
+      styleOverrides: {
+        root: {
+          background: "#FFF",
+          "& ::before": {
+            borderColor: "green",
+          },
         },
-    }
+      },
+    },
+  },
 });
 
 export default theme;

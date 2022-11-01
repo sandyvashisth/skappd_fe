@@ -46,27 +46,27 @@ export const EducationCertification = () => {
         <Grid container sx={{ mt: 4, mb: 8 }}>
           <Grid item xs={12} sx={{ borderBottom: "1px solid #CEE0DB" }}>
             <StepAccordion
-              title="Comfort Setting"
-              value={getValues("comfortSetting")}
-              name="comfortSetting"
+              title="Highest Education"
+              value={getValues("hightestEducation")}
+              name="hightestEducation"
               expanded={expanded}
               handleChange={setExpanded}
-              isError={errors["comfortSetting"]}
+              isError={errors["hightestEducation"]}
             >
               <FormCheckboxGrid
                 field={{
-                  name: "comfortSetting",
-                  label: "Comfort Setting",
+                  name: "hightestEducation",
+                  label: "Highest Education",
                   control: control,
                   options: {
                     options: [
                       {
-                        value: "Acute Care",
-                        label: "Acute Care",
+                        value: "Bachelors in OT",
+                        label: "Bachelors in OT",
                       },
                       {
-                        value: "Long Term Acute Care (LTAC)",
-                        label: "Long Term Acute Care (LTAC)",
+                        value: "Bachelors in Kinesiology and Exercise Science",
+                        label: "Bachelors in Kinesiology and Exercise Science",
                       },
                       {
                         value: "Bachelors in Health Science",
@@ -81,18 +81,18 @@ export const EducationCertification = () => {
           </Grid>
           <Grid item xs={12} sx={{ borderBottom: "1px solid #CEE0DB" }}>
             <StepAccordion
-              title="Patient Population"
-              value={getValues("patientPopulation")}
-              name="patientPopulation"
+              title="OT Certifications"
+              value={getValues("otherCertificates")}
+              name="otherCertificates"
               expanded={expanded}
               handleChange={setExpanded}
-              isError={errors["patientPopulation"]}
+              isError={errors["otherCertificates"]}
             >
               <Typography sx={{ mb: 2 }}></Typography>
               <FormCheckboxGrid
                 field={{
-                  name: "patientPopulation",
-                  label: "Patient Population",
+                  name: "otherCertificates",
+                  label: "OT Certifications",
                   control: control,
                   options: {
                     options: [
@@ -111,6 +111,62 @@ export const EducationCertification = () => {
                       {
                         value: "Full Time",
                         label: "Full Time",
+                      },
+                    ],
+                  },
+                }}
+                formInstance={formInstance}
+              />
+            </StepAccordion>
+          </Grid>
+          <Grid item xs={12} sx={{ borderBottom: "1px solid #CEE0DB" }}>
+            <StepAccordion
+              title="Bonus"
+              value={getValues("bonus")}
+              name="bonus"
+              expanded={expanded}
+              handleChange={setExpanded}
+              isError={errors["bonus"]}
+            >
+              <Typography sx={{ mb: 2 }}></Typography>
+              <FormCheckboxGrid
+                field={{
+                  name: "Bonus",
+                  label: "Bonus",
+                  control: control,
+                  options: {
+                    options: [
+                      {
+                        value: "days",
+                        label: "Days",
+                      },
+                      {
+                        value: "4-10s",
+                        label: "4-10s",
+                      },
+                      {
+                        value: "Swing",
+                        label: "Swing",
+                      },
+                      {
+                        value: "Call",
+                        label: "Call",
+                      },
+                      {
+                        value: "Nights",
+                        label: "Nights",
+                      },
+                      {
+                        value: "7 On - 7 Off",
+                        label: "7 On - 7 Off",
+                      },
+                      {
+                        value: "Weekends",
+                        label: "Weekends",
+                      },
+                      {
+                        value: "Variable",
+                        label: "Variable",
                       },
                     ],
                   },

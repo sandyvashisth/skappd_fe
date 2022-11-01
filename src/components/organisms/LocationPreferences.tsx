@@ -4,6 +4,7 @@ import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { StepAccordion } from "@components/molecules/StepAccordion";
 import { FormCheckboxGrid } from "@components/atoms/FormCheckboxGrid";
+import { FormCustomRadioGroup } from "@components/atoms/FormCustomRadioGroup";
 import { LocationPreferenceSchema } from "src/schema/onboardingSchema";
 import { useState } from "react";
 import { FormFooter } from "@components/atoms/FormFooter";
@@ -28,7 +29,6 @@ export const LocationPreferences = () => {
     console.log("Form Data ===> ", formData);
     setStepComplete(activeStep?.id);
   };
-
   return (
     <Box>
       <Box sx={{ mx: 3, mt: 3 }}>
@@ -53,7 +53,7 @@ export const LocationPreferences = () => {
               handleChange={setExpanded}
               isError={errors["relocating"]}
             >
-              <FormCheckboxGrid
+              <FormCustomRadioGroup
                 field={{
                   name: "relocating",
                   label: "Are you open to relocating?",

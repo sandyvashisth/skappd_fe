@@ -2,9 +2,9 @@ import { OnboardingDesktopTimeline } from "@components/molecules/OnboardingDeskt
 import { OnboardingMobileTimeline } from "@components/molecules/OnboardingMobileTimeline";
 import { ResponsiveAppBar } from "@components/molecules/ResponsiveAppBar";
 import { BenefitsPriorities } from "@components/organisms/BenefitsPriorities";
-import { EducationCertification } from "@components/organisms/EducationCertification";
-import { JobPreferences } from "@components/organisms/JobPreferences";
 import { LevelOfComfort } from "@components/organisms/LevelOfComfort";
+import { JobPreferences } from "@components/organisms/JobPreferences";
+import { EducationCertification } from "@components/organisms/EducationCertification";
 import { LocationPreferences } from "@components/organisms/LocationPreferences";
 import { LoginSetup } from "@components/organisms/LoginSetup";
 import { PersonalDetails } from "@components/organisms/PersonalDetails";

@@ -1,5 +1,5 @@
 import React from "react";
-import { LoginSetup } from "@components/organisms/LogIn";
+import { SingUp } from "@components/organisms/SingUp";
 import { ResponsiveAppBar } from "@components/molecules/ResponsiveAppBar";
 import { Theme, useMediaQuery } from "@mui/material";
 
@@ -8,7 +8,7 @@ const Login = () => {
   return (
     <main>
       <ResponsiveAppBar />
-      <LoginSetup isDesktop={isDesktop} />
+      <SingUp isDesktop={isDesktop} />
     </main>
   );
 };
