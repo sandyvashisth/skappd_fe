@@ -61,7 +61,7 @@ const StyledAccordionSummary = styled(AccordionSummary)(() => ({
 type TProps = {
   name: string;
   title: ReactNode;
-  value?: string;
+  value?: any;
   expanded: string;
   handleChange: (accordionName: string) => void;
   children: ReactNode;
