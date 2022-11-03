@@ -88,14 +88,12 @@ export const StepAccordion = ({
   const haveSelectedValues = Array.isArray(selectedValues)
     ? selectedValues.length > 0
     : selectedValues;
-  const bgColor =
-    fieldsType === "comboButtonWithInput" && isDesktop ? "#fff" : "transparent";
   return (
     <StyledAccordion
       square
       expanded={expanded === name}
       sx={{
-        background: expanded === name ? bgColor : "transparent",
+        background: expanded === name ? "#fff" : "transparent",
         m: `${fieldsType === "comboButtonWithInput" ? "0 !important" : "auto"}`,
         flexDirection: "column",
       }}

@@ -13,9 +13,15 @@ const theme = createTheme({
     MuiFilledInput: {
       styleOverrides: {
         root: {
-          background: "#FFF",
+          background: "#FFF !important",
           "& ::before": {
             borderColor: "green",
+          },
+          "&:focus": {
+            background: "#FFF",
+          },
+          "&:hover": {
+            background: "#FFF",
           },
         },
       },

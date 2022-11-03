@@ -58,10 +58,10 @@ export const FormMultipleSelect = ({
   );
 
   return (
-    <FormControl sx={{ width: "100%" }}>
+    <FormControl sx={{ width: "100%", margin: "16px" }}>
       <StyledLabel>{field.label}</StyledLabel>
       <Grid container columnSpacing={2} sx={{ mt: 2 }}>
-        <Grid item md={6} xs={12} sx={{ width: "100%", mr: 4 }}>
+        <Grid item md={4} xs={12} sx={{ width: "100%", mr: 4 }}>
           <Autocomplete
             multiple
             id="tags-standard"
@@ -71,6 +71,16 @@ export const FormMultipleSelect = ({
             defaultValue={value}
             onChange={handleInputChange}
             sx={{
+              color: "red",
+              "& .MuiChip-root": {
+                borderRadius: "4px",
+                background: "#dae6e2",
+                color: "#2E7D32",
+                border: "1px solid #2E7D3280",
+                "& svg": {
+                  color: "#87b18c",
+                },
+              },
               "& .MuiInput-underline::before": {
                 borderBottom: "2px solid #cee0db !important",
               },
@@ -78,6 +88,7 @@ export const FormMultipleSelect = ({
             renderInput={(params) => (
               <TextField
                 {...params}
+                error={errors[field?.name]}
                 variant="standard"
                 placeholder="Select State"
               />

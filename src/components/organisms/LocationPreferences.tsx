@@ -15,6 +15,7 @@ import {
 } from "@components/atoms/FormMultipleSelect";
 import { languages, states } from "src/constants/onboarding";
 import { FormTextField } from "@components/atoms/FormTextField";
+import { StyledLabel } from "@components/atoms/common";
 
 export const LocationPreferences = () => {
   const [expanded, setExpanded] = useState<string>("");
@@ -45,6 +46,13 @@ export const LocationPreferences = () => {
   const getSanitisedList = (
     key: "stateLicenses" | "languages" | "statePrefer"
   ) => getValues(key)?.map(({ label }: { label: string }) => label);
+
+  const formatNearMiles = (value: any) => {
+    if (!isNaN(value)) {
+      return value;
+    }
+    return getValues("nearMiles");
+  };
 
   return (
     <Box>
@@ -92,7 +100,13 @@ export const LocationPreferences = () => {
               />
             </StepAccordion>
           </Grid>
-          <Grid item xs={12} sx={{ borderBottom: "1px solid #CEE0DB" }}>
+          <Grid
+            item
+            xs={12}
+            sx={{
+              borderBottom: "1px solid #CEE0DB",
+            }}
+          >
             <StepAccordion
               title="States you prefer"
               value={getSanitisedList("statePrefer")}
@@ -101,7 +115,6 @@ export const LocationPreferences = () => {
               handleChange={setExpanded}
               isError={errors["statePrefer"]}
             >
-              <Typography sx={{ mb: 2 }}></Typography>
               <FormMultipleSelect
                 field={{
                   name: "statePrefer",
@@ -115,47 +128,49 @@ export const LocationPreferences = () => {
               />
             </StepAccordion>
           </Grid>
-          <Grid item xs={12} md={6} sx={{ borderBottom: "1px solid #CEE0DB" }}>
+          <Grid item xs={12} sx={{ borderBottom: "1px solid #CEE0DB" }}>
             <StepAccordion
               title="How many miles around each city (ballpark it)?"
-              value={`${getValues("nearMiles")} miles`}
+              value={`${
+                getValues("nearMiles") ? `${getValues("nearMiles")} miles` : ""
+              }`}
               name="nearMiles"
               expanded={expanded}
               handleChange={setExpanded}
               isError={errors["nearMiles"]}
             >
-              <Typography sx={{ mb: 2 }}></Typography>
-              <FormTextField
-                field={{
-                  label: "Distance",
-                  name: `nearMiles`,
-                  control: control,
-                  error: errors?.nearMiles,
-                  options: {
-                    type: "number",
-                    autoCapitalize: true,
-                    endAdornment: (
-                      <InputAdornment
-                        sx={{
-                          "& p": { color: "#1EC271" },
-                        }}
-                        position="end"
-                      >
-                        miles
-                      </InputAdornment>
-                    ),
-                    style: {
-                      "input[type=number]::-webkit-inner-spin-button, input[type=number]::-webkit-outer-spin-button":
-                        {
-                          appearance: "none",
-                          margin: "0",
-                        },
-                      width: "50%",
-                      "& .MuiInputBase-root": { backgroundColor: "#DAE7E2" },
+              <Box sx={{ display: "flex", flexDirection: "column" }}>
+                <StyledLabel sx={{ width: "100%" }}>
+                  How many miles around each city (ballpark it)?
+                </StyledLabel>
+                <FormTextField
+                  field={{
+                    label: "Distance",
+                    name: `nearMiles`,
+                    control: control,
+                    error: errors?.nearMiles,
+                    options: {
+                      autoCapitalize: true,
+                      endAdornment: (
+                        <InputAdornment
+                          sx={{
+                            "& p": { color: "#1EC271" },
+                          }}
+                          position="end"
+                        >
+                          miles
+                        </InputAdornment>
+                      ),
+                      style: {
+                        mt: 3,
+                        width: "220px",
+                        "& .MuiInputBase-root": { backgroundColor: "#fff" },
+                      },
+                      formatInput: formatNearMiles,
                     },
-                  },
-                }}
-              />
+                  }}
+                />
+              </Box>
             </StepAccordion>
           </Grid>
           <Grid item xs={12} sx={{ borderBottom: "1px solid #CEE0DB" }}>
@@ -167,7 +182,6 @@ export const LocationPreferences = () => {
               handleChange={setExpanded}
               isError={errors["stateLicenses"]}
             >
-              <Typography sx={{ mb: 2 }}></Typography>
               <FormMultipleSelect
                 field={{
                   name: "stateLicenses",
@@ -190,7 +204,6 @@ export const LocationPreferences = () => {
               handleChange={setExpanded}
               isError={errors["languages"]}
             >
-              <Typography sx={{ mb: 2 }}></Typography>
               <FormMultipleSelect
                 field={{
                   name: "languages",
