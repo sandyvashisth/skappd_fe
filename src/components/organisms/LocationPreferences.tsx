@@ -115,17 +115,19 @@ export const LocationPreferences = () => {
               handleChange={setExpanded}
               isError={errors["statePrefer"]}
             >
-              <FormMultipleSelect
-                field={{
-                  name: "statePrefer",
-                  label: "States you prefer",
-                  control: control,
-                  options: {
-                    options: states,
-                  },
-                }}
-                formInstance={formInstance}
-              />
+              <Grid md={4} xs={12}>
+                <FormMultipleSelect
+                  field={{
+                    name: "statePrefer",
+                    label: "States you prefer",
+                    control: control,
+                    options: {
+                      options: states,
+                    },
+                  }}
+                  formInstance={formInstance}
+                />
+              </Grid>
             </StepAccordion>
           </Grid>
           <Grid item xs={12} sx={{ borderBottom: "1px solid #CEE0DB" }}>
@@ -182,17 +184,19 @@ export const LocationPreferences = () => {
               handleChange={setExpanded}
               isError={errors["stateLicenses"]}
             >
-              <FormMultipleSelect
-                field={{
-                  name: "stateLicenses",
-                  label: "State licenses",
-                  control: control,
-                  options: {
-                    options: states,
-                  },
-                }}
-                formInstance={formInstance}
-              />
+              <Grid md={4} xs={12}>
+                <FormMultipleSelect
+                  field={{
+                    name: "stateLicenses",
+                    label: "State licenses",
+                    control: control,
+                    options: {
+                      options: states,
+                    },
+                  }}
+                  formInstance={formInstance}
+                />
+              </Grid>
             </StepAccordion>
           </Grid>
           <Grid item xs={12} sx={{ borderBottom: "1px solid #CEE0DB" }}>
@@ -204,17 +208,19 @@ export const LocationPreferences = () => {
               handleChange={setExpanded}
               isError={errors["languages"]}
             >
-              <FormMultipleSelect
-                field={{
-                  name: "languages",
-                  label: "Languages",
-                  control: control,
-                  options: {
-                    options: languages,
-                  },
-                }}
-                formInstance={formInstance}
-              />
+              <Grid md={4} xs={12}>
+                <FormMultipleSelect
+                  field={{
+                    name: "languages",
+                    label: "Languages",
+                    control: control,
+                    options: {
+                      options: languages,
+                    },
+                  }}
+                  formInstance={formInstance}
+                />
+              </Grid>
             </StepAccordion>
           </Grid>
         </Grid>

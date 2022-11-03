@@ -21,11 +21,13 @@ export interface TFormFormMultipleSelectOptions {
 
 type TFormMultipleSelect = {
   field: IFormField<TFormFormMultipleSelectOptions>;
+  isMultiSelect?: boolean;
   formInstance: any;
 };
 
 export const FormMultipleSelect = ({
   field,
+  isMultiSelect = true,
   formInstance,
 }: TFormMultipleSelect) => {
   const {
@@ -61,9 +63,9 @@ export const FormMultipleSelect = ({
     <FormControl sx={{ width: "100%", my: 2 }}>
       <StyledLabel>{field.label}</StyledLabel>
       <Grid container columnSpacing={2} sx={{ mt: 2 }}>
-        <Grid item md={4} xs={12} sx={{ width: "100%", mr: 4 }}>
+        <Grid item sx={{ width: "100%" }}>
           <Autocomplete
-            multiple
+            multiple={isMultiSelect}
             id="tags-standard"
             options={options}
             getOptionLabel={(option: any) => option.label}
@@ -90,7 +92,7 @@ export const FormMultipleSelect = ({
                 {...params}
                 error={errors[field?.name]}
                 variant="standard"
-                placeholder="Select State"
+                placeholder="Select..."
               />
             )}
           />
