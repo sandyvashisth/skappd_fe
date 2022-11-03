@@ -139,7 +139,7 @@ export const LocationPreferences = () => {
               handleChange={setExpanded}
               isError={errors["nearMiles"]}
             >
-              <Box sx={{ display: "flex", flexDirection: "column" }}>
+              <Box sx={{ display: "flex", flexDirection: "column", my: 2 }}>
                 <StyledLabel sx={{ width: "100%" }}>
                   How many miles around each city (ballpark it)?
                 </StyledLabel>
