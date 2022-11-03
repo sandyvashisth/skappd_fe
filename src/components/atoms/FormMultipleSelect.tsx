@@ -58,7 +58,7 @@ export const FormMultipleSelect = ({
   );
 
   return (
-    <FormControl sx={{ width: "100%", margin: "16px" }}>
+    <FormControl sx={{ width: "100%", my: 2 }}>
       <StyledLabel>{field.label}</StyledLabel>
       <Grid container columnSpacing={2} sx={{ mt: 2 }}>
         <Grid item md={4} xs={12} sx={{ width: "100%", mr: 4 }}>
