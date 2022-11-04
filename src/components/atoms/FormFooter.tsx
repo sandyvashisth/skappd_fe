@@ -11,7 +11,7 @@ const BackButton = styled(Button)`
   padding: 8px 22px;
 `;
 const NextButton = styled(Button)`
-  background-color: #1ec271;
+  background-color: #1ec271 !important;
   color: #fff;
   padding: 8px 22px;
 `;
