@@ -6,8 +6,14 @@ export const PersonalDetailsSchema = yup.object().shape({
     .matches(/^\D*$/, "Please enter a valid full name.")
     .required("Please enter full name."),
   address: yup.string().required("Please enter an address."),
-  city: yup.string().required("Please enter a city."),
-  state: yup.string().nullable().required("Please enter a state."),
+  city: yup
+    .object()
+    .shape({ value: yup.string(), label: yup.string() })
+    .required("Please select a city."),
+  state: yup
+    .object()
+    .shape({ value: yup.string(), label: yup.string() })
+    .required("Please select a state."),
   zip: yup
     .string()
     .min(4, "Please enter a valid ZIP code")

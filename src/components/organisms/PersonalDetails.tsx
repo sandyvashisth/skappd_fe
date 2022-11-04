@@ -8,13 +8,11 @@ import { PersonalDetailsSchema } from "src/schema/onboardingSchema";
 import { FormFooter } from "@components/atoms/FormFooter";
 import { set_step_completed } from "@state/onboarding";
 import { useAtom } from "jotai";
+import { FormMultipleSelect } from "@components/atoms/FormMultipleSelect";
+import { states } from "src/constants/onboarding";
 
 export const PersonalDetails = () => {
-  const {
-    control,
-    handleSubmit,
-    formState: { errors },
-  } = useForm<{
+  const formInstance = useForm<{
     fullName: string;
     address: string;
     city: string;
@@ -23,7 +21,11 @@ export const PersonalDetails = () => {
   }>({
     resolver: yupResolver(PersonalDetailsSchema),
   });
-
+  const {
+    control,
+    handleSubmit,
+    formState: { errors },
+  } = formInstance;
   const [activeStep, setStepComplete] = useAtom(set_step_completed);
   const onSubmit = (formData: any) => {
     console.log("Form Data ===> ", formData);
@@ -71,27 +73,37 @@ export const PersonalDetails = () => {
                 />
               </Grid>
               <Grid item xs={12} md={6}>
-                <FormTextField
+                <FormMultipleSelect
                   field={{
+                    name: "state",
                     label: "State/Province",
-                    name: `state`,
                     control: control,
-                    error: errors?.state,
-                    options: { autoCapitalize: true },
+                    options: {
+                      options: states,
+                    },
                   }}
+                  isShowFormLabel={false}
+                  isShowInputLabel={true}
+                  isMultiSelect={false}
+                  formInstance={formInstance}
                 />
               </Grid>
             </Grid>
             <Grid container spacing={4} sx={{ mb: 4 }}>
               <Grid item xs={12} md={6}>
-                <FormTextField
+                <FormMultipleSelect
                   field={{
+                    name: "city",
                     label: "City",
-                    name: `city`,
                     control: control,
-                    error: errors?.city,
-                    options: { autoCapitalize: true },
+                    options: {
+                      options: states,
+                    },
                   }}
+                  isShowFormLabel={false}
+                  isShowInputLabel={true}
+                  isMultiSelect={false}
+                  formInstance={formInstance}
                 />
               </Grid>
               <Grid item xs={12} md={6}>

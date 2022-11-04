@@ -22,12 +22,16 @@ export interface TFormFormMultipleSelectOptions {
 type TFormMultipleSelect = {
   field: IFormField<TFormFormMultipleSelectOptions>;
   isMultiSelect?: boolean;
+  isShowFormLabel?: boolean;
+  isShowInputLabel?: boolean;
   formInstance: any;
 };
 
 export const FormMultipleSelect = ({
   field,
   isMultiSelect = true,
+  isShowFormLabel = true,
+  isShowInputLabel = false,
   formInstance,
 }: TFormMultipleSelect) => {
   const {
@@ -60,20 +64,23 @@ export const FormMultipleSelect = ({
   );
 
   return (
-    <FormControl sx={{ width: "100%", my: 2 }}>
-      <StyledLabel>{field.label}</StyledLabel>
-      <Grid container columnSpacing={2} sx={{ mt: 2 }}>
+    <FormControl sx={{ width: "100%" }}>
+      {isShowFormLabel && <StyledLabel>{field.label}</StyledLabel>}
+      <Grid container columnSpacing={2} sx={{ mt: isShowFormLabel ? 2 : 0 }}>
         <Grid item sx={{ width: "100%" }}>
           <Autocomplete
             multiple={isMultiSelect}
             id="tags-standard"
             options={options}
-            getOptionLabel={(option: any) => option.label}
-            isOptionEqualToValue={isOptionEqualToValue}
+            getOptionLabel={
+              isMultiSelect ? (option: any) => option.label : undefined
+            }
+            isOptionEqualToValue={
+              isMultiSelect ? isOptionEqualToValue : undefined
+            }
             defaultValue={value}
             onChange={handleInputChange}
             sx={{
-              color: "red",
               "& .MuiChip-root": {
                 borderRadius: "4px",
                 background: "#dae6e2",
@@ -91,6 +98,7 @@ export const FormMultipleSelect = ({
               <TextField
                 {...params}
                 error={errors[field?.name]}
+                label={isShowInputLabel ? field.label : ""}
                 variant="standard"
                 placeholder="Select..."
               />
