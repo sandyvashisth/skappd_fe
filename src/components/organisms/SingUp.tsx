@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Box, Grid, Typography, Button, InputAdornment } from "@mui/material";
 import GoogleLogo from "@images/google.svg";
 import DoneIcon from "@mui/icons-material/Done";
@@ -9,13 +9,15 @@ import { FormTextField } from "@components/atoms/FormTextField";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { SignUpSchema } from "src/schema/onboardingSchema";
+import { useAuth } from "context/AuthContext";
+import { AxiosError } from "axios";
 
 export const SingUp = ({ isDesktop }: { isDesktop: boolean }) => {
   const router = useRouter();
   const formInstance = useForm<{
     email?: string;
     password?: string;
-    cnfpassword?: string;
+    cnfPassword?: string;
   }>({
     resolver: yupResolver(SignUpSchema),
   });
@@ -27,9 +29,31 @@ export const SingUp = ({ isDesktop }: { isDesktop: boolean }) => {
     trigger,
   } = formInstance;
 
-  const onSubmit = (formData: any) => {
+  const { createAccount, isAuthenticated } = useAuth();
+  const [singUpError, setSingUpError] = useState<string>("");
+  useEffect(() => {
+    if (isAuthenticated) {
+      router.replace("/onboarding");
+    }
+  }, [router, isAuthenticated]);
+
+  const onSubmit = async (formData: any) => {
     console.log("Form Data ===> ", formData);
-    router.push("/onboarding");
+    try {
+      if (createAccount) {
+        await createAccount(
+          formData.email,
+          formData.password,
+          formData.cnfPassword
+        );
+      }
+    } catch (e) {
+      if (e instanceof AxiosError && e.response?.data.error) {
+        setSingUpError(e.response.data.error);
+      } else {
+        setSingUpError("Wrong email or password");
+      }
+    }
   };
 
   const onBlur = (event: any) => {
@@ -39,7 +63,7 @@ export const SingUp = ({ isDesktop }: { isDesktop: boolean }) => {
     setAdornmentMap({ ...adornmentMap, [fieldName]: true });
   };
 
-  const getAdornmentIcon = (field: "email" | "password" | "cnfpassword") => {
+  const getAdornmentIcon = (field: "email" | "password" | "cnfPassword") => {
     if (adornmentMap[field] && !errors[field]?.message)
       return (
         <InputAdornment position="end">
@@ -130,7 +154,7 @@ export const SingUp = ({ isDesktop }: { isDesktop: boolean }) => {
                   control: control,
                   options: {
                     type: "password",
-                    endAdornment: getAdornmentIcon("password"),
+                    endAdornment: getAdornmentIcon("cnfPassword"),
                     style: { mb: "24px" },
                   },
                   error: errors?.password,

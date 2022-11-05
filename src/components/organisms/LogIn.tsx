@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Box, Grid, Typography, InputAdornment, Button } from "@mui/material";
 import DoneIcon from "@mui/icons-material/Done";
 import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
@@ -9,6 +9,8 @@ import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { SignInSchema } from "src/schema/onboardingSchema";
 import GoogleLogo from "@images/google.svg";
+import { useAuth } from "context/AuthContext";
+import { AxiosError } from "axios";
 
 export const LoginSetup = ({ isDesktop }: { isDesktop: boolean }) => {
   const router = useRouter();
@@ -19,6 +21,15 @@ export const LoginSetup = ({ isDesktop }: { isDesktop: boolean }) => {
     resolver: yupResolver(SignInSchema),
   });
   const [adornmentMap, setAdornmentMap] = useState<{ [k: string]: any }>({});
+  const [loginError, setLoginError] = useState<string>("");
+  const { login, isAuthenticated } = useAuth();
+
+  useEffect(() => {
+    if (isAuthenticated) {
+      router.replace("/onboarding");
+    }
+  }, [router, isAuthenticated]);
+
   const {
     control,
     handleSubmit,
@@ -26,9 +37,18 @@ export const LoginSetup = ({ isDesktop }: { isDesktop: boolean }) => {
     trigger,
   } = formInstance;
 
-  const onSubmit = (formData: any) => {
-    console.log("Form Data ===> ", formData);
-    router.push("/onboarding");
+  const onSubmit = async (formData: any) => {
+    try {
+      if (login) {
+        await login(formData.email, formData.password);
+      }
+    } catch (e) {
+      if (e instanceof AxiosError && e.response?.data.error) {
+        setLoginError(e.response.data.error);
+      } else {
+        setLoginError("Wrong email or password");
+      }
+    }
   };
 
   const onBlur = (event: any) => {

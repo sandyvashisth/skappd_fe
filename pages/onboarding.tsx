@@ -16,6 +16,9 @@ import {
   udpate_step,
 } from "@state/onboarding";
 import { useAtom } from "jotai";
+import { useAuth } from "context/AuthContext";
+import { useRouter } from "next/router";
+import { useEffect } from "react";
 export const ONBOARDING_VIEW = {
   login_setup: LoginSetup,
   personal_details: PersonalDetails,
@@ -35,6 +38,17 @@ const Onboarding = () => {
   const { id: activeStepId }: { id: keyof typeof ONBOARDING_VIEW } = activeStep;
   const isDesktop = useMediaQuery((theme: Theme) => theme.breakpoints.up("sm"));
   const View = ONBOARDING_VIEW[activeStepId] ?? null;
+
+  const router = useRouter();
+  const { isAuthenticated } = useAuth();
+
+  useEffect(() => {
+    console.log("lele", router, isAuthenticated);
+    if (!isAuthenticated) {
+      router.replace("/login");
+    }
+  }, [router, isAuthenticated]);
+
   return (
     <main>
       <ResponsiveAppBar />
