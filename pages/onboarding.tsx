@@ -43,7 +43,6 @@ const Onboarding = () => {
   const { isAuthenticated } = useAuth();
 
   useEffect(() => {
-    console.log("lele", router, isAuthenticated);
     if (!isAuthenticated) {
       router.replace("/login");
     }
