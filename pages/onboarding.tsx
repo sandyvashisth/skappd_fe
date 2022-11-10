@@ -9,6 +9,7 @@ import { LocationPreferences } from "@components/organisms/LocationPreferences";
 import { LoginSetup } from "@components/organisms/LoginSetup";
 import { PersonalDetails } from "@components/organisms/PersonalDetails";
 import { SetupYourDiscipline } from "@components/organisms/SetupYourDiscipline";
+import { Loader } from "@components/atoms/Loader";
 import { Grid, Theme, useMediaQuery } from "@mui/material";
 import {
   onboarding_steps,
@@ -40,7 +41,7 @@ const Onboarding = () => {
   const View = ONBOARDING_VIEW[activeStepId] ?? null;
 
   const router = useRouter();
-  const { isAuthenticated } = useAuth();
+  const { isAuthenticated, loading } = useAuth();
 
   useEffect(() => {
     if (!isAuthenticated) {
@@ -51,55 +52,59 @@ const Onboarding = () => {
   return (
     <main>
       <ResponsiveAppBar />
-      <Grid container>
-        {isDesktop ? (
-          <Grid
-            item
-            sx={{
-              width: "264px",
-              p: 2,
-              flexDirection: "column",
-            }}
-          >
-            <OnboardingDesktopTimeline
-              steps={allSteps}
-              active={activeStepId}
-              progressStatus={progressStatus}
-              setActive={(value) =>
-                setActiveStep(value as keyof typeof ONBOARDING_VIEW)
-              }
-            />
-          </Grid>
-        ) : (
-          <Grid
-            item
-            sx={{
-              width: "100%",
-              flexDirection: "column",
-            }}
-          >
-            <OnboardingMobileTimeline
-              steps={allSteps}
-              active={activeStepId}
-              progressStatus={progressStatus}
-              setActive={(value) =>
-                setActiveStep(value as keyof typeof ONBOARDING_VIEW)
-              }
-            />
-          </Grid>
-        )}
+      {loading ? (
+        <Loader />
+      ) : (
+        <Grid container>
+          {isDesktop ? (
+            <Grid
+              item
+              sx={{
+                width: "264px",
+                p: 2,
+                flexDirection: "column",
+              }}
+            >
+              <OnboardingDesktopTimeline
+                steps={allSteps}
+                active={activeStepId}
+                progressStatus={progressStatus}
+                setActive={(value) =>
+                  setActiveStep(value as keyof typeof ONBOARDING_VIEW)
+                }
+              />
+            </Grid>
+          ) : (
+            <Grid
+              item
+              sx={{
+                width: "100%",
+                flexDirection: "column",
+              }}
+            >
+              <OnboardingMobileTimeline
+                steps={allSteps}
+                active={activeStepId}
+                progressStatus={progressStatus}
+                setActive={(value) =>
+                  setActiveStep(value as keyof typeof ONBOARDING_VIEW)
+                }
+              />
+            </Grid>
+          )}
 
-        <Grid
-          item
-          xs
-          sx={{
-            backgroundColor: "#DAE7E2",
-            minHeight: `calc(100vh - ${isDesktop ? "68px" : "104px"})`,
-          }}
-        >
-          <View />
+          <Grid
+            item
+            xs
+            sx={{
+              backgroundColor: "#DAE7E2",
+              minHeight: `calc(100vh - ${isDesktop ? "68px" : "104px"})`,
+            }}
+          >
+            <View />
+          </Grid>
         </Grid>
-      </Grid>
+      )}
     </main>
   );
 };

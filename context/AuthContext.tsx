@@ -4,6 +4,7 @@ import {
   useContext,
   type FC,
   type ReactElement,
+  useEffect,
 } from "react";
 
 //api here is an axios instance which has the baseURL set according to the env.
@@ -11,7 +12,6 @@ import api from "services/api";
 
 type User = {
   id: string;
-  site_id: string;
   account_id: string;
   buyer_id: string;
   full_name: string;
@@ -40,13 +40,24 @@ export const AuthProvider: FC<{ children: ReactElement }> = ({ children }) => {
   const [accessToken, setAccessToken] = useState<string | undefined>();
   const [loading, setLoading] = useState(true);
 
+  useEffect(() => {
+    async function loadUserFromLocalStorage() {
+      const token = window.localStorage.getItem("accessToken");
+      if (token) {
+        api.session.defaults.headers["Authorization"] = `Bearer ${token}`;
+        setAccessToken(token);
+      }
+    }
+    loadUserFromLocalStorage();
+  }, []);
+
   const login = async (email: string, password: string): Promise<User> => {
     setLoading(true);
     try {
       const res = await api.post("users/sign_in", {
         user: { email, password },
       });
-      if (res.headers["Authorization"]) {
+      if (res.headers["authorization"]) {
         if (typeof window !== "undefined") {
           window.localStorage.setItem(
             "accessToken",
@@ -57,6 +68,7 @@ export const AuthProvider: FC<{ children: ReactElement }> = ({ children }) => {
           setAccessToken(res.headers.authorization);
         }
       }
+      setLoading(false);
       return res.data;
     } catch (e) {
       setLoading(false);
@@ -81,7 +93,7 @@ export const AuthProvider: FC<{ children: ReactElement }> = ({ children }) => {
       const res = await api.post("users", {
         user: { email, password, password_confirmation: cnfPassword },
       });
-      if (res.headers["Authorization"]) {
+      if (res.headers["authorization"]) {
         if (typeof window !== "undefined") {
           window.localStorage.setItem(
             "accessToken",
@@ -92,6 +104,7 @@ export const AuthProvider: FC<{ children: ReactElement }> = ({ children }) => {
           setAccessToken(res.headers.authorization);
         }
       }
+      setLoading(false);
       return res.data;
     } catch (e) {
       setLoading(false);

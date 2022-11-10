@@ -15,11 +15,13 @@ import Logo from "@images/logo.svg";
 import theme from "src/theme";
 import Link from "next/link";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
+import { useAuth } from "context/AuthContext";
 
 const pages: string[] = [];
 const settings = ["Profile", "Logout"];
 
 export const ResponsiveAppBar = () => {
+  const { logout } = useAuth();
   const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(
     null
   );
@@ -38,7 +40,11 @@ export const ResponsiveAppBar = () => {
     setAnchorElNav(null);
   };
 
-  const handleCloseUserMenu = () => {
+  const handleCloseUserMenu = (event: any, key: string) => {
+    if (key === "Logout" && logout) {
+      logout();
+    }
+    console.log("lele", event, key);
     setAnchorElUser(null);
   };
 
@@ -153,7 +159,10 @@ export const ResponsiveAppBar = () => {
               onClose={handleCloseUserMenu}
             >
               {settings.map((setting) => (
-                <MenuItem key={setting} onClick={handleCloseUserMenu}>
+                <MenuItem
+                  key={setting}
+                  onClick={(e) => handleCloseUserMenu(e, setting)}
+                >
                   <Typography textAlign="center">{setting}</Typography>
                 </MenuItem>
               ))}
