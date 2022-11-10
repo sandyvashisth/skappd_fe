@@ -43,9 +43,8 @@ export const AuthProvider: FC<{ children: ReactElement }> = ({ children }) => {
   const login = async (email: string, password: string): Promise<User> => {
     setLoading(true);
     try {
-      const res = await api.post("authaccount/login", {
-        email,
-        password,
+      const res = await api.post("users/sign_in", {
+        user: { email, password },
       });
       if (res.headers["Authorization"]) {
         if (typeof window !== "undefined") {
@@ -79,10 +78,8 @@ export const AuthProvider: FC<{ children: ReactElement }> = ({ children }) => {
   ): Promise<User> => {
     setLoading(true);
     try {
-      const res = await api.post("user", {
-        email,
-        password,
-        password_confirmation: cnfPassword,
+      const res = await api.post("users", {
+        user: { email, password, password_confirmation: cnfPassword },
       });
       if (res.headers["Authorization"]) {
         if (typeof window !== "undefined") {
