@@ -1,4 +1,4 @@
-import { Box, Grid, Typography } from "@mui/material";
+import { Box, Grid, Typography, Button } from "@mui/material";
 import React from "react";
 import AccessTimeIcon from "@mui/icons-material/AccessTime";
 import { useForm } from "react-hook-form";
@@ -11,7 +11,8 @@ import { useAtom } from "jotai";
 import { FormMultipleSelect } from "@components/atoms/FormMultipleSelect";
 import { states } from "src/constants/onboarding";
 
-export const PersonalDetails = () => {
+export const PersonalDetails = ({showFooter}:{showFooter: Boolean}) => {
+
   const formInstance = useForm<{
     fullName: string;
     address: string;
@@ -116,11 +117,25 @@ export const PersonalDetails = () => {
                   }}
                 />
               </Grid>
+              
+              {/* User this button when save the record from Diolo */}
+              {!showFooter && <Grid item xs={12} md={6}>
+                <Button variant="outlined">Save</Button>
+              </Grid>}
+
+
             </Grid>
           </Grid>
+
         </Grid>
-        <FormFooter />
+
+        {showFooter ? <FormFooter /> : ''}
+
       </form>
     </Box>
   );
 };
+
+PersonalDetails.defaultProps = {
+  showFooter: true
+}
