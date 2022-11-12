@@ -6,10 +6,6 @@ const unprotectedRoutes = ["/login", "/sign-up"];
 
 export const isBrowser = () => typeof window !== "undefined";
 
-export const SESSION_STORAGE = {
-  REDIRECT_BACK_URL: "redirectBackUrl",
-};
-
 export const ProtectRoute: FC<{ router: Router; children: ReactElement }> = ({
   router,
   children,
@@ -21,10 +17,6 @@ export const ProtectRoute: FC<{ router: Router; children: ReactElement }> = ({
   }
 
   if (isBrowser() && !isAuthenticated && pathIsProtected) {
-    window.sessionStorage.setItem(
-      SESSION_STORAGE.REDIRECT_BACK_URL,
-      router.asPath
-    );
     router.push("/login");
   }
 

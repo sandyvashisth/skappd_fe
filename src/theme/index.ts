@@ -26,7 +26,7 @@ const theme = createTheme({
         },
         input: {
           boxShadow: "0 0 0px 1000px #ffffff inset !important",
-        }
+        },
       },
     },
     MuiAutocomplete: {
@@ -50,6 +50,14 @@ const theme = createTheme({
         },
         input: {
           paddingLeft: "12px !important",
+        },
+      },
+    },
+    MuiTimelineContent: {
+      styleOverrides: {
+        root: {
+          fontSize: "14px",
+          padding: "6px 0 6px 16px"
         },
       },
     },

@@ -44,8 +44,8 @@ export const AuthProvider: FC<{ children: ReactElement }> = ({ children }) => {
     async function loadUserFromLocalStorage() {
       const token = window.localStorage.getItem("accessToken");
       if (token) {
-        api.session.defaults.headers["Authorization"] = `Bearer ${token}`;
         setAccessToken(token);
+        setLoading(false);
       }
     }
     loadUserFromLocalStorage();
@@ -63,8 +63,6 @@ export const AuthProvider: FC<{ children: ReactElement }> = ({ children }) => {
             "accessToken",
             res.headers.authorization.replace(/Bearer /, "")
           );
-          api.session.defaults.headers["Authorization"] =
-            res.headers.authorization;
           setAccessToken(res.headers.authorization);
         }
       }
@@ -78,8 +76,6 @@ export const AuthProvider: FC<{ children: ReactElement }> = ({ children }) => {
 
   const logout = () => {
     window.localStorage.removeItem("accessToken");
-    // setUser(null);
-    delete api.session.defaults.headers["Authorization"];
     window.location.pathname = "/login";
   };
 
@@ -99,8 +95,6 @@ export const AuthProvider: FC<{ children: ReactElement }> = ({ children }) => {
             "accessToken",
             res.headers.authorization.replace(/Bearer /, "")
           );
-          api.session.defaults.headers["Authorization"] =
-            res.headers.authorization;
           setAccessToken(res.headers.authorization);
         }
       }
