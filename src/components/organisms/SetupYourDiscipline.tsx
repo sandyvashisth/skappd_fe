@@ -1,4 +1,4 @@
-import { Box, Grid, Typography } from "@mui/material";
+import { Box, Grid, Typography, Button } from "@mui/material";
 import AccessTimeIcon from "@mui/icons-material/AccessTime";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
@@ -11,7 +11,7 @@ import { FormFooter } from "@components/atoms/FormFooter";
 import { set_step_completed } from "@state/onboarding";
 import { useAtom } from "jotai";
 
-export const SetupYourDiscipline = () => {
+export const SetupYourDiscipline = ({ showFooter }: { showFooter: Boolean }) => {
   const [expanded, setExpanded] = useState<string>("");
   const formInstance = useForm({
     resolver: yupResolver(SetupDiscipline),
@@ -104,9 +104,20 @@ export const SetupYourDiscipline = () => {
               formInstance={formInstance}
             />
           </StepAccordion>
+          {/* User this button when save the record from Diolo */}
+          {!showFooter && <Grid item xs={12} md={6}>
+            <Button variant="outlined">Save</Button>
+          </Grid>}
+
         </Grid>
-        <FormFooter />
+        
+        {showFooter ? <FormFooter /> : ''}
+        
       </form>
     </Box>
   );
 };
+
+SetupYourDiscipline.defaultProps = {
+  showFooter: true
+}
