@@ -15,11 +15,13 @@ import Logo from "@images/logo.svg";
 import theme from "src/theme";
 import Link from "next/link";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
+import { useAuth } from "context/AuthContext";
 
 const pages: string[] = [];
 const settings = ["Profile", "Logout"];
 
 export const ResponsiveAppBar = () => {
+  const { logout, isAuthenticated } = useAuth();
   const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(
     null
   );
@@ -38,7 +40,11 @@ export const ResponsiveAppBar = () => {
     setAnchorElNav(null);
   };
 
-  const handleCloseUserMenu = () => {
+  const handleCloseUserMenu = (event: any, key: string) => {
+    if (key === "Logout" && logout) {
+      logout();
+    }
+    console.log("lele", event, key);
     setAnchorElUser(null);
   };
 
@@ -113,15 +119,6 @@ export const ResponsiveAppBar = () => {
                 Back to Home
               </Button>
             </Link>
-            {/* {pages.map((page) => (
-              <Button
-                key={page}
-                onClick={handleCloseNavMenu}
-                sx={{ my: 2, color: 'white', display: 'block' }}
-              >
-                {page}
-              </Button>
-            ))} */}
           </Box>
           <Box
             sx={{
@@ -131,33 +128,53 @@ export const ResponsiveAppBar = () => {
               },
             }}
           >
-            <Tooltip title="Open settings">
-              <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                <Avatar alt="Sandy" src="/static/images/avatar/2.jpg" />
-              </IconButton>
-            </Tooltip>
-            <Menu
-              sx={{ mt: "45px" }}
-              id="menu-appbar"
-              anchorEl={anchorElUser}
-              anchorOrigin={{
-                vertical: "top",
-                horizontal: "right",
-              }}
-              keepMounted
-              transformOrigin={{
-                vertical: "top",
-                horizontal: "right",
-              }}
-              open={Boolean(anchorElUser)}
-              onClose={handleCloseUserMenu}
-            >
-              {settings.map((setting) => (
-                <MenuItem key={setting} onClick={handleCloseUserMenu}>
-                  <Typography textAlign="center">{setting}</Typography>
-                </MenuItem>
-              ))}
-            </Menu>
+            {isAuthenticated ? (
+              <>
+                <Tooltip title="Open settings">
+                  <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
+                    <Avatar alt="Sandy" src="/static/images/avatar/2.jpg" />
+                  </IconButton>
+                </Tooltip>
+                <Menu
+                  sx={{ mt: "45px" }}
+                  id="menu-appbar"
+                  anchorEl={anchorElUser}
+                  anchorOrigin={{
+                    vertical: "top",
+                    horizontal: "right",
+                  }}
+                  keepMounted
+                  transformOrigin={{
+                    vertical: "top",
+                    horizontal: "right",
+                  }}
+                  open={Boolean(anchorElUser)}
+                  onClose={handleCloseUserMenu}
+                >
+                  {settings.map((setting) => (
+                    <MenuItem
+                      key={setting}
+                      onClick={(e) => handleCloseUserMenu(e, setting)}
+                    >
+                      <Typography textAlign="center">{setting}</Typography>
+                    </MenuItem>
+                  ))}
+                </Menu>
+              </>
+            ) : (
+              <>
+                <Button variant="text" href="/login">
+                  Sign IN
+                </Button>
+                <Button
+                  variant="contained"
+                  sx={{ color: "white", marginLeft: "40px" }}
+                  href="/signup"
+                >
+                  Sign Up
+                </Button>
+              </>
+            )}
           </Box>
         </Toolbar>
       </Container>
