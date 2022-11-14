@@ -53,11 +53,28 @@ const theme = createTheme({
         },
       },
     },
+    MuiTextField: {
+      styleOverrides: {
+        root: {
+          background: "#FFF !important",
+          padding: "0 !important",
+          "& ::before": {
+            borderColor: "green",
+          },
+          "&:focus": {
+            background: "#FFF",
+          },
+          "&:hover": {
+            background: "#FFF",
+          },
+        },
+      },
+    },
     MuiTimelineContent: {
       styleOverrides: {
         root: {
           fontSize: "14px",
-          padding: "6px 0 6px 16px"
+          padding: "6px 0 6px 16px",
         },
       },
     },

@@ -187,8 +187,6 @@ const Onboarding = (props) => {
                     </Grid>
                   </Grid>
                 </Grid>
-
-
               </Grid>
             </Container>
           </Box>

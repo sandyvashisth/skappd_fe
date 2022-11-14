@@ -58,6 +58,13 @@ const initialState = [
     status: null,
     approxCompletionTime: 1,
   },
+  {
+    id: "upload_documents",
+    title: "Upload Resume",
+    active: false,
+    status: null,
+    approxCompletionTime: 1,
+  },
 ];
 
 export const onboarding_steps = atom(initialState);

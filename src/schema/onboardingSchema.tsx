@@ -96,3 +96,8 @@ export const SignUpSchema = yup.object().shape({
     .string()
     .oneOf([yup.ref("password"), null], "Passwords must match"),
 });
+
+export const uploadResumeSchema = yup.object().shape({
+  resume: yup.array().nullable().min(1, "Please select Resume."),
+  summary: yup.string(),
+});

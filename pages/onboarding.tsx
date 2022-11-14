@@ -2,6 +2,7 @@ import { OnboardingDesktopTimeline } from "@components/molecules/OnboardingDeskt
 import { OnboardingMobileTimeline } from "@components/molecules/OnboardingMobileTimeline";
 import { ResponsiveAppBar } from "@components/molecules/ResponsiveAppBar";
 import { BenefitsPriorities } from "@components/organisms/BenefitsPriorities";
+import { UploadDocuments } from "@components/organisms/UploadDocuments";
 import { LevelOfComfort } from "@components/organisms/LevelOfComfort";
 import { JobPreferences } from "@components/organisms/JobPreferences";
 import { EducationCertification } from "@components/organisms/EducationCertification";
@@ -30,6 +31,7 @@ export const ONBOARDING_VIEW = {
   level_of_comfort: LevelOfComfort,
   location_preferences: LocationPreferences,
   benefits_priorities: BenefitsPriorities,
+  upload_documents: UploadDocuments,
 };
 
 const Onboarding = () => {
