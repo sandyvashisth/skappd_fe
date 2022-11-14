@@ -98,6 +98,6 @@ export const SignUpSchema = yup.object().shape({
 });
 
 export const uploadResumeSchema = yup.object().shape({
-  resume: yup.array().nullable().min(1, "Please select Resume."),
+  resume: yup.mixed().required("Please select a resume"),
   summary: yup.string(),
 });

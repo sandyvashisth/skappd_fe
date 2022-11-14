@@ -4,6 +4,7 @@ import {
   Typography,
   Button,
   TextField,
+  FormHelperText,
 } from "@mui/material";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
@@ -134,6 +135,11 @@ export const UploadDocuments = ({ showFooter = true }: { showFooter: Boolean }) 
               onInput={onFileInput}
             />
           </Button>
+          {errors.resume && (
+            <FormHelperText error sx={{ my: 2, fontSize: "14px", textAlign: "center" }}>
+              {errors.resume?.message as string}
+            </FormHelperText>
+          )}
         </Box>
         {showFooter ? <FormFooter /> : ""}
       </form>
