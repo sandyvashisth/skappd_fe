@@ -42,7 +42,7 @@ export const PersonalDetails = ({showFooter}:{showFooter: Boolean}) => {
           alignItems: "center",
         }}
       >
-        <AccessTimeIcon fontSize="small" /> 1-2 mins
+        {/* <AccessTimeIcon fontSize="small" /> 1-2 mins */}
       </Typography>
 
       <form onSubmit={handleSubmit(onSubmit)}>
@@ -117,15 +117,13 @@ export const PersonalDetails = ({showFooter}:{showFooter: Boolean}) => {
                   }}
                 />
               </Grid>
-              
-              {/* User this button when save the record from Diolo */}
-              {!showFooter && <Grid item xs={12} md={6}>
-                <Button variant="outlined">Save</Button>
-              </Grid>}
-
-
             </Grid>
           </Grid>
+
+          {/* User this button when save the record from Diolo */}
+          {!showFooter && <Grid item xs={12} md={6}>
+            <Button variant="outlined">Save</Button>
+          </Grid>}
 
         </Grid>
 

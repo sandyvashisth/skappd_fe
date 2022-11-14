@@ -1,4 +1,4 @@
-import { Box, Grid, Typography } from "@mui/material";
+import { Box, Grid, Typography, Button } from "@mui/material";
 import AccessTimeIcon from "@mui/icons-material/AccessTime";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
@@ -11,7 +11,7 @@ import { FormFooter } from "@components/atoms/FormFooter";
 import { set_step_completed } from "@state/onboarding";
 import { useAtom } from "jotai";
 
-export const JobPreferences = () => {
+export const JobPreferences = ({ showFooter }: { showFooter: Boolean }) => {
   const [expanded, setExpanded] = useState<string>("");
   const formInstance = useForm({
     resolver: yupResolver(JobPreferencesSchema),
@@ -40,7 +40,7 @@ export const JobPreferences = () => {
             alignItems: "center",
           }}
         >
-          <AccessTimeIcon fontSize="small" /> 1-2 mins
+          {/* <AccessTimeIcon fontSize="small" /> 1-2 mins */}
         </Typography>
       </Box>
       <form onSubmit={handleSubmit(onSubmit)}>
@@ -176,8 +176,16 @@ export const JobPreferences = () => {
               />
             </StepAccordion>
           </Grid>
+
+          {/* User this button when save the record from Diolo */}
+          {!showFooter && <Grid item xs={12} sx={{ mt: 2, ml: 2 }}>
+            <Button variant="outlined">Save</Button>
+          </Grid>}          
+        
         </Grid>
-        <FormFooter />
+        
+        {showFooter ? <FormFooter /> : ''}
+        
       </form>
     </Box>
   );

@@ -1,4 +1,4 @@
-import { Box, Grid, Typography } from "@mui/material";
+import { Box, Grid, Typography, Button } from "@mui/material";
 import AccessTimeIcon from "@mui/icons-material/AccessTime";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
@@ -8,7 +8,7 @@ import { FormSelectableChips } from "@components/atoms/FormSelectableChips";
 import { set_step_completed } from "@state/onboarding";
 import { useAtom } from "jotai";
 
-export const BenefitsPriorities = () => {
+export const BenefitsPriorities = ({ showFooter }: { showFooter: Boolean }) => {
   const formInstance = useForm({
     resolver: yupResolver(BenefitsSchema),
   });
@@ -35,7 +35,7 @@ export const BenefitsPriorities = () => {
             alignItems: "center",
           }}
         >
-          <AccessTimeIcon fontSize="small" /> 1-2 mins
+          {/* <AccessTimeIcon fontSize="small" /> 1-2 mins */}
         </Typography>
       </Box>
       <form onSubmit={handleSubmit(onSubmit)}>
@@ -108,8 +108,14 @@ export const BenefitsPriorities = () => {
             }}
             formInstance={formInstance}
           />
+          {/* User this button when save the record from Diolo */}
+          {!showFooter && <Grid item xs={12}>
+            <Button variant="outlined">Save</Button>
+          </Grid>}
         </Grid>
-        <FormFooter />
+
+        {showFooter ? <FormFooter /> : ''}
+        
       </form>
     </Box>
   );

@@ -14,8 +14,21 @@ import {
 import CloseOutlinedIcon from '@mui/icons-material/CloseOutlined';
 import ModeOutlinedIcon from '@mui/icons-material/ModeOutlined';
 
+export const ONBOARDING_VIEW = {
+  personal_details: PersonalDetails,
+  job_preferences: JobPreferences,
+  setup_your_discipline: SetupYourDiscipline,
+  education_certifications: EducationCertification,
+  level_of_comfort: LevelOfComfort,
+  location_preferences: LocationPreferences,
+  benefits_priorities: BenefitsPriorities,
+};
 
-export const SettingsNotifications = (props) => (
+export const Skills = (props) => {
+  const [displayView, setDisplayView] = React.useState('personal_details');
+  const View = ONBOARDING_VIEW[displayView];
+
+  return(
   <form {...props}>
     <Card>
       <CardHeader
@@ -192,4 +205,5 @@ export const SettingsNotifications = (props) => (
       </Box>
     </Card>
   </form>
-);
+  )
+}
