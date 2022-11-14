@@ -8,7 +8,11 @@ import { FormSelectableChips } from "@components/atoms/FormSelectableChips";
 import { set_step_completed } from "@state/onboarding";
 import { useAtom } from "jotai";
 
-export const BenefitsPriorities = ({ showFooter }: { showFooter: Boolean }) => {
+export const BenefitsPriorities = ({
+  showFooter = true,
+}: {
+  showFooter?: Boolean;
+}) => {
   const formInstance = useForm({
     resolver: yupResolver(BenefitsSchema),
   });
@@ -109,13 +113,14 @@ export const BenefitsPriorities = ({ showFooter }: { showFooter: Boolean }) => {
             formInstance={formInstance}
           />
           {/* User this button when save the record from Diolo */}
-          {!showFooter && <Grid item xs={12}>
-            <Button variant="outlined">Save</Button>
-          </Grid>}
+          {!showFooter && (
+            <Grid item xs={12}>
+              <Button variant="outlined">Save</Button>
+            </Grid>
+          )}
         </Grid>
 
-        {showFooter ? <FormFooter /> : ''}
-        
+        {showFooter ? <FormFooter /> : ""}
       </form>
     </Box>
   );

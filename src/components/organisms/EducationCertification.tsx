@@ -10,7 +10,11 @@ import { FormFooter } from "@components/atoms/FormFooter";
 import { set_step_completed } from "@state/onboarding";
 import { useAtom } from "jotai";
 
-export const EducationCertification = ({ showFooter }: { showFooter: Boolean }) => {
+export const EducationCertification = ({
+  showFooter = true,
+}: {
+  showFooter?: Boolean;
+}) => {
   const [expanded, setExpanded] = useState<string>("");
   const formInstance = useForm({
     resolver: yupResolver(educationCertificateSchema),
@@ -175,16 +179,16 @@ export const EducationCertification = ({ showFooter }: { showFooter: Boolean }) 
               />
             </StepAccordion>
           </Grid>
-          
-          {/* User this button when save the record from Diolo */}
-          {!showFooter && <Grid item xs={12} sx={{ mt: 2, ml: 2 }}>
-            <Button variant="outlined">Save</Button>
-          </Grid>}
 
+          {/* User this button when save the record from Diolo */}
+          {!showFooter && (
+            <Grid item xs={12} sx={{ mt: 2, ml: 2 }}>
+              <Button variant="outlined">Save</Button>
+            </Grid>
+          )}
         </Grid>
 
-        {showFooter ? <FormFooter /> : ''}
-        
+        {showFooter ? <FormFooter /> : ""}
       </form>
     </Box>
   );

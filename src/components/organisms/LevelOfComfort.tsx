@@ -10,7 +10,11 @@ import { FormFooter } from "@components/atoms/FormFooter";
 import { set_step_completed } from "@state/onboarding";
 import { useAtom } from "jotai";
 
-export const LevelOfComfort = ({ showFooter }: { showFooter: Boolean }) => {
+export const LevelOfComfort = ({
+  showFooter = true,
+}: {
+  showFooter?: Boolean;
+}) => {
   const [expanded, setExpanded] = useState<string>("");
   const formInstance = useForm({
     resolver: yupResolver(LevelOfComfortSchema),
@@ -118,16 +122,16 @@ export const LevelOfComfort = ({ showFooter }: { showFooter: Boolean }) => {
                 formInstance={formInstance}
               />
             </StepAccordion>
-          </Grid>               
+          </Grid>
           {/* User this button when save the record from Diolo */}
-          {!showFooter && <Grid item xs={12} sx={{ mt: 2, ml: 2 }}>
-            <Button variant="outlined">Save</Button>
-          </Grid>} 
+          {!showFooter && (
+            <Grid item xs={12} sx={{ mt: 2, ml: 2 }}>
+              <Button variant="outlined">Save</Button>
+            </Grid>
+          )}
         </Grid>
-        
 
-
-        {showFooter ? <FormFooter /> : ''}
+        {showFooter ? <FormFooter /> : ""}
       </form>
     </Box>
   );

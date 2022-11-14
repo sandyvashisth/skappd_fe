@@ -11,7 +11,11 @@ import { FormFooter } from "@components/atoms/FormFooter";
 import { set_step_completed } from "@state/onboarding";
 import { useAtom } from "jotai";
 
-export const JobPreferences = ({ showFooter }: { showFooter: Boolean }) => {
+export const JobPreferences = ({
+  showFooter = true,
+}: {
+  showFooter?: Boolean;
+}) => {
   const [expanded, setExpanded] = useState<string>("");
   const formInstance = useForm({
     resolver: yupResolver(JobPreferencesSchema),
@@ -178,14 +182,14 @@ export const JobPreferences = ({ showFooter }: { showFooter: Boolean }) => {
           </Grid>
 
           {/* User this button when save the record from Diolo */}
-          {!showFooter && <Grid item xs={12} sx={{ mt: 2, ml: 2 }}>
-            <Button variant="outlined">Save</Button>
-          </Grid>}          
-        
+          {!showFooter && (
+            <Grid item xs={12} sx={{ mt: 2, ml: 2 }}>
+              <Button variant="outlined">Save</Button>
+            </Grid>
+          )}
         </Grid>
-        
-        {showFooter ? <FormFooter /> : ''}
-        
+
+        {showFooter ? <FormFooter /> : ""}
       </form>
     </Box>
   );

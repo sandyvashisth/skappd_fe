@@ -17,7 +17,11 @@ import { languages, states } from "src/constants/onboarding";
 import { FormTextField } from "@components/atoms/FormTextField";
 import { StyledLabel } from "@components/atoms/common";
 
-export const LocationPreferences = ({ showFooter }: { showFooter: Boolean }) => {
+export const LocationPreferences = ({
+  showFooter = true,
+}: {
+  showFooter?: Boolean;
+}) => {
   const [expanded, setExpanded] = useState<string>("");
   const [activeStep, setStepComplete] = useAtom(set_step_completed);
 
@@ -222,16 +226,17 @@ export const LocationPreferences = ({ showFooter }: { showFooter: Boolean }) => 
                 />
               </Grid>
             </StepAccordion>
-          </Grid> 
+          </Grid>
 
           {/* User this button when save the record from Diolo */}
-          {!showFooter && <Grid container item xs={12} sx={{mt: 2, ml: 2}}>
-            <Button variant="outlined">Save</Button>
-          </Grid>}
+          {!showFooter && (
+            <Grid container item xs={12} sx={{ mt: 2, ml: 2 }}>
+              <Button variant="outlined">Save</Button>
+            </Grid>
+          )}
         </Grid>
-       
-        {showFooter ? <FormFooter /> : ''}
-        
+
+        {showFooter ? <FormFooter /> : ""}
       </form>
     </Box>
   );

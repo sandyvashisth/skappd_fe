@@ -11,8 +11,11 @@ import { useAtom } from "jotai";
 import { FormMultipleSelect } from "@components/atoms/FormMultipleSelect";
 import { states } from "src/constants/onboarding";
 
-export const PersonalDetails = ({showFooter}:{showFooter: Boolean}) => {
-
+export const PersonalDetails = ({
+  showFooter = true,
+}: {
+  showFooter?: Boolean;
+}) => {
   const formInstance = useForm<{
     fullName: string;
     address: string;
@@ -121,19 +124,19 @@ export const PersonalDetails = ({showFooter}:{showFooter: Boolean}) => {
           </Grid>
 
           {/* User this button when save the record from Diolo */}
-          {!showFooter && <Grid item xs={12} md={6}>
-            <Button variant="outlined">Save</Button>
-          </Grid>}
-
+          {!showFooter && (
+            <Grid item xs={12} md={6}>
+              <Button variant="outlined">Save</Button>
+            </Grid>
+          )}
         </Grid>
 
-        {showFooter ? <FormFooter /> : ''}
-
+        {showFooter ? <FormFooter /> : ""}
       </form>
     </Box>
   );
 };
 
 PersonalDetails.defaultProps = {
-  showFooter: true
-}
+  showFooter: true,
+};
