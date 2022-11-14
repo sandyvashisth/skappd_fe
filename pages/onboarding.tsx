@@ -20,6 +20,7 @@ import { useAtom } from "jotai";
 import { useAuth } from "context/AuthContext";
 import { useRouter } from "next/router";
 import { useEffect } from "react";
+
 export const ONBOARDING_VIEW = {
   login_setup: LoginSetup,
   personal_details: PersonalDetails,

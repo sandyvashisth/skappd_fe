@@ -14,6 +14,7 @@ import MenuItem from "@mui/material/MenuItem";
 import Logo from "@images/logo.svg";
 import theme from "src/theme";
 import Link from "next/link";
+import { useRouter } from "next/router";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import { useAuth } from "context/AuthContext";
 
@@ -21,6 +22,8 @@ const pages: string[] = [];
 const settings = ["Profile", "Logout"];
 
 export const ResponsiveAppBar = () => {
+  const router = useRouter();
+  const { route } = router;
   const { logout, isAuthenticated } = useAuth();
   const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(
     null
@@ -104,7 +107,7 @@ export const ResponsiveAppBar = () => {
           <Box>
             <Logo />
           </Box>
-          <Box
+          {route !== "/" && <Box
             sx={{
               left: "264px",
               position: "absolute",
@@ -119,7 +122,7 @@ export const ResponsiveAppBar = () => {
                 Back to Home
               </Button>
             </Link>
-          </Box>
+          </Box>}
           <Box
             sx={{
               [theme.breakpoints.up("md")]: {
