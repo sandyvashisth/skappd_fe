@@ -1,5 +1,12 @@
 import React, { useEffect, useState } from "react";
-import { Box, Grid, Typography, Button, InputAdornment } from "@mui/material";
+import {
+  Box,
+  Grid,
+  Typography,
+  Button,
+  InputAdornment,
+  FormHelperText,
+} from "@mui/material";
 import GoogleLogo from "@images/google.svg";
 import { Theme, useMediaQuery } from "@mui/material";
 import DoneIcon from "@mui/icons-material/Done";
@@ -200,6 +207,9 @@ export const SigningLayout = ({ page = 'login' }: { page: SchemaKeys }) => {
                   {page == PAGES.SIGN_UP ? "Log In" : "Sign Up"}
                 </Button>
               </Typography>
+              <FormHelperText error={!!signingError}>
+                {signingError as string}
+              </FormHelperText>
             </Grid>
           </Box>
         </Grid>
