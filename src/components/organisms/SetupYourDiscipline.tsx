@@ -40,7 +40,7 @@ export const SetupYourDiscipline = ({ showFooter }: { showFooter: Boolean }) => 
             alignItems: "center",
           }}
         >
-          <AccessTimeIcon fontSize="small" /> 1-2 mins
+          {/* <AccessTimeIcon fontSize="small" /> 1-2 mins */}
         </Typography>
       </Box>
       <form onSubmit={handleSubmit(onSubmit)}>
@@ -105,7 +105,7 @@ export const SetupYourDiscipline = ({ showFooter }: { showFooter: Boolean }) => 
             />
           </StepAccordion>
           {/* User this button when save the record from Diolo */}
-          {!showFooter && <Grid item xs={12} md={6}>
+          {!showFooter && <Grid item xs={12} sx={{ mt: 2, ml: 2 }}>
             <Button variant="outlined">Save</Button>
           </Grid>}
 

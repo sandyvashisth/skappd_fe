@@ -1,4 +1,4 @@
-import { Box, Grid, Typography, InputAdornment } from "@mui/material";
+import { Box, Grid, Typography, InputAdornment, Button } from "@mui/material";
 import AccessTimeIcon from "@mui/icons-material/AccessTime";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
@@ -17,7 +17,7 @@ import { languages, states } from "src/constants/onboarding";
 import { FormTextField } from "@components/atoms/FormTextField";
 import { StyledLabel } from "@components/atoms/common";
 
-export const LocationPreferences = () => {
+export const LocationPreferences = ({ showFooter }: { showFooter: Boolean }) => {
   const [expanded, setExpanded] = useState<string>("");
   const [activeStep, setStepComplete] = useAtom(set_step_completed);
 
@@ -64,7 +64,7 @@ export const LocationPreferences = () => {
             alignItems: "center",
           }}
         >
-          <AccessTimeIcon fontSize="small" /> 1-2 mins
+          {/* <AccessTimeIcon fontSize="small" /> 1-2 mins */}
         </Typography>
       </Box>
       <form onSubmit={handleSubmit(onSubmit)}>
@@ -222,9 +222,16 @@ export const LocationPreferences = () => {
                 />
               </Grid>
             </StepAccordion>
-          </Grid>
+          </Grid> 
+
+          {/* User this button when save the record from Diolo */}
+          {!showFooter && <Grid container item xs={12} sx={{mt: 2, ml: 2}}>
+            <Button variant="outlined">Save</Button>
+          </Grid>}
         </Grid>
-        <FormFooter />
+       
+        {showFooter ? <FormFooter /> : ''}
+        
       </form>
     </Box>
   );

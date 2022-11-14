@@ -1,21 +1,11 @@
 import * as React from 'react';
-import {
-    ButtonBase,
-    ButtonGroup,
-    InputBase,
-    InputAdornment,
-} from "@mui/material";
-import { styled } from "@mui/material/styles";
-import { useState } from "react";
-import { Grid, Theme, useMediaQuery } from "@mui/material";
+
+import { Grid, Badge } from "@mui/material";
 
 import PropTypes from 'prop-types';
-import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
-import CssBaseline from '@mui/material/CssBaseline';
 import Divider from '@mui/material/Divider';
 import Drawer from '@mui/material/Drawer';
-import IconButton from '@mui/material/IconButton';
 import InboxIcon from '@mui/icons-material/MoveToInbox';
 import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
@@ -23,8 +13,23 @@ import ListItemButton from '@mui/material/ListItemButton';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
 import MailIcon from '@mui/icons-material/Mail';
-import MenuIcon from '@mui/icons-material/Menu';
 import Toolbar from '@mui/material/Toolbar';
+import ExpandLess from '@mui/icons-material/ExpandLess';
+import ExpandMore from '@mui/icons-material/ExpandMore';
+import Collapse from '@mui/material/Collapse';
+import { useRouter } from 'next/router';
+
+import NotificationsActiveOutlinedIcon from '@mui/icons-material/NotificationsActiveOutlined';
+import ManageAccountsOutlinedIcon from '@mui/icons-material/ManageAccountsOutlined';
+import SelfImprovementOutlinedIcon from '@mui/icons-material/SelfImprovementOutlined';
+import AttachFileOutlinedIcon from '@mui/icons-material/AttachFileOutlined';
+import WorkOutlineOutlinedIcon from '@mui/icons-material/WorkOutlineOutlined';
+import ArchitectureOutlinedIcon from '@mui/icons-material/ArchitectureOutlined';
+import SchoolOutlinedIcon from '@mui/icons-material/SchoolOutlined';
+import ChairOutlinedIcon from '@mui/icons-material/ChairOutlined';
+import PinDropOutlinedIcon from '@mui/icons-material/PinDropOutlined';
+import StarOutlineOutlinedIcon from '@mui/icons-material/StarOutlineOutlined';
+import DashboardOutlinedIcon from '@mui/icons-material/DashboardOutlined';
 
 const drawerWidth = 264;
 
@@ -36,40 +41,91 @@ export const SideBar = ({
     container: undefined;
 
 }) => {
+    const router = useRouter();
+
     const [mobileOpen, setMobileOpen] = React.useState(false);
 
     const handleDrawerToggle = () => {
         setMobileOpen(!mobileOpen);
     };
 
-    const textIconAndUrl = (placeholder: any) => {
-        let settings = {
-            'dashboard': {text: "Dashboard", path: "/dashboard"},
-            'my_profile': {text: "My Profile", path: "/my_profile"},
-            'notifications': { text: "Notification", path: "/notifications" },
-        }
-        return settings[placeholder];
+    const [open, setOpen] = React.useState(true);
+
+    const handleClick = () => {
+        setOpen(!open);
+    };
+
+    const textIconAndUrl = {
+            'dashboard': { text: "Dashboard", path: "/dashboard", icon: <DashboardOutlinedIcon />},
+            // 'my_profile': {text: "My Profile", path: "/my_profile"},
+            'notification': { text: "Notification", path: "/notifications", icon: <NotificationsActiveOutlinedIcon /> },
     }
+
+    const profile_forms_settings = [
+        { title: 'Personal Details', path: 'personal_details', icon: <SelfImprovementOutlinedIcon />},
+        { title: 'Job Preferences', path: 'job_preferences', icon: <WorkOutlineOutlinedIcon /> },
+        { title: 'Discipline & Skills', path: 'discipline_and_skills', icon: <ArchitectureOutlinedIcon /> },
+        { title: 'Education', path: 'education', icon: <SchoolOutlinedIcon /> },
+        { title: 'Comfort Settings', path: 'comfort_settings', icon: <ChairOutlinedIcon /> },
+        { title: 'Location Preferences', path: 'location_preferences', icon: <PinDropOutlinedIcon /> },
+        { title: 'Priorities', path: 'priorities', icon: <StarOutlineOutlinedIcon /> },
+        { title: 'Summary & Resume', path: 'summary_resume', icon: <AttachFileOutlinedIcon /> },
+
+    ]
 
     const drawer = (
         <div>
             <Toolbar />
             <Divider />
             <List>
-                {['dashboard', 'my_profile', 'notifications'].map((placeholder, index) => (
-                    <ListItem key={placeholder} disablePadding>
-                        <ListItemButton href={textIconAndUrl(placeholder).path}>
+                <ListItem key='dashboard' disablePadding>
+                    <ListItemButton href={textIconAndUrl['dashboard'].path}>
+                        <ListItemIcon>
+                            {textIconAndUrl['dashboard'].icon}
+                        </ListItemIcon>
+                        <ListItemText primary={textIconAndUrl['dashboard'].text} />
+                    </ListItemButton>
+                </ListItem>
+
+                <ListItemButton onClick={handleClick}>
+                    <ListItemIcon>
+                        <ManageAccountsOutlinedIcon />
+                    </ListItemIcon>
+                    <ListItemText primary="My Profile" />
+                    {open ? <ExpandLess /> : <ExpandMore />}
+                </ListItemButton>
+                <Collapse in={open} timeout="auto" unmountOnExit>
+                    <List component="div" disablePadding>
+                        {profile_forms_settings.map((item, index) => (
+                            <ListItemButton href={`/account-settings#${item.path}`} sx={{ pl: 4 }} >
                             <ListItemIcon>
-                                {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
+                                {item.icon}
                             </ListItemIcon>
-                            <ListItemText primary={textIconAndUrl(placeholder).text} />
+                            <ListItemText primary={item.title} />
                         </ListItemButton>
-                    </ListItem>
-                ))}
+                        ))}
+                    </List>
+                </Collapse>
+
+                <ListItem key='notification' disablePadding>
+                    <ListItemButton href={textIconAndUrl['notification'].path}>
+                        <ListItemIcon>
+                            <Badge badgeContent={4} color="primary">
+                                {textIconAndUrl['notification'].icon}                                
+                            </Badge>
+                        </ListItemIcon>
+                        <ListItemText primary={textIconAndUrl['notification'].text} />
+                    </ListItemButton>
+                </ListItem>                
+
             </List>
 
         </div>
     );
+
+    const openModal = (hash) => {
+        router.push({ hash: hash });
+    }
 
     return (
         <>

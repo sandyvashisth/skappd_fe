@@ -3,27 +3,24 @@ import * as React from 'react';
 import {
     Avatar,
     Box,
-    Button,
     Link,
     Card,
-    CardActions,
     CardContent,
     Divider,
     Tooltip,
     IconButton,
     Typography,
-    useMediaQuery
+    useMediaQuery,
+    Grid
 } from '@mui/material';
 import { PersonalDetails } from "@components/organisms/PersonalDetails";
 
 
 import FavoriteIcon from '@mui/icons-material/Favorite';
-import CreateOutlinedIcon from '@mui/icons-material/CreateOutlined';
 import CloseOutlinedIcon from '@mui/icons-material/CloseOutlined';
 import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
-import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
 import { useTheme } from '@mui/material/styles';
 import { BenefitsPriorities } from "@components/organisms/BenefitsPriorities";
@@ -31,7 +28,6 @@ import { LevelOfComfort } from "@components/organisms/LevelOfComfort";
 import { JobPreferences } from "@components/organisms/JobPreferences";
 import { EducationCertification } from "@components/organisms/EducationCertification";
 import { LocationPreferences } from "@components/organisms/LocationPreferences";
-import { LoginSetup } from "@components/organisms/LoginSetup";
 import { SetupYourDiscipline } from "@components/organisms/SetupYourDiscipline";
 
 const user = {
@@ -40,7 +36,9 @@ const user = {
     country: 'USA',
     jobTitle: 'Senior Developer',
     name: 'Lareb Nawab',
-    discipline: 'Occupational Therapist'
+    discipline: 'Occupational Therapist',
+    experience: "5+ years",
+    education: "DASC University"
 };
 
 export const ONBOARDING_VIEW = {
@@ -100,39 +98,88 @@ export const AccountProfile = (props) => {
                     <Tooltip title="Edit">
                         <IconButton onClick={() => handleClickOpen('job_preferences')}>
                             <Avatar sx={{
-                                height: 164,
+                                height: 136,
                                 mb: 2,
-                                width: 164,
+                                width: 136,
                             }}>
                                 <FavoriteIcon sx={{ height: 120, width: 120, color: "red" }} />
                             </Avatar>
                         </IconButton>
                     </Tooltip>
 
+                    <Tooltip title="Click to edit" arrow>
+                        <Typography
+                            color="textPrimary"
+                            gutterBottom
+                            variant="h5"
+                        >
+                            <Link color="textPrimary" underline='none' onClick={() => handleClickOpen('personal_details')}>{user.name}</Link>
+                        </Typography>
+                    </Tooltip>
                     
-                            
-                    <Typography
-                        color="textPrimary"
-                        gutterBottom
-                        variant="h5"
-                    >
-                        {user.name}<Link onClick={() => handleClickOpen('personal_details')}><CreateOutlinedIcon /></Link>
-                    </Typography>
                     <Typography
                         color="textSecondary"
                         variant="body2"
                     >
                         {`${user.city} ${user.country}`}
                     </Typography>
-                     gutterBottom
-                    <Typography
-                        color="textSecondary"
-                        variant="h6"
-                    >
-                        {user.discipline}<Link onClick={() => handleClickOpen('setup_your_discipline')}><CreateOutlinedIcon /></Link>
-                    </Typography>
+                    
+                    <Tooltip title="Click to edit" arrow>
+                        <Typography
+                            color="textSecondary"
+                            variant="body1"
+                        >
+                            <Link color="textPrimary" underline='none' onClick={() => handleClickOpen('setup_your_discipline')}>{user.discipline}</Link>
+                        </Typography>
+                    </Tooltip>
                 </Box>
             </CardContent>
+            <Box sx={{ flexGrow: 1 }} />
+            <Divider />
+            <Box sx={{ p: 2 }}>
+                <Grid
+                    container
+                    spacing={2}
+                    sx={{ justifyContent: 'space-between' }}
+                >
+                    <Grid
+                        item
+                        sx={{
+                            alignItems: 'center',
+                            display: 'flex'
+                        }}
+                    >
+                        <Tooltip title="Click to edit" arrow>
+                            <Typography
+                                color="textSecondary"
+                                display="inline"
+                                sx={{ pl: 1 }}
+                                variant="body2"
+                            >
+                                <Link variant="body2" color="textSecondary" underline='none' onClick={() => handleClickOpen('setup_your_discipline')}>{user.experience}</Link>
+                            </Typography>
+                        </Tooltip>
+                    </Grid>
+                    <Grid
+                        item
+                        sx={{
+                            alignItems: 'center',
+                            display: 'flex'
+                        }}
+                    >
+                        <Tooltip title="Click to edit" arrow>
+                            <Typography
+                                color="textSecondary"
+                                display="inline"
+                                sx={{ pl: 1 }}
+                                variant="body2"
+                            >
+                              <Link variant="body2" color="textSecondary" underline='none' onClick={() => handleClickOpen('education_certifications')}>{user.education}</Link>
+                            </Typography>
+                        </Tooltip>
+                    </Grid>
+                </Grid>
+            </Box>
             
             <Dialog
                 fullScreen={fullScreen}

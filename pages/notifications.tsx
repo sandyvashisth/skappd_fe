@@ -7,7 +7,7 @@ import { LocationPreferences } from "@components/organisms/LocationPreferences";
 import { LoginSetup } from "@components/organisms/LoginSetup";
 import { PersonalDetails } from "@components/organisms/PersonalDetails";
 import { SetupYourDiscipline } from "@components/organisms/SetupYourDiscipline";
-import { Grid, Theme, useMediaQuery, Box, Container, Typography } from "@mui/material";
+import { Grid, Theme, useMediaQuery, Box, Container, Typography, Divider } from "@mui/material";
 import {
   onboarding_steps,
   progress_status,
@@ -27,7 +27,19 @@ import DialogTitle from '@mui/material/DialogTitle';
 import { useTheme } from '@mui/material/styles';
 
 import { AccountProfile } from '@components/layout/my_profile/account-profile.js';
-import { SettingsNotifications } from '@components/layout/settings/settings-notifications';
+import { Certifications } from '@components/layout/settings/certifications';
+import { Skills } from '@components/layout/settings/skills';
+import { Trophy } from '@components/layout/my_profile/Trophy';
+import { StatisticsCard } from '@components/layout/my_profile/StatisticsCard';
+import { WeeklyOverview } from '@components/layout/my_profile/WeeklyOverview'
+import { TotalEarning } from '@components/layout/my_profile/TotalEarning'
+import CardStatisticsVerticalComponent from '@components/molecules/card-statistics'
+import PollOutlinedIcon from '@mui/icons-material/PollOutlined';
+import MonetizationOnOutlinedIcon from '@mui/icons-material/MonetizationOnOutlined';
+
+import CardTwitter from '@components/layout/notifications/CardTwitter';
+import CardFacebook from '@components/layout/notifications/CardFacebook';
+import CardLinkedIn from '@components/layout/notifications/CardLinkedIn';
 
 const drawerWidth = 264;
 
@@ -42,7 +54,7 @@ export const ONBOARDING_VIEW = {
   benefits_priorities: BenefitsPriorities,
 };
 
-const Onboarding = (props) => {
+const Notification = (props) => {
   const [activeStepData, setActiveStep] = useAtom(udpate_step);
   const [allSteps] = useAtom(onboarding_steps);
   const [progressStatus] = useAtom(progress_status);
@@ -66,6 +78,12 @@ const Onboarding = (props) => {
   };
   const container = window !== undefined ? () => window().document.body : undefined;
 
+  const notifications = [
+    { title: "Confirmation Email", message: "A confirmation email has been sent to your registered email, please check.", time: "2 Nov 2022 10.45 pm"},
+    { title: "Profile Verification failed", message: "The uploaded resume seems incomplete, for better job reach please provide a valid resume.", time: "4 Nov 2022 10.45 pm" },
+    { title: "Profile Verification Success", message: "Your Profile has been activated. Happy Job huntung!!.", time: "14 Nov 2022 10.45 pm" },
+  ]
+
   return (
     <main>
       <ResponsiveAppBar />
@@ -83,7 +101,6 @@ const Onboarding = (props) => {
             minHeight: `calc(100vh - ${isDesktop ? "68px" : "104px"})`,
           }}
         >
-          
           <Box
             component="main"
             sx={{
@@ -96,61 +113,45 @@ const Onboarding = (props) => {
                 sx={{ mb: 3 }}
                 variant="h4"
               >
-                Account
+                My Profile
               </Typography>
+              <Typography
+                sx={{ mb: 3 }}
+                variant="body2"
+              >
+                You can update your Profile and Job Preferences
+              </Typography>
+
               <Grid
                 container
                 spacing={3}
               >
-                <Grid
-                  item
-                  lg={4}
-                  md={6}
-                  xs={12}
-                >
-                  <AccountProfile />
+
+                <Grid item xs>
+                  <h2>Account Notifications</h2>
+                  {notifications.map((notification, index) => (
+                    <CardTwitter title={notification.title} message={notification.message} time={notification.time} />
+                  ))}
                 </Grid>
-                <Grid
-                  item
-                  lg={8}
-                  md={6}
-                  xs={12}
-                >
-                  <SettingsNotifications />
+                
+                <Divider orientation="vertical" flexItem />
+               
+                <Grid item xs>
+                  <h2>Job Notifications</h2>
+                  {/* <CardFacebook /> */}
                 </Grid>
+               
+                <Divider orientation="vertical" flexItem />
+               
+                <Grid item xs>
+                  <h2>Payment Notifications</h2>
+                  {/* <CardLinkedIn /> */}
+                </Grid>
+
               </Grid>
+
             </Container>
           </Box>
-
-
-          <Button variant="outlined" onClick={handleClickOpen}>
-            Open responsive dialog
-          </Button>
-          <Dialog
-            fullScreen={fullScreen}
-            open={open}
-            onClose={handleClose}
-            aria-labelledby="responsive-dialog-title"
-          >
-            <DialogTitle id="responsive-dialog-title">
-              {"Use Google's location service?"}
-            </DialogTitle>
-            <DialogContent>
-              <PersonalDetails showFooter={false} />
-              <DialogContentText>
-                Let Google help apps determine location. This means sending anonymous
-                location data to Google, even when no apps are running.
-              </DialogContentText>
-            </DialogContent>
-            <DialogActions>
-              {/* <Button autoFocus onClick={handleClose}>
-                Disagree
-              </Button>
-              <Button onClick={handleClose} autoFocus>
-                Agree
-              </Button> */}
-            </DialogActions>
-          </Dialog>
 
         </Grid>
       </Grid>
@@ -158,7 +159,7 @@ const Onboarding = (props) => {
   );
 };
 
-Onboarding.propTypes = {
+Notification.propTypes = {
   /**
    * Injected by the documentation to work in an iframe.
    * You won't need it on your project.
@@ -166,4 +167,4 @@ Onboarding.propTypes = {
   window: PropTypes.func,
 };
 
-export default Onboarding;
+export default Notification;
