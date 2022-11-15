@@ -13,6 +13,7 @@ import { useController } from "react-hook-form";
 import { useMediaQuery, Theme } from "@mui/material";
 import { FormFooter } from "@components/atoms/FormFooter";
 import { set_step_completed } from "@state/onboarding";
+import { useRouter } from "next/router";
 import { useAtom } from "jotai";
 import { DragEvent, FormEvent } from "react";
 import DriveFolderUploadIcon from "@mui/icons-material/DriveFolderUpload";
@@ -21,7 +22,7 @@ export const UploadDocuments = ({ showFooter = true }: { showFooter: Boolean }) 
   const formInstance = useForm({
     resolver: yupResolver(uploadResumeSchema),
   });
-
+const router = useRouter();
   const {
     control,
     handleSubmit,
@@ -49,6 +50,7 @@ export const UploadDocuments = ({ showFooter = true }: { showFooter: Boolean }) 
   const onSubmit = (formData: any) => {
     console.log("Form Data ===> ", formData);
     setStepComplete(activeStep?.id);
+    router.push("/dashboard");
   };
 
   const onDropFile = (e: DragEvent) => {
