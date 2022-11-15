@@ -120,6 +120,7 @@ const router = useRouter();
               aria-label="Resume summary textarea"
               placeholder="Please enter a short summary"
               multiline
+              minRows="3"
               value={summaryValue}
               sx={{ width: "100%", border: "none", padding: "8px" }}
               onChange={handleResumeSummaryChange}
@@ -140,7 +141,10 @@ const router = useRouter();
             />
           </Button>
           {errors.resume && (
-            <FormHelperText error sx={{ my: 2, fontSize: "14px", textAlign: "center" }}>
+            <FormHelperText
+              error
+              sx={{ my: 2, fontSize: "14px", textAlign: "center" }}
+            >
               {errors.resume?.message as string}
             </FormHelperText>
           )}
