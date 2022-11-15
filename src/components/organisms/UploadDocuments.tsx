@@ -57,14 +57,16 @@ export const UploadDocuments = ({ showFooter = true }: { showFooter: Boolean }) 
     onResumeFileChange(resume);
   };
 
-  const onFileInput = (e: FormEvent<HTMLFormElement>) => {
+  const onFileInput = (e: FormEvent<HTMLInputElement>) => {
     e.preventDefault();
-    onResumeFileChange(e.target.files);
+    const target = e.target as HTMLInputElement;
+    onResumeFileChange(target.files);
   };
 
   const handleResumeSummaryChange = (e: React.SyntheticEvent) => {
     e.preventDefault();
-    onSummaryChange(e.currentTarget.value);
+    const target = e.target as HTMLInputElement;
+    onSummaryChange(target.value);
   };
 
   const isDesktop = useMediaQuery((theme: Theme) => theme.breakpoints.up("sm"));
