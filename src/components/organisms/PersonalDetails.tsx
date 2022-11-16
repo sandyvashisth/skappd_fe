@@ -37,7 +37,7 @@ export const PersonalDetails = ({
     console.log("Form Data ===> ", formData);
 
     try {
-      await api.put("profile", {
+      await api.put("v1/profile", {
         user: {
           full_name: formData.fullName,
           address: `${formData.address} ${formData.city.label} ${formData.state.label} ${formData.zip}`,
