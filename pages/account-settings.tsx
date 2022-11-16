@@ -59,7 +59,7 @@ export const ONBOARDING_VIEW = {
 };
 
 
-const Onboarding = (props) => {
+const Onboarding = () => {
   const router = useRouter();
   const { isAuthenticated, loading } = useAuth();
 

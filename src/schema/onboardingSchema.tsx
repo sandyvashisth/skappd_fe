@@ -6,10 +6,11 @@ export const PersonalDetailsSchema = yup.object().shape({
     .matches(/^\D*$/, "Please enter a valid full name.")
     .required("Please enter full name."),
   address: yup.string().required("Please enter an address."),
-  city: yup
-    .object()
-    .shape({ value: yup.string(), label: yup.string() })
-    .required("Please select a city."),
+  city: yup.string().required("Please enter an address."),
+  // city: yup
+  //   .object()
+  //   .shape({ value: yup.string(), label: yup.string() })
+  //   .required("Please select a city."),
   state: yup
     .object()
     .shape({ value: yup.string(), label: yup.string() })
@@ -26,9 +27,9 @@ export const LevelOfComfortSchema = yup.object().shape({
 });
 
 export const JobPreferencesSchema = yup.object().shape({
-  jobStatus: yup.string().nullable().required("Please select an option."),
-  typeOfPosition: yup.array().min(1, "Please select an option."),
-  shift: yup.array().min(1, "Please select at least an option."),
+  status: yup.string().nullable().required("Please select an option."),
+  typeOfPositions: yup.array().min(1, "Please select an option."),
+  shifts: yup.array().min(1, "Please select at least an option."),
 });
 
 export const educationCertificateSchema = yup.object().shape({

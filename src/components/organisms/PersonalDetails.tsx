@@ -1,5 +1,5 @@
 import { Box, Grid, Typography, Button, CardMedia } from "@mui/material";
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { FormTextField } from "@components/atoms/FormTextField";
 import { yupResolver } from "@hookform/resolvers/yup";
@@ -31,23 +31,61 @@ export const PersonalDetails = ({
   const {
     control,
     handleSubmit,
+    reset,
     formState: { errors },
   } = formInstance;
   const [activeStep, setStepComplete] = useAtom(set_step_completed);
 
+  // For floting notification bar
   const [open, setOpen] = React.useState(false);
   const [notificationMessage, setNotificationMessage] = React.useState(false);
+
+  // For logged in user details
+  const [profile, setProfile] = useState({})
+
+  // Prefilled form
+  useEffect(() => {
+    getProfile()
+  }, [])
+
+
+  const getProfile = async () => {
+    try {
+      let profile = await api.get("v1/profile");
+      let user = profile.data.data;      
+      let stateObj = states.find(o => o.label === user.state);
+      setProfile(user)
+      console.log("^^^^^^^^^^^^^^", stateObj)
+      reset({
+          fullName: user.full_name,
+          address: user.address,
+          zip: user.zip_code,
+          city: user.city,
+          state: stateObj,
+        });
+
+    } catch (err: any) {
+      toast.error(err?.message || err);
+    }    
+  }
+
+  // submit the form 
   const onSubmit = async (formData: any) => {
-    console.log("Form Data ===> ", formData);
+
+    console.log(formData, "===========")
 
     try {
       await api.put("v1/profile", {
         user: {
           full_name: formData.fullName,
-          address: `${formData.address} ${formData.city.label} ${formData.state.label} ${formData.zip}`,
+          address: formData.address,
+          state: formData.state.label,
+          city: formData.city.label,
+          zip_code: formData.zip
         },
       });
-      setNotificationMessage("Saving...")
+      
+      setNotificationMessage("Profile Updated...")
       setOpen(true);
       setStepComplete(activeStep?.id);
     } catch (err: any) {
@@ -59,17 +97,14 @@ export const PersonalDetails = ({
   return (
     <Box sx={{ p: [2, 4] }}>
       <Typography variant="h6">Personal Details</Typography>
-      <Typography
-        sx={{
-          display: "flex",
-          alignItems: "center",
-        }}
-      >
-        Welcome on board!!<br/>
+      <Typography variant="body1">
+        Welcome on board {profile && ( profile.full_name )}!!;
+      </Typography>
+      <Typography variant="body2">
         As a part of registration please provide the following details to complete the profile. 
       </Typography>
         
-      <form onSubmit={handleSubmit(onSubmit)}>
+      <form onSubmit={handleSubmit(onSubmit)} >
         <Grid container spacing={4} sx={{ mt: 4, mb: 8 }}>
           <Grid item xs={12} md={6}>
             <Typography sx={{ mb: 2 }}>Name</Typography>
@@ -117,7 +152,16 @@ export const PersonalDetails = ({
             </Grid>
             <Grid container spacing={4} sx={{ mb: 4 }}>
               <Grid item xs={12} md={6}>
-                <FormMultipleSelect
+                <FormTextField
+                  field={{
+                    name: "city",
+                    label: "City",
+                    control: control,
+                    error: errors?.city,
+                    options: { autoCapitalize: true },
+                  }}
+                />
+                {/* <FormMultipleSelect
                   field={{
                     name: "city",
                     label: "City",
@@ -130,7 +174,7 @@ export const PersonalDetails = ({
                   isShowInputLabel={true}
                   isMultiSelect={false}
                   formInstance={formInstance}
-                />
+                /> */}
               </Grid>
               <Grid item xs={12} md={6}>
                 <FormTextField
@@ -170,9 +214,9 @@ export const PersonalDetails = ({
         {showFooter ? <FormFooter /> : ""}
       </form>
       <Snackbar
-        open={true}
+        open={open}
         autoHideDuration={6000}
-        message={"Bro.."}
+        message={notificationMessage}
       />
     </Box>
   );
