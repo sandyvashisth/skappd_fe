@@ -73,7 +73,7 @@ export const active_step = atom((get) =>
   get(onboarding_steps).find((item) => item.active === true)
 );
 
-export const udpate_step = atom(
+export const update_step = atom(
   (get) => {
     let activeStepIndex = 0;
     const activeStep = get(onboarding_steps).find((item, index) => {
