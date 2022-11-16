@@ -1,6 +1,6 @@
 import styled from "@emotion/styled";
 import { Button, Grid, Theme, useMediaQuery } from "@mui/material";
-import { onboarding_steps, udpate_step } from "@state/onboarding";
+import { onboarding_steps, update_step } from "@state/onboarding";
 import { useAtom } from "jotai";
 
 const BackButton = styled(Button)`
@@ -29,7 +29,7 @@ const StyledGrid = styled(Grid)`
 
 export const FormFooter = () => {
   const isDesktop = useMediaQuery((theme: Theme) => theme.breakpoints.up("sm"));
-  const [activeStepData, setActiveStep] = useAtom(udpate_step);
+  const [activeStepData, setActiveStep] = useAtom(update_step);
   const [allSteps] = useAtom(onboarding_steps);
   const { activeStep } = activeStepData;
 

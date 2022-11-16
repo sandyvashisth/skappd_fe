@@ -15,7 +15,7 @@ import { Grid, Theme, useMediaQuery } from "@mui/material";
 import {
   onboarding_steps,
   progress_status,
-  udpate_step,
+  update_step,
 } from "@state/onboarding";
 import { useAtom } from "jotai";
 import { useAuth } from "context/AuthContext";
@@ -35,7 +35,7 @@ export const ONBOARDING_VIEW = {
 };
 
 const Onboarding = () => {
-  const [activeStepData, setActiveStep] = useAtom(udpate_step);
+  const [activeStepData, setActiveStep] = useAtom(update_step);
   const [allSteps] = useAtom(onboarding_steps);
   const [progressStatus] = useAtom(progress_status);
   const { activeStep }: { activeStep: any } = activeStepData;

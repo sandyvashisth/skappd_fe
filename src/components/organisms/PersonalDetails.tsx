@@ -11,7 +11,6 @@ import { FormMultipleSelect } from "@components/atoms/FormMultipleSelect";
 import { states } from "src/constants/onboarding";
 import api from "@/services/api";
 import { useToast } from "use-toast-mui";
-import { AxiosError } from "axios";
 
 export const PersonalDetails = ({
   showFooter = true,

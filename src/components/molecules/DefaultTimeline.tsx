@@ -44,7 +44,7 @@ export const DefaultTimeline = ({
             {index < steps.length - 1 && <TimelineConnector />}
           </TimelineSeparator>
           <TimelineContent
-            onClick={() => setActive(step.id)}
+            onClick={() => step.status !== "completed" && setActive(step.id)}
             sx={{
               pointerEvents: step.id === "login_setup" ? "none" : "auto",
               userSelect: "none",
