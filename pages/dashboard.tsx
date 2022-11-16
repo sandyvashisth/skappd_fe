@@ -73,7 +73,7 @@ const Onboarding = (props) => {
     }
   }, [router, isAuthenticated]);
 
-  const [activeStepData, setActiveStep] = useAtom(udpate_step);
+  const [activeStepData, setActiveStep] = useAtom(update_step);
   const [allSteps] = useAtom(onboarding_steps);
   const [progressStatus] = useAtom(progress_status);
   const { activeStep }: { activeStep: any } = activeStepData;
@@ -92,7 +92,7 @@ const Onboarding = (props) => {
   const handleClose = () => {
     setOpen(false);
   };
-  const container = window !== undefined ? window.document.body : undefined;
+  // const container = window !== undefined ? window.document.body : undefined;
 
   return (
     <main>
@@ -101,7 +101,7 @@ const Onboarding = (props) => {
         <Loader />
       ) : (
       <Grid container>
-        <SideBar isDesktopView={isDesktop} container={container} />
+            <SideBar container isDesktopView={isDesktop} />
 
         <Grid
           item

@@ -166,14 +166,18 @@ export const ResponsiveAppBar = () => {
                     open={Boolean(anchorElUser)}
                     onClose={handleCloseUserMenu}
                   >
-                    {settings.map((setting) => (
-                      <MenuItem
-                        key={setting}
-                        onClick={(e) => handleCloseUserMenu(e, setting)}
-                      >
-                        <Typography textAlign="center">{setting}</Typography>
-                      </MenuItem>
-                    ))}
+                    <MenuItem
+                      key="my-profile"
+                      onClick={() => myProfileRedirect()}
+                    >
+                      <Typography textAlign="center">My Profile</Typography>
+                    </MenuItem>
+                    <MenuItem
+                      key="Logout"
+                      onClick={(e) => sessionLogout(e)}
+                    >
+                      <Typography textAlign="center">Logout</Typography>
+                    </MenuItem>
                   </Menu>
                 </>
               ) : (

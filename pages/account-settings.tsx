@@ -134,7 +134,7 @@ const Onboarding = (props) => {
     </div>
   );
 
-  const container = window !== undefined ? window.document.body : undefined;
+  // const container = window !== undefined ? window.document.body : undefined;
 
   return (
     <main>
@@ -143,7 +143,7 @@ const Onboarding = (props) => {
         <Loader />
       ) : (
       <Grid container>
-        <SideBar isDesktopView={isDesktop} container={container} />
+          <SideBar container isDesktopView={isDesktop} />
 
         <Grid
           item
