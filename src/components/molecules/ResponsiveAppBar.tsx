@@ -53,7 +53,7 @@ export const ResponsiveAppBar = () => {
 
   return (
     <AppBar
-      position="fixed"
+      position="relative"
       sx={{
         background: "#FFFFFF",
         boxShadow: "none",
