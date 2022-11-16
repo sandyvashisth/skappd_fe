@@ -36,12 +36,12 @@ export const ONBOARDING_VIEW = {
 const Notification = (props) => {
   const router = useRouter();
   const { isAuthenticated, loading } = useAuth();
-
+  
   useEffect(() => {
-    if (!isAuthenticated) {
+    if (!loading && !isAuthenticated) {
       router.replace("/login");
     }
-  }, [router, isAuthenticated]);
+  }, [router, isAuthenticated, loading]);
   const isDesktop = useMediaQuery((theme: Theme) => theme.breakpoints.up("sm"));
   
   const { window } = props;

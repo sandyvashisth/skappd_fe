@@ -34,9 +34,7 @@ import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
 import { useTheme } from "@mui/material/styles";
 
-import { AccountProfile } from "@components/layout/my_profile/account-profile.js";
-import { Certifications } from "@components/layout/settings/certifications";
-import { Skills } from "@components/layout/settings/skills";
+
 import { Trophy } from "@components/layout/my_profile/Trophy";
 import { StatisticsCard } from "@components/layout/my_profile/StatisticsCard";
 import { WeeklyOverview } from "@components/layout/my_profile/WeeklyOverview";
@@ -68,10 +66,10 @@ const Onboarding = (props) => {
   const { isAuthenticated, loading } = useAuth();
 
   useEffect(() => {
-    if (!isAuthenticated) {
+    if (!loading && !isAuthenticated) {
       router.replace("/login");
     }
-  }, [router, isAuthenticated]);
+  }, [router, isAuthenticated, loading]);
 
   const [activeStepData, setActiveStep] = useAtom(update_step);
   const [allSteps] = useAtom(onboarding_steps);
@@ -101,7 +99,7 @@ const Onboarding = (props) => {
         <Loader />
       ) : (
       <Grid container>
-            <SideBar container isDesktopView={isDesktop} />
+        <SideBar container isDesktopView={isDesktop} />
 
         <Grid
           item
