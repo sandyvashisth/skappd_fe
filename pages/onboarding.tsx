@@ -47,10 +47,10 @@ const Onboarding = () => {
   const { isAuthenticated, loading } = useAuth();
 
   useEffect(() => {
-    if (!isAuthenticated) {
+    if (!loading && !isAuthenticated) {
       router.replace("/login");
     }
-  }, [router, isAuthenticated]);
+  }, [router, isAuthenticated, loading]);
 
   return (
     <main>

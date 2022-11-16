@@ -34,7 +34,7 @@ const yupSchema = {
   signup: SignUpSchema,
 };
 
-export const SigningLayout = ({ page = 'login' }: { page: SchemaKeys }) => {
+export const SigningLayout = ({ page = "login" }: { page: SchemaKeys }) => {
   const router = useRouter();
   const formInstance = useForm<{
     email?: string;
@@ -51,7 +51,7 @@ export const SigningLayout = ({ page = 'login' }: { page: SchemaKeys }) => {
     trigger,
   } = formInstance;
   const isDesktop = useMediaQuery((theme: Theme) => theme.breakpoints.up("sm"));
-  const { createAccount, login, isAuthenticated } = useAuth();
+  const { createAccount, login, isAuthenticated, loading } = useAuth();
   const [signingError, setSigningError] = useState<string>("");
   useEffect(() => {
     if (isAuthenticated) {
@@ -62,9 +62,10 @@ export const SigningLayout = ({ page = 'login' }: { page: SchemaKeys }) => {
   const handleOnSubmit = async (formData: any) => {
     console.log("Form Data ===> ", formData);
     try {
-        const onSubmit = page === PAGES.SIGN_UP ? createAccount : login;
+      const onSubmit = page === PAGES.SIGN_UP ? createAccount : login;
       if (onSubmit) {
         await onSubmit(formData.email, formData.password, formData.cnfPassword);
+        router.replace("/onboarding");
       }
     } catch (e) {
       if (e instanceof AxiosError && e.response?.data.error) {
@@ -91,6 +92,10 @@ export const SigningLayout = ({ page = 'login' }: { page: SchemaKeys }) => {
       );
     else return null;
   };
+
+  if (loading) {
+    return null;
+  }
   return (
     <main>
       <ResponsiveAppBar />
