@@ -43,11 +43,19 @@ export const ResponsiveAppBar = () => {
     setAnchorElNav(null);
   };
 
-  const handleCloseUserMenu = (event: any, key: string) => {
-    if (key === "Logout" && logout) {
+  const sessionLogout = (e: any) => {
+    if (logout) {
       logout();
     }
-    console.log("lele", event, key);
+    handleCloseUserMenu(e);
+  }
+
+  const myProfileRedirect = () => {
+    router.replace('/dashboard');
+  }
+
+  const handleCloseUserMenu = (event: any) => {
+    console.log("lele", event);
     setAnchorElUser(null);
   };
 

@@ -1,4 +1,4 @@
-import { Box, Grid, Typography, Button } from "@mui/material";
+import { Box, Grid, Typography, Button, CardMedia } from "@mui/material";
 import React from "react";
 import { useForm } from "react-hook-form";
 import { FormTextField } from "@components/atoms/FormTextField";
@@ -11,6 +11,7 @@ import { FormMultipleSelect } from "@components/atoms/FormMultipleSelect";
 import { states } from "src/constants/onboarding";
 import api from "@/services/api";
 import { useToast } from "use-toast-mui";
+import Snackbar from '@mui/material/Snackbar';
 
 export const PersonalDetails = ({
   showFooter = true,
@@ -33,6 +34,9 @@ export const PersonalDetails = ({
     formState: { errors },
   } = formInstance;
   const [activeStep, setStepComplete] = useAtom(set_step_completed);
+
+  const [open, setOpen] = React.useState(false);
+  const [notificationMessage, setNotificationMessage] = React.useState(false);
   const onSubmit = async (formData: any) => {
     console.log("Form Data ===> ", formData);
 
@@ -43,10 +47,13 @@ export const PersonalDetails = ({
           address: `${formData.address} ${formData.city.label} ${formData.state.label} ${formData.zip}`,
         },
       });
+      setNotificationMessage("Saving...")
+      setOpen(true);
       setStepComplete(activeStep?.id);
     } catch (err: any) {
       toast.error(err?.message || err);
     }
+
   };
 
   return (
@@ -58,9 +65,10 @@ export const PersonalDetails = ({
           alignItems: "center",
         }}
       >
-        {/* <AccessTimeIcon fontSize="small" /> 1-2 mins */}
+        Welcome on board!!<br/>
+        As a part of registration please provide the following details to complete the profile. 
       </Typography>
-
+        
       <form onSubmit={handleSubmit(onSubmit)}>
         <Grid container spacing={4} sx={{ mt: 4, mb: 8 }}>
           <Grid item xs={12} md={6}>
@@ -75,6 +83,7 @@ export const PersonalDetails = ({
               }}
             />
           </Grid>
+
           <Grid item xs={12}>
             <Typography sx={{ mb: 2 }}>Address</Typography>
             <Grid container spacing={4} sx={{ mb: 4 }}>
@@ -133,6 +142,20 @@ export const PersonalDetails = ({
                   }}
                 />
               </Grid>
+
+              
+
+              
+              <Grid container>
+                <CardMedia
+                  component="img"
+                  sx={{ width: 151 }}
+                  image="/images/pose-m-1.png"
+                  alt="Live from space album cover"
+                />
+              </Grid>
+
+
             </Grid>
           </Grid>
 
@@ -146,6 +169,11 @@ export const PersonalDetails = ({
 
         {showFooter ? <FormFooter /> : ""}
       </form>
+      <Snackbar
+        open={true}
+        autoHideDuration={6000}
+        message={"Bro.."}
+      />
     </Box>
   );
 };
