@@ -61,7 +61,7 @@ export const ONBOARDING_VIEW = {
   benefits_priorities: BenefitsPriorities,
 };
 
-const Onboarding = (props) => {
+const Onboarding = (props: any) => {
   const router = useRouter();
   const { isAuthenticated, loading } = useAuth();
 
@@ -99,7 +99,7 @@ const Onboarding = (props) => {
         <Loader />
       ) : (
       <Grid container>
-        <SideBar container isDesktopView={isDesktop} />
+        <SideBar isDesktopView={isDesktop} />
 
         <Grid
           item

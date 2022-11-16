@@ -36,7 +36,7 @@ export const PersonalDetails = ({
   const [activeStep, setStepComplete] = useAtom(set_step_completed);
 
   const [open, setOpen] = React.useState(false);
-  const [notificationMessage, setNotificationMessage] = React.useState(false);
+  const [notificationMessage, setNotificationMessage] = React.useState<string>('');
   const onSubmit = async (formData: any) => {
     console.log("Form Data ===> ", formData);
 

@@ -33,7 +33,7 @@ export const ONBOARDING_VIEW = {
   benefits_priorities: BenefitsPriorities,
 };
 
-const Notification = (props) => {
+const Notification = (props: any) => {
   const router = useRouter();
   const { isAuthenticated, loading } = useAuth();
   
@@ -75,7 +75,7 @@ const Notification = (props) => {
         <Loader />
       ) : (
       <Grid container>
-        <SideBar isDesktopView={isDesktop} container={container} />
+        <SideBar isDesktopView={isDesktop} />
 
         <Grid
           item
