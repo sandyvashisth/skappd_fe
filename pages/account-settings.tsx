@@ -34,21 +34,16 @@ import { Box, Container, Grid, Typography } from "@mui/material";
 
 import { useState, useEffect } from "react";
 
-import { useRouter } from "next/router";
-
 // ** MUI Imports
-import TabList from "@mui/lab/TabList";
-import TabPanel from "@mui/lab/TabPanel";
-import TabContext from "@mui/lab/TabContext";
-import { styled } from "@mui/material/styles";
-import MuiTab from "@mui/material/Tab";
+import TabList from '@mui/lab/TabList'
+import TabPanel from '@mui/lab/TabPanel'
+import TabContext from '@mui/lab/TabContext'
+import { styled } from '@mui/material/styles'
+import MuiTab from '@mui/material/Tab'
 
-// import { AccountProfile } from '@components/layout/my_profile/account-profile.js';
-// import { AccountProfileDetails } from '@components/layout/my_profile/account-profile-details';
-// import { DashboardLayout } from '../components/dashboard-layout';
-
-// import TabAccount from '@components/layout/account-settings/TabAccount'
-// import { PriorityHigh } from "@mui/icons-material";
+import { Loader } from "@components/atoms/Loader";
+import { useRouter } from "next/router";
+import { useAuth } from "context/AuthContext";
 
 const drawerWidth = 264;
 
@@ -63,8 +58,16 @@ export const ONBOARDING_VIEW = {
   benefits_priorities: BenefitsPriorities,
 };
 
-const Onboarding = (props: unknown) => {
+
+const Onboarding = (props) => {
   const router = useRouter();
+  const { isAuthenticated, loading } = useAuth();
+
+  useEffect(() => {
+    if (!isAuthenticated) {
+      router.replace("/login");
+    }
+  }, [router, isAuthenticated]);
 
   const [activeStepData, setActiveStep] = useAtom(update_step);
   const [allSteps] = useAtom(onboarding_steps);
@@ -136,6 +139,9 @@ const Onboarding = (props: unknown) => {
   return (
     <main>
       <ResponsiveAppBar />
+      {loading ? (
+        <Loader />
+      ) : (
       <Grid container>
         <SideBar isDesktopView={isDesktop} container={container} />
 
@@ -282,6 +288,7 @@ const Onboarding = (props: unknown) => {
           </Box>
         </Grid>
       </Grid>
+      )}
     </main>
   );
 };

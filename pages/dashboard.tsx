@@ -22,8 +22,9 @@ import {
 } from "@state/onboarding";
 import { useAtom } from "jotai";
 
-import * as React from "react";
-import PropTypes from "prop-types";
+import { useEffect } from "react";
+import * as React from 'react';
+import PropTypes from 'prop-types';
 import { SideBar } from "@components/layout/SideBar";
 import Button from "@mui/material/Button";
 import Dialog from "@mui/material/Dialog";
@@ -44,6 +45,11 @@ import CardStatisticsVerticalComponent from "@components/molecules/card-statisti
 import PollOutlinedIcon from "@mui/icons-material/PollOutlined";
 import MonetizationOnOutlinedIcon from "@mui/icons-material/MonetizationOnOutlined";
 
+import { Loader } from "@components/atoms/Loader";
+import { useRouter } from "next/router";
+import { useAuth } from "context/AuthContext";
+
+
 const drawerWidth = 264;
 
 export const ONBOARDING_VIEW = {
@@ -57,8 +63,17 @@ export const ONBOARDING_VIEW = {
   benefits_priorities: BenefitsPriorities,
 };
 
-const Onboarding = (props: unknown) => {
-  const [activeStepData, setActiveStep] = useAtom(update_step);
+const Onboarding = (props) => {
+  const router = useRouter();
+  const { isAuthenticated, loading } = useAuth();
+
+  useEffect(() => {
+    if (!isAuthenticated) {
+      router.replace("/login");
+    }
+  }, [router, isAuthenticated]);
+
+  const [activeStepData, setActiveStep] = useAtom(udpate_step);
   const [allSteps] = useAtom(onboarding_steps);
   const [progressStatus] = useAtom(progress_status);
   const { activeStep }: { activeStep: any } = activeStepData;
@@ -82,6 +97,9 @@ const Onboarding = (props: unknown) => {
   return (
     <main>
       <ResponsiveAppBar />
+      {loading ? (
+        <Loader />
+      ) : (
       <Grid container>
         <SideBar isDesktopView={isDesktop} container={container} />
 
@@ -205,6 +223,7 @@ const Onboarding = (props: unknown) => {
           </Dialog>
         </Grid>
       </Grid>
+      )}
     </main>
   );
 };
