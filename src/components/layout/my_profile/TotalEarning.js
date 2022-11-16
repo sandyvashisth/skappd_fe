@@ -117,6 +117,7 @@ export const TotalEarning = () => {
                   src={item.imgSrc}
                   alt={item.title}
                   height={item.imgHeight}
+                  layout="fill"
                 />
               </Avatar>
               <Box
