@@ -17,32 +17,31 @@ import {
 } from "@state/onboarding";
 import { useAtom } from "jotai";
 
-import * as React from 'react';
+import * as React from "react";
 
-import PropTypes from 'prop-types';
-import Divider from '@mui/material/Divider';
-import InboxIcon from '@mui/icons-material/MoveToInbox';
-import List from '@mui/material/List';
-import ListItem from '@mui/material/ListItem';
-import ListItemButton from '@mui/material/ListItemButton';
-import ListItemIcon from '@mui/material/ListItemIcon';
-import ListItemText from '@mui/material/ListItemText';
-import MailIcon from '@mui/icons-material/Mail';
-import Toolbar from '@mui/material/Toolbar';
+import PropTypes from "prop-types";
+import Divider from "@mui/material/Divider";
+import InboxIcon from "@mui/icons-material/MoveToInbox";
+import List from "@mui/material/List";
+import ListItem from "@mui/material/ListItem";
+import ListItemButton from "@mui/material/ListItemButton";
+import ListItemIcon from "@mui/material/ListItemIcon";
+import ListItemText from "@mui/material/ListItemText";
+import MailIcon from "@mui/icons-material/Mail";
+import Toolbar from "@mui/material/Toolbar";
 
-import { Box, Container, Grid, Typography } from '@mui/material';
+import { Box, Container, Grid, Typography } from "@mui/material";
 
-import { useState, useEffect } from 'react'
+import { useState, useEffect } from "react";
 
-import { useRouter } from 'next/router';
+import { useRouter } from "next/router";
 
 // ** MUI Imports
-import TabList from '@mui/lab/TabList'
-import TabPanel from '@mui/lab/TabPanel'
-import TabContext from '@mui/lab/TabContext'
-import { styled } from '@mui/material/styles'
-import MuiTab from '@mui/material/Tab'
-
+import TabList from "@mui/lab/TabList";
+import TabPanel from "@mui/lab/TabPanel";
+import TabContext from "@mui/lab/TabContext";
+import { styled } from "@mui/material/styles";
+import MuiTab from "@mui/material/Tab";
 
 // import { AccountProfile } from '@components/layout/my_profile/account-profile.js';
 // import { AccountProfileDetails } from '@components/layout/my_profile/account-profile-details';
@@ -50,7 +49,6 @@ import MuiTab from '@mui/material/Tab'
 
 // import TabAccount from '@components/layout/account-settings/TabAccount'
 // import { PriorityHigh } from "@mui/icons-material";
-
 
 const drawerWidth = 264;
 
@@ -65,8 +63,8 @@ export const ONBOARDING_VIEW = {
   benefits_priorities: BenefitsPriorities,
 };
 
-const Onboarding = (props) => {
-  const router = useRouter()
+const Onboarding = (props: unknown) => {
+  const router = useRouter();
 
   const [activeStepData, setActiveStep] = useAtom(udpate_step);
   const [allSteps] = useAtom(onboarding_steps);
@@ -75,40 +73,38 @@ const Onboarding = (props) => {
   const { id: activeStepId }: { id: keyof typeof ONBOARDING_VIEW } = activeStep;
   const isDesktop = useMediaQuery((theme: Theme) => theme.breakpoints.up("sm"));
   const View = ONBOARDING_VIEW[activeStepId] ?? null;
-  
-  const { window } = props;
   const [mobileOpen, setMobileOpen] = React.useState(false);
-  
-  const hash = 'personal_details'; // router.asPath.split('#')[1];
 
-  const [value, setValue] = useState(hash)
+  const hash = "personal_details"; // router.asPath.split('#')[1];
+
+  const [value, setValue] = useState(hash);
 
   useEffect(() => {
-    let requested_tab = router.asPath.split('#')[1];
-    setValue(requested_tab)
-  }, [hash]);
+    let requested_tab = router.asPath.split("#")[1];
+    setValue(requested_tab);
+  }, [hash, router]);
 
-  const handleChange = (event, newValue) => {
-    setValue(newValue)
-  }
+  const handleChange = (event: React.SyntheticEvent, newValue: string) => {
+    setValue(newValue);
+  };
 
   const Tab = styled(MuiTab)(({ theme }) => ({
-    [theme.breakpoints.down('md')]: {
-      minWidth: 100
+    [theme.breakpoints.down("md")]: {
+      minWidth: 100,
     },
-    [theme.breakpoints.down('sm')]: {
-      minWidth: 67
-    }
-  }))
+    [theme.breakpoints.down("sm")]: {
+      minWidth: 67,
+    },
+  }));
 
-  const TabName = styled('span')(({ theme }) => ({
+  const TabName = styled("span")(({ theme }) => ({
     lineHeight: 1.71,
-    fontSize: '0.875rem',
+    fontSize: "0.875rem",
     marginLeft: theme.spacing(2.4),
-    [theme.breakpoints.down('md')]: {
-      display: 'none'
-    }
-  }))
+    [theme.breakpoints.down("md")]: {
+      display: "none",
+    },
+  }));
 
   const handleDrawerToggle = () => {
     setMobileOpen(!mobileOpen);
@@ -119,31 +115,29 @@ const Onboarding = (props) => {
       <Toolbar />
       <Divider />
       <List>
-        {['Dashboard', 'My Profile', 'Notifications', 'Drafts'].map((text, index) => (
-          <ListItem key={text} disablePadding>
-            <ListItemButton>
-              <ListItemIcon>
-                {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
-              </ListItemIcon>
-              <ListItemText primary={text} />
-            </ListItemButton>
-          </ListItem>
-        ))}
+        {["Dashboard", "My Profile", "Notifications", "Drafts"].map(
+          (text, index) => (
+            <ListItem key={text} disablePadding>
+              <ListItemButton>
+                <ListItemIcon>
+                  {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
+                </ListItemIcon>
+                <ListItemText primary={text} />
+              </ListItemButton>
+            </ListItem>
+          )
+        )}
       </List>
-      
     </div>
   );
 
-  const container = window !== undefined ? () => window().document.body : undefined;
+  const container = window !== undefined ? window.document.body : undefined;
 
   return (
     <main>
       <ResponsiveAppBar />
       <Grid container>
-        <SideBar
-          isDesktopView={isDesktop} 
-          container={container}
-          />
+        <SideBar isDesktopView={isDesktop} container={container} />
 
         <Grid
           item
@@ -157,20 +151,14 @@ const Onboarding = (props) => {
             component="main"
             sx={{
               flexGrow: 1,
-              py: 8
+              py: 8,
             }}
           >
-            <Container maxWidth="">
-              <Typography
-                sx={{ mb: 3 }}
-                variant="h4"
-              >
+            <Container>
+              <Typography sx={{ mb: 3 }} variant="h4">
                 My Profile
               </Typography>
-              <Typography
-                sx={{ mb: 3 }}
-                variant="body2"
-              >
+              <Typography sx={{ mb: 3 }} variant="body2">
                 You can update your Profile and Job Preferences
               </Typography>
 
@@ -179,107 +167,109 @@ const Onboarding = (props) => {
                   <TabList
                     variant="scrollable"
                     onChange={handleChange}
-                    aria-label='account-settings tabs'
-                    sx={{ borderBottom: theme => `1px solid ${theme.palette.divider}` }}
+                    aria-label="account-settings tabs"
+                    sx={{
+                      borderBottom: (theme) =>
+                        `1px solid ${theme.palette.divider}`,
+                    }}
                   >
                     <Tab
-                      value='personal_details'
+                      value="personal_details"
                       label={
-                        <Box sx={{ display: 'flex', alignItems: 'center' }}>
+                        <Box sx={{ display: "flex", alignItems: "center" }}>
                           {/* <AccountOutline /> */}
                           <TabName>Personal Details</TabName>
                         </Box>
                       }
                     />
                     <Tab
-                      value='job_preferences'
+                      value="job_preferences"
                       label={
-                        <Box sx={{ display: 'flex', alignItems: 'center' }}>
+                        <Box sx={{ display: "flex", alignItems: "center" }}>
                           {/* <FieldJobTitle /> */}
                           <TabName>Job Preferences</TabName>
                         </Box>
                       }
                     />
                     <Tab
-                      value='discipline_and_skills'
+                      value="discipline_and_skills"
                       label={
-                        <Box sx={{ display: 'flex', alignItems: 'center' }}>
+                        <Box sx={{ display: "flex", alignItems: "center" }}>
                           {/* <Certificate /> */}
                           <TabName>Discipline & Skills</TabName>
                         </Box>
                       }
                     />
                     <Tab
-                      value='education'
+                      value="education"
                       label={
-                        <Box sx={{ display: 'flex', alignItems: 'center' }}>
+                        <Box sx={{ display: "flex", alignItems: "center" }}>
                           {/* <BookEducationOutline /> */}
                           <TabName>Education & Certification</TabName>
                         </Box>
                       }
                     />
                     <Tab
-                      value='comfort_settings'
+                      value="comfort_settings"
                       label={
-                        <Box sx={{ display: 'flex', alignItems: 'center' }}>
+                        <Box sx={{ display: "flex", alignItems: "center" }}>
                           {/* <Skills /> */}
                           <TabName>Comfort Settings</TabName>
                         </Box>
                       }
                     />
                     <Tab
-                      value='location_preferences'
+                      value="location_preferences"
                       label={
-                        <Box sx={{ display: 'flex', alignItems: 'center' }}>
+                        <Box sx={{ display: "flex", alignItems: "center" }}>
                           {/* <AccountBoxMultiple /> */}
                           <TabName>Location Preferences</TabName>
                         </Box>
                       }
                     />
                     <Tab
-                      value='priorities'
+                      value="priorities"
                       label={
-                        <Box sx={{ display: 'flex', alignItems: 'center' }}>
+                        <Box sx={{ display: "flex", alignItems: "center" }}>
                           {/* <AccountBoxMultiple /> */}
                           <TabName>Priorities</TabName>
                         </Box>
                       }
-                    />   
+                    />
                     <Tab
-                      value='summary_resume'
+                      value="summary_resume"
                       label={
-                        <Box sx={{ display: 'flex', alignItems: 'center' }}>
+                        <Box sx={{ display: "flex", alignItems: "center" }}>
                           {/* <AccountBoxMultiple /> */}
                           <TabName>Bio & Resume</TabName>
                         </Box>
                       }
-                    />                                    
-
+                    />
                   </TabList>
 
-                  <TabPanel sx={{ p: 0 }} value='personal_details'>
+                  <TabPanel sx={{ p: 0 }} value="personal_details">
                     <PersonalDetails showFooter={false} />
                   </TabPanel>
-                  <TabPanel sx={{ p: 0 }} value='job_preferences'>
-                    <JobPreferences showFooter={false}/>
+                  <TabPanel sx={{ p: 0 }} value="job_preferences">
+                    <JobPreferences showFooter={false} />
                   </TabPanel>
-                  <TabPanel sx={{ p: 0 }} value='discipline_and_skills'>
+                  <TabPanel sx={{ p: 0 }} value="discipline_and_skills">
                     <SetupYourDiscipline showFooter={false} />
                   </TabPanel>
 
-                  <TabPanel sx={{ p: 0 }} value='education'>
+                  <TabPanel sx={{ p: 0 }} value="education">
                     <EducationCertification showFooter={false} />
                   </TabPanel>
-                  <TabPanel sx={{ p: 0 }} value='comfort_settings'>
+                  <TabPanel sx={{ p: 0 }} value="comfort_settings">
                     <LevelOfComfort showFooter={false} />
                   </TabPanel>
-                  <TabPanel sx={{ p: 0 }} value='location_preferences'>
+                  <TabPanel sx={{ p: 0 }} value="location_preferences">
                     <LocationPreferences showFooter={false} />
                   </TabPanel>
-                  <TabPanel sx={{ p: 0 }} value='priorities'>
+                  <TabPanel sx={{ p: 0 }} value="priorities">
                     <BenefitsPriorities showFooter={false} />
                   </TabPanel>
-                  <TabPanel sx={{ p: 0 }} value='summary_resume'>
+                  <TabPanel sx={{ p: 0 }} value="summary_resume">
                     <Box>
                       <Box sx={{ mx: 3, mt: 3 }}>
                         <h2>Comming Soon!</h2>
@@ -290,9 +280,7 @@ const Onboarding = (props) => {
               </Card>
             </Container>
           </Box>
-          
         </Grid>
-
       </Grid>
     </main>
   );

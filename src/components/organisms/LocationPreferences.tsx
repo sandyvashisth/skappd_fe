@@ -1,6 +1,6 @@
 import { Box, Grid, Typography, InputAdornment, Button } from "@mui/material";
 import AccessTimeIcon from "@mui/icons-material/AccessTime";
-import { useForm } from "react-hook-form";
+import { FieldError, useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { StepAccordion } from "@components/molecules/StepAccordion";
 import { FormCustomRadioGroup } from "@components/atoms/FormCustomRadioGroup";
@@ -25,13 +25,7 @@ export const LocationPreferences = ({
   const [expanded, setExpanded] = useState<string>("");
   const [activeStep, setStepComplete] = useAtom(set_step_completed);
 
-  const formInstance = useForm<{
-    relocating: string;
-    statePrefer: Array<TFormMultipleSelectOptions>;
-    stateLicenses: Array<TFormMultipleSelectOptions>;
-    languages: Array<TFormMultipleSelectOptions>;
-    nearMiles: string;
-  }>({
+  const formInstance = useForm({
     resolver: yupResolver(LocationPreferenceSchema),
   });
 
@@ -154,7 +148,7 @@ export const LocationPreferences = ({
                     label: "Distance",
                     name: `nearMiles`,
                     control: control,
-                    error: errors?.nearMiles,
+                    error: errors?.nearMiles as FieldError,
                     options: {
                       autoCapitalize: true,
                       endAdornment: (

@@ -1,4 +1,4 @@
-import * as React from 'react';
+import * as React from "react";
 
 import {
   Box,
@@ -16,12 +16,12 @@ import {
   ListItem,
   ListItemText,
   useMediaQuery,
-  Tooltip
-} from '@mui/material';
-import CloseOutlinedIcon from '@mui/icons-material/CloseOutlined';
-import ModeOutlinedIcon from '@mui/icons-material/ModeOutlined';
+  Tooltip,
+} from "@mui/material";
+import CloseOutlinedIcon from "@mui/icons-material/CloseOutlined";
+import ModeOutlinedIcon from "@mui/icons-material/ModeOutlined";
 
-import { useTheme } from '@mui/material/styles';
+import { useTheme } from "@mui/material/styles";
 
 import { ResponsiveAppBar } from "@components/molecules/ResponsiveAppBar";
 import { BenefitsPriorities } from "@components/organisms/BenefitsPriorities";
@@ -33,24 +33,28 @@ import { LoginSetup } from "@components/organisms/LoginSetup";
 import { PersonalDetails } from "@components/organisms/PersonalDetails";
 import { SetupYourDiscipline } from "@components/organisms/SetupYourDiscipline";
 
-import Dialog from '@mui/material/Dialog';
-import DialogActions from '@mui/material/DialogActions';
-import DialogContent from '@mui/material/DialogContent';
-import DialogTitle from '@mui/material/DialogTitle';
+import Dialog from "@mui/material/Dialog";
+import DialogActions from "@mui/material/DialogActions";
+import DialogContent from "@mui/material/DialogContent";
+import DialogTitle from "@mui/material/DialogTitle";
 
 const certifications = {
-  'certifications': 'Board Certified in Gerontology - BCG',
-  'special_certification': 'Specialty Certification in Feeding, Eating, and Swallowing SCFES or SCFES-A)',
-  'related_certifications': ['Assisted Technology Professional (ATP)', 'Physical Agent Modalities (PAM)']
-}
+  certifications: "Board Certified in Gerontology - BCG",
+  special_certification:
+    "Specialty Certification in Feeding, Eating, and Swallowing SCFES or SCFES-A)",
+  related_certifications: [
+    "Assisted Technology Professional (ATP)",
+    "Physical Agent Modalities (PAM)",
+  ],
+};
 
 const skills = [
-  {skill: 'Amputee', experience: '2 years'},
-  {skill: 'IASTM', experience: '1 year' },
-  {skill: 'Strok', experience: '6 months' },
-]
+  { skill: "Amputee", experience: "2 years" },
+  { skill: "IASTM", experience: "1 year" },
+  { skill: "Strok", experience: "6 months" },
+];
 
-const active_licenses = ['Florida', 'New York', 'Oregon']
+const active_licenses = ["Florida", "New York", "Oregon"];
 
 export const ONBOARDING_VIEW = {
   personal_details: PersonalDetails,
@@ -65,7 +69,9 @@ export const ONBOARDING_VIEW = {
 export const Certifications = (props) => {
   const [open, setOpen] = React.useState(false);
 
-  const [displayView, setDisplayView] = React.useState('education_certifications');
+  const [displayView, setDisplayView] = React.useState(
+    "education_certifications"
+  );
   const View = ONBOARDING_VIEW[displayView];
   const handleClickOpen = (displayView) => {
     setDisplayView(displayView);
@@ -78,81 +84,90 @@ export const Certifications = (props) => {
 
   const theme = useTheme();
 
-  const fullScreen = useMediaQuery(theme.breakpoints.down('md'));
-  return(
+  const fullScreen = useMediaQuery(theme.breakpoints.down("md"));
+  return (
     <form {...props}>
       <Card>
         <CardHeader
           subheader="Manage Certifications, Special & Related Certifications"
           title="Certifications"
           action={
-            <Button variant='outlined' color="primary" aria-label="settings">
+            <Button variant="outlined" color="primary" aria-label="settings">
               Edit <ModeOutlinedIcon variant="contained" />
             </Button>
           }
         />
         <Divider />
         <CardContent>
-          <Grid
-            container
-            spacing={6}
-            wrap="wrap"
-          >
+          <Grid container spacing={6} wrap="wrap">
             <Grid
               item
               md={4}
               sm={4}
               sx={{
-                display: 'flex',
-                flexDirection: 'column'
+                display: "flex",
+                flexDirection: "column",
               }}
               xs={12}
             >
               <Tooltip title="Click to edit" arrow>
-                <Typography
-                  color="textPrimary"
-                  gutterBottom
-                  variant="h6"
-                >
-                  <Link color="textPrimary" underline='none' onClick={() => handleClickOpen('location_preferences')}>Active Licenses</Link>
+                <Typography color="textPrimary" gutterBottom variant="h6">
+                  <Link
+                    color="textPrimary"
+                    underline="none"
+                    onClick={() => handleClickOpen("location_preferences")}
+                  >
+                    Active Licenses
+                  </Link>
                 </Typography>
               </Tooltip>
               <List dense={true} aria-labelledby="basic-list-demo">
-                {active_licenses.map((item) => (
-                  <ListItem>
+                {active_licenses.map((item, index) => (
+                  <ListItem key={index}>
                     <ListItemText primary={item} />
                   </ListItem>
                 ))}
               </List>
-            </Grid>          
+            </Grid>
             <Grid
               item
               md={4}
               sm={4}
               sx={{
-                display: 'flex',
-                flexDirection: 'column'
+                display: "flex",
+                flexDirection: "column",
               }}
               xs={12}
             >
               <Tooltip title="Click to edit" arrow>
-                <Typography
-                  color="textPrimary"
-                  gutterBottom
-                  variant="h6"
-                >
-                  <Link color="textPrimary" underline='none' onClick={() => handleClickOpen('education_certifications')}>Certifications</Link>
+                <Typography color="textPrimary" gutterBottom variant="h6">
+                  <Link
+                    color="textPrimary"
+                    underline="none"
+                    onClick={() => handleClickOpen("education_certifications")}
+                  >
+                    Certifications
+                  </Link>
                 </Typography>
               </Tooltip>
               <List dense={true} aria-labelledby="basic-list-demo">
                 <ListItem>
-                  <ListItemText primary="Certifications" secondary={certifications.certifications} />
+                  <ListItemText
+                    primary="Certifications"
+                    secondary={certifications.certifications}
+                  />
                 </ListItem>
                 <ListItem>
-                  <ListItemText primary="Special Certifications" secondary={certifications.special_certification} />
+                  <ListItemText
+                    primary="Special Certifications"
+                    secondary={certifications.special_certification}
+                  />
                 </ListItem>
                 <ListItem>
-                  <ListItemText primary="Related Certifications" secondary={certifications.related_certifications.join(', ')} />
+                  <ListItemText
+                    primary="Related Certifications"
+                    secondary={certifications.related_certifications.join(", ")}
+                  />
                 </ListItem>
               </List>
             </Grid>
@@ -161,34 +176,36 @@ export const Certifications = (props) => {
               md={4}
               sm={4}
               sx={{
-                display: 'flex',
-                flexDirection: 'column'
+                display: "flex",
+                flexDirection: "column",
               }}
               xs={12}
             >
               <Tooltip title="Click to edit" arrow>
-                <Typography
-                  color="textPrimary"
-                  gutterBottom
-                  variant="h6"
-                >
-                  <Link color="textPrimary" underline='none' onClick={() => handleClickOpen('setup_your_discipline')}>Skills</Link>
-                  
-                  
+                <Typography color="textPrimary" gutterBottom variant="h6">
+                  <Link
+                    color="textPrimary"
+                    underline="none"
+                    onClick={() => handleClickOpen("setup_your_discipline")}
+                  >
+                    Skills
+                  </Link>
                 </Typography>
               </Tooltip>
               <List dense={true} aria-labelledby="basic-list-demo">
-                {skills.map((item) => (
-                  <ListItem>
-                    <ListItemText primary={item.skill} secondary={item.experience} />
+                {skills.map((item, index) => (
+                  <ListItem key={index}>
+                    <ListItemText
+                      primary={item.skill}
+                      secondary={item.experience}
+                    />
                   </ListItem>
                 ))}
-              </List>            
+              </List>
             </Grid>
-
           </Grid>
         </CardContent>
-        
+
         <Dialog
           fullScreen={fullScreen}
           open={open}
@@ -212,9 +229,7 @@ export const Certifications = (props) => {
                 </Button> */}
           </DialogActions>
         </Dialog>
-
-
       </Card>
     </form>
-  )
+  );
 };

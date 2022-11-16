@@ -3,7 +3,7 @@ import { TextField } from "@mui/material";
 import { Controller, UseFormReturn } from "react-hook-form";
 import { IFormField } from "types";
 
-export interface TFormationTextFieldOptions {
+export interface TFormTextFieldOptions {
   placeholder?: string;
   inputMode?:
     | "none"
@@ -27,7 +27,7 @@ export interface TFormationTextFieldOptions {
 }
 
 export type TFormTextField = {
-  field: IFormField<TFormationTextFieldOptions>;
+  field: IFormField<TFormTextFieldOptions>;
   formInstance?: UseFormReturn<{
     fullName?: string;
     address?: string;
