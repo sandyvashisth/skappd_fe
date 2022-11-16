@@ -64,10 +64,10 @@ const Onboarding = (props) => {
   const { isAuthenticated, loading } = useAuth();
 
   useEffect(() => {
-    if (!isAuthenticated) {
+    if (!loading && !isAuthenticated) {
       router.replace("/login");
     }
-  }, [router, isAuthenticated]);
+  }, [router, isAuthenticated, loading]);
 
   const [activeStepData, setActiveStep] = useAtom(update_step);
   const [allSteps] = useAtom(onboarding_steps);
