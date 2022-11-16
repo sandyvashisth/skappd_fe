@@ -19,6 +19,17 @@ class ApiService {
 
     this.session.interceptors.response.use(
       (response) => {
+        if (
+          response.headers["authorization"] &&
+          typeof window !== "undefined"
+        ) {
+          window.localStorage.setItem(
+            "accessToken",
+            response.headers.authorization.replace(/Bearer /, "")
+          );
+          this.session.defaults.headers["Authorization"] =
+            response.headers.authorization;
+        }
         return response;
       },
       (error: AxiosError) => {

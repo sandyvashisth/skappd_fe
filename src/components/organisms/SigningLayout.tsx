@@ -65,6 +65,7 @@ export const SigningLayout = ({ page = "login" }: { page: SchemaKeys }) => {
       const onSubmit = page === PAGES.SIGN_UP ? createAccount : login;
       if (onSubmit) {
         await onSubmit(formData.email, formData.password, formData.cnfPassword);
+        router.replace("/onboarding");
       }
     } catch (e) {
       if (e instanceof AxiosError && e.response?.data.error) {
@@ -92,7 +93,7 @@ export const SigningLayout = ({ page = "login" }: { page: SchemaKeys }) => {
     else return null;
   };
 
-  if (loading && !isAuthenticated) {
+  if (loading) {
     return null;
   }
   return (

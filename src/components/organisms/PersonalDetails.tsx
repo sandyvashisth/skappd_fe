@@ -1,6 +1,5 @@
 import { Box, Grid, Typography, Button } from "@mui/material";
 import React from "react";
-import AccessTimeIcon from "@mui/icons-material/AccessTime";
 import { useForm } from "react-hook-form";
 import { FormTextField } from "@components/atoms/FormTextField";
 import { yupResolver } from "@hookform/resolvers/yup";
@@ -10,12 +9,15 @@ import { set_step_completed } from "@state/onboarding";
 import { useAtom } from "jotai";
 import { FormMultipleSelect } from "@components/atoms/FormMultipleSelect";
 import { states } from "src/constants/onboarding";
+import api from "@/services/api";
+import { useToast } from "use-toast-mui";
 
 export const PersonalDetails = ({
   showFooter = true,
 }: {
   showFooter?: Boolean;
 }) => {
+  const toast = useToast();
   const formInstance = useForm<{
     fullName: string;
     address: string;
@@ -31,9 +33,20 @@ export const PersonalDetails = ({
     formState: { errors },
   } = formInstance;
   const [activeStep, setStepComplete] = useAtom(set_step_completed);
-  const onSubmit = (formData: any) => {
+  const onSubmit = async (formData: any) => {
     console.log("Form Data ===> ", formData);
-    setStepComplete(activeStep?.id);
+
+    try {
+      await api.put("profile", {
+        user: {
+          full_name: formData.fullName,
+          address: `${formData.address} ${formData.city.label} ${formData.state.label} ${formData.zip}`,
+        },
+      });
+      setStepComplete(activeStep?.id);
+    } catch (err: unknown) {
+      toast.error(err?.message || err);
+    }
   };
 
   return (

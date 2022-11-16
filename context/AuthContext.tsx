@@ -37,16 +37,17 @@ const AuthContext = createContext<Partial<IAuthContext>>({
 });
 
 export const AuthProvider: FC<{ children: ReactElement }> = ({ children }) => {
-  const [accessToken, setAccessToken] = useState<string | undefined>();
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     async function loadUserFromLocalStorage() {
       const token = window.localStorage.getItem("accessToken");
       if (token) {
-        setAccessToken(token);
-        setLoading(false);
+        api.session.defaults.headers["Authorization"] = `Bearer ${token}`;
+        setIsAuthenticated(true);
       }
+      setLoading(false);
     }
     loadUserFromLocalStorage();
   }, []);
@@ -57,15 +58,7 @@ export const AuthProvider: FC<{ children: ReactElement }> = ({ children }) => {
       const res = await api.post("users/sign_in", {
         user: { email, password },
       });
-      if (res.headers["authorization"]) {
-        if (typeof window !== "undefined") {
-          window.localStorage.setItem(
-            "accessToken",
-            res.headers.authorization.replace(/Bearer /, "")
-          );
-          setAccessToken(res.headers.authorization);
-        }
-      }
+      setIsAuthenticated(true);
       setLoading(false);
       return res.data;
     } catch (e) {
@@ -89,15 +82,7 @@ export const AuthProvider: FC<{ children: ReactElement }> = ({ children }) => {
       const res = await api.post("users", {
         user: { email, password, password_confirmation: cnfPassword },
       });
-      if (res.headers["authorization"]) {
-        if (typeof window !== "undefined") {
-          window.localStorage.setItem(
-            "accessToken",
-            res.headers.authorization.replace(/Bearer /, "")
-          );
-          setAccessToken(res.headers.authorization);
-        }
-      }
+      setIsAuthenticated(true);
       setLoading(false);
       return res.data;
     } catch (e) {
@@ -108,7 +93,7 @@ export const AuthProvider: FC<{ children: ReactElement }> = ({ children }) => {
   return (
     <AuthContext.Provider
       value={{
-        isAuthenticated: !!accessToken,
+        isAuthenticated,
         login,
         loading,
         logout,
