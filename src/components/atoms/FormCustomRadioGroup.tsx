@@ -20,12 +20,11 @@ const StyledFormControlLabel = styled(FormControlLabel)<{ selected: boolean }>`
   &:not(:last-child) {
     margin-right: 16px;
   }
-  border: ${(props) =>
-    `1px solid ${props.selected ? theme.palette.secondary.dark : "#212121"}`};
+
   border-radius: 4px;
   cursor: pointer;
-  width: 264px;
-  height: 106px;
+  // width: 264px;
+  // height: 106px;
   &:hover: {
     box-shadow: 0px 3px 5px -1px rgba(0, 0, 0, 0.2),
       0px 5px 8px rgba(13, 34, 89, 0.14), 0px 1px 14px rgba(13, 34, 89, 0.12);

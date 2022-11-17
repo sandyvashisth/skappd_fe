@@ -78,6 +78,7 @@ export const FormMultipleSelect = ({
             isOptionEqualToValue={
               isMultiSelect ? isOptionEqualToValue : undefined
             }
+            value={value}
             defaultValue={value}
             onChange={handleInputChange}
             sx={{
