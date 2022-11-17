@@ -34,4 +34,4 @@ Run
 pm2 deploy staging
 ```
 
-Reference: [Youtube Link](https://www.youtube.com/watch?v=IwWQG6lEdQQ)
+Reference: [Youtube Link](https://www.youtube.com/watch?v=IwWQG6lEdQQ) and [wiki](https://www.fullstackbook.com/docs/guides/how-to-deploy-nextjs-with-pm2/)
