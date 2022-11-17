@@ -5,10 +5,12 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import { StepAccordion } from "@components/molecules/StepAccordion";
 import { FormCheckboxGrid } from "@components/atoms/FormCheckboxGrid";
 import { LevelOfComfortSchema } from "src/schema/onboardingSchema";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { FormFooter } from "@components/atoms/FormFooter";
 import { set_step_completed } from "@state/onboarding";
 import { useAtom } from "jotai";
+import { useLevelOfConforts } from "services/levelOfComfort";
+
 
 export const LevelOfComfort = ({
   showFooter = true,
@@ -16,6 +18,31 @@ export const LevelOfComfort = ({
   showFooter?: Boolean;
 }) => {
   const [expanded, setExpanded] = useState<string>("");
+  const {
+    getPreferences,
+    setPreference,
+    settingPreferenceOptions = [],
+    settingPreferenceId,
+    patientPopulationsPreferenceOptions = [],
+    patientPopulationsPreferenceId,    
+
+    // getOtCertification,
+    // otCertificationOptions = [],
+    // getBonus,
+    // bonusOptions = [],
+    // setEducation,
+    // setOtCertification,
+    // setBonus,
+    // isLoading
+  } = useLevelOfConforts();
+
+  useEffect(() => {
+    getPreferences('comfort_setting_preference');
+    getPreferences('patient_populations_preference')
+  }, [])
+
+  console.log(settingPreferenceOptions, "==================>")
+
   const formInstance = useForm({
     resolver: yupResolver(LevelOfComfortSchema),
   });
@@ -30,6 +57,8 @@ export const LevelOfComfort = ({
   const [activeStep, setStepComplete] = useAtom(set_step_completed);
   const onSubmit = (formData: any) => {
     console.log("Form Data ===> ", formData);
+    setPreference('comfort_setting_preference', formData.comfortSetting);
+    setPreference('patient_populations_preference', formData.patientPopulation);
     setStepComplete(activeStep?.id);
   };
 
@@ -63,20 +92,7 @@ export const LevelOfComfort = ({
                   label: "Comfort Setting",
                   control: control,
                   options: {
-                    options: [
-                      {
-                        value: "Acute Care",
-                        label: "Acute Care",
-                      },
-                      {
-                        value: "Long Term Acute Care (LTAC)",
-                        label: "Long Term Acute Care (LTAC)",
-                      },
-                      {
-                        value: "Bachelors in Health Science",
-                        label: "Bachelors in Health Science",
-                      },
-                    ],
+                    options: settingPreferenceOptions,
                   },
                 }}
                 formInstance={formInstance}
@@ -99,24 +115,7 @@ export const LevelOfComfort = ({
                   label: "Patient Population",
                   control: control,
                   options: {
-                    options: [
-                      {
-                        value: "Per Diem",
-                        label: "Per Diem",
-                      },
-                      {
-                        value: "Part Time",
-                        label: "Part Time",
-                      },
-                      {
-                        value: "Contract",
-                        label: "Contract",
-                      },
-                      {
-                        value: "Full Time",
-                        label: "Full Time",
-                      },
-                    ],
+                    options: patientPopulationsPreferenceOptions,
                   },
                 }}
                 formInstance={formInstance}
@@ -126,7 +125,7 @@ export const LevelOfComfort = ({
           {/* User this button when save the record from Diolo */}
           {!showFooter && (
             <Grid item xs={12} sx={{ mt: 2, ml: 2 }}>
-              <Button variant="outlined">Save</Button>
+              <Button variant="outlined" type="submit">Save</Button>
             </Grid>
           )}
         </Grid>
