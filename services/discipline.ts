@@ -1,6 +1,7 @@
 //api here is an axios instance which has the baseURL set according to the env.
 import { useState } from "react";
 import api from "services/api";
+import { object } from "yup";
 
 export const useDiscipline = () => {
   const [isLoading, setIsLoading] = useState(false);
@@ -55,14 +56,28 @@ export const useDiscipline = () => {
     }
   }
 
-  const userSkills = async () => {
+  const updateUserSkills = async (obj: any) => {
+    // setIsLoading(true);
+    // let skillExperience = generateUserSkillsParams(obj.otSkills)
 
+    // try {
+    //   // API Not working getting 500
+    //   const { data } = await api.post("v1/profile/skills", {
+    //       skills: skillExperience
+    //   });
+    //   setIsLoading(false);
+    //   return data;
+    // } catch (e) {
+    //   setIsLoading(false);
+    //   return Promise.reject(e);
+    // }
   }
 
   return {
     getDiscipline,
     getSkills,
     updateProfile,
+    updateUserSkills,
     disciplineOptions,
     otSkillsOption,
     isLoading,
@@ -88,3 +103,10 @@ const genrateSkillsformFieldOptions = (apiResponse: any) => {
     title,
   }));
 };
+
+const generateUserSkillsParams = (data: any) => {
+  return data.map(({ key, value }: { key: string; value: string }) => ({
+    id: key,
+    experience: value
+  }));
+}
