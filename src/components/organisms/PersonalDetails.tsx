@@ -75,7 +75,7 @@ export const PersonalDetails = ({
     console.log(formData, "===========")
 
     try {
-      await api.put("v1/profile", {
+      let resp = await api.put("v1/profile", {
         user: {
           full_name: formData.fullName,
           address: formData.address,
@@ -84,7 +84,7 @@ export const PersonalDetails = ({
           zip_code: formData.zip
         },
       });
-      
+      localStorage.setItem("user", JSON.stringify(resp?.data?.data));
       setNotificationMessage("Profile Updated...")
       setOpen(true);
       setStepComplete(activeStep?.id);

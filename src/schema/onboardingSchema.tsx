@@ -50,7 +50,7 @@ export const LocationPreferenceSchema = yup.object().shape({
 });
 
 export const SetupDiscipline = yup.object().shape({
-  discipline: yup.array().min(1, "Please select an option."),
+  discipline: yup.string().min(1, "Please select an option."),
   otSkills: yup
     .array()
     .of(yup.object().shape({ key: yup.string(), experience: yup.number() }))

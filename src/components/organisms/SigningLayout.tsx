@@ -22,6 +22,7 @@ import { useAuth } from "context/AuthContext";
 import { AxiosError } from "axios";
 import { ResponsiveAppBar } from "@components/molecules/ResponsiveAppBar";
 
+
 type SchemaKeys = keyof typeof yupSchema;
 
 export const PAGES = {
@@ -58,6 +59,7 @@ export const SigningLayout = ({ page = "login" }: { page: SchemaKeys }) => {
   const [signingError, setSigningError] = useState<string>("");
   useEffect(() => {
     if (isAuthenticated) {
+      // console.log(window.localStorate);
       let redirectTo =  user.profile_completed > 40 ? '/dashboard' : '/onboarding'
       router.replace(redirectTo);
     }
@@ -69,6 +71,8 @@ export const SigningLayout = ({ page = "login" }: { page: SchemaKeys }) => {
       const onSubmit = page === PAGES.SIGN_UP ? createAccount : login;
       if (onSubmit) {
         let resp = await onSubmit(formData.email, formData.password, formData.cnfPassword);
+
+        localStorage.setItem("user", JSON.stringify(resp));
         setUser(resp)
         // router.replace(redirectTo);
       }

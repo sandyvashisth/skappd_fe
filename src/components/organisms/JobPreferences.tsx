@@ -38,12 +38,11 @@ export const JobPreferences = ({
   const [typeOfPositions, setTypeOfPositions] = useState([]);
   const [shifts, setShifts] = useState([]);
 
-
-
   useEffect(() => {
     getJobStatusPreferences();
     typeOfPositionPreference();
     shiftPreference();
+
   }, [])
 
   // Get job Status possible values
@@ -55,14 +54,12 @@ export const JobPreferences = ({
   // Get Type of positions
   const typeOfPositionPreference = async () => {
     let positions = await apiWrapper("v1/preferences?preference_name=type_of_position_preference")
-    console.log(positions)
     setTypeOfPositions(positions)
   }
   
   // Get Shift Preferences
   const shiftPreference = async () => {
     let shifts = await apiWrapper("v1/preferences?preference_name=shift_preference")
-    console.log(shifts)
     setShifts(shifts)
   }
 
@@ -80,11 +77,13 @@ export const JobPreferences = ({
     console.log("Form Data ===> ", formData);
 
     try {
-      await api.put("v1/profile", {
+      let resp = await api.put("v1/profile", {
         user: {
           status: parseInt(formData.status)
         },
       });
+
+      localStorage.setItem("user", JSON.stringify(resp?.data?.data));
 
       // setNotificationMessage("Saving...")
       // setOpen(true);
