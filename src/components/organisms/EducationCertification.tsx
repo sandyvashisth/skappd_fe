@@ -5,16 +5,31 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import { StepAccordion } from "@components/molecules/StepAccordion";
 import { FormCheckboxGrid } from "@components/atoms/FormCheckboxGrid";
 import { educationCertificateSchema } from "src/schema/onboardingSchema";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { FormFooter } from "@components/atoms/FormFooter";
 import { set_step_completed } from "@state/onboarding";
 import { useAtom } from "jotai";
+import { useToast } from "use-toast-mui";
+import { useEducationCertification } from "services/educationCertification";
 
 export const EducationCertification = ({
   showFooter = true,
 }: {
   showFooter?: Boolean;
 }) => {
+  const toast = useToast();
+  const {
+    getEducation,
+    educationOptions = [],
+    getOtCertification,
+    otCertificationOptions = [],
+    getBonus,
+    bonusOptions = [],
+    setEducation,
+    setOtCertification,
+    setBonus,
+    isLoading
+  } = useEducationCertification();
   const [expanded, setExpanded] = useState<string>("");
   const formInstance = useForm({
     resolver: yupResolver(educationCertificateSchema),
@@ -30,8 +45,17 @@ export const EducationCertification = ({
   const [activeStep, setStepComplete] = useAtom(set_step_completed);
   const onSubmit = (formData: any) => {
     console.log("Form Data ===> ", formData);
+    setEducation(formData["hightestEducation"]);
+    setOtCertification(formData["otherCertificates"]);
+    setBonus(formData["Bonus"])
     setStepComplete(activeStep?.id);
   };
+
+  useEffect(() => {
+    getEducation();
+    getOtCertification();
+    getBonus();
+  }, [])
 
   return (
     <Box>
@@ -63,20 +87,7 @@ export const EducationCertification = ({
                   label: "Highest Education",
                   control: control,
                   options: {
-                    options: [
-                      {
-                        value: "Bachelors in OT",
-                        label: "Bachelors in OT",
-                      },
-                      {
-                        value: "Bachelors in Kinesiology and Exercise Science",
-                        label: "Bachelors in Kinesiology and Exercise Science",
-                      },
-                      {
-                        value: "Bachelors in Health Science",
-                        label: "Bachelors in Health Science",
-                      },
-                    ],
+                    options: educationOptions,
                   },
                 }}
                 formInstance={formInstance}
@@ -99,24 +110,7 @@ export const EducationCertification = ({
                   label: "OT Certifications",
                   control: control,
                   options: {
-                    options: [
-                      {
-                        value: "Per Diem",
-                        label: "Per Diem",
-                      },
-                      {
-                        value: "Part Time",
-                        label: "Part Time",
-                      },
-                      {
-                        value: "Contract",
-                        label: "Contract",
-                      },
-                      {
-                        value: "Full Time",
-                        label: "Full Time",
-                      },
-                    ],
+                    options: otCertificationOptions,
                   },
                 }}
                 formInstance={formInstance}
@@ -139,40 +133,7 @@ export const EducationCertification = ({
                   label: "Bonus",
                   control: control,
                   options: {
-                    options: [
-                      {
-                        value: "days",
-                        label: "Days",
-                      },
-                      {
-                        value: "4-10s",
-                        label: "4-10s",
-                      },
-                      {
-                        value: "Swing",
-                        label: "Swing",
-                      },
-                      {
-                        value: "Call",
-                        label: "Call",
-                      },
-                      {
-                        value: "Nights",
-                        label: "Nights",
-                      },
-                      {
-                        value: "7 On - 7 Off",
-                        label: "7 On - 7 Off",
-                      },
-                      {
-                        value: "Weekends",
-                        label: "Weekends",
-                      },
-                      {
-                        value: "Variable",
-                        label: "Variable",
-                      },
-                    ],
+                    options: bonusOptions,
                   },
                 }}
                 formInstance={formInstance}
