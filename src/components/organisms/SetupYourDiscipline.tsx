@@ -18,7 +18,7 @@ export const SetupYourDiscipline = ({
 }: {
   showFooter?: Boolean;
 }) => {
-  const { getDiscipline, getSkills, disciplineOptions = [], otSkillsOption = [],  isLoading } =
+  const { getDiscipline, getSkills, updateProfile, disciplineOptions = [], otSkillsOption = [],  isLoading } =
     useDiscipline();
   const [expanded, setExpanded] = useState<string>("");
 
@@ -41,6 +41,7 @@ export const SetupYourDiscipline = ({
   const [activeStep, setStepComplete] = useAtom(set_step_completed);
   const onSubmit = (formData: any) => {
     console.log("Form Data ===> ", formData);
+    updateProfile(formData)
     setStepComplete(activeStep?.id);
   };
 

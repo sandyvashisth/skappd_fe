@@ -119,7 +119,7 @@ export const EducationCertification = ({
           </Grid>
           <Grid item xs={12} sx={{ borderBottom: "1px solid #CEE0DB" }}>
             <StepAccordion
-              title="Bonus"
+              title="Special Certifications"
               value={getValues("bonus")}
               name="bonus"
               expanded={expanded}
@@ -130,7 +130,7 @@ export const EducationCertification = ({
               <FormCheckboxGrid
                 field={{
                   name: "Bonus",
-                  label: "Bonus",
+                  label: "Special Certifications",
                   control: control,
                   options: {
                     options: bonusOptions,

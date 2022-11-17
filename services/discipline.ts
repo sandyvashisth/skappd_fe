@@ -6,6 +6,8 @@ export const useDiscipline = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [disciplineOptions, setDisciplineOptions] = useState();
   const [otSkillsOption, setOtSkillsOption] = useState();
+
+  // 
   const getDiscipline = async () => {
     setIsLoading(true);
     try {
@@ -33,9 +35,34 @@ export const useDiscipline = () => {
       return Promise.reject(e);
     }
   };
+
+  const updateProfile = async (obj) => {
+    setIsLoading(true);
+    try {
+      const { data } = await api.put("v1/profile", {
+        user: {
+          discipline_id: obj.discipline
+        },
+      });
+      // let disciplineFieldOptions = genrateDisciplineformFieldOptions(data?.data)
+      // setDisciplineOptions(disciplineFieldOptions);
+      localStorage.setItem("user", JSON.stringify(data?.data))
+      setIsLoading(false);
+      return data;
+    } catch (e) {
+      setIsLoading(false);
+      return Promise.reject(e);
+    }
+  }
+
+  const userSkills = async () => {
+
+  }
+
   return {
     getDiscipline,
     getSkills,
+    updateProfile,
     disciplineOptions,
     otSkillsOption,
     isLoading,

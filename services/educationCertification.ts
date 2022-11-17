@@ -25,7 +25,8 @@ export const useEducationCertification = () => {
   const getOtCertification = async () => {
     setIsLoading(true);
     try {
-      const { data } = await api.get("v1/disciplines/19b3e224-7b18-4653-b694-9b6f4b79f13c/certifications");
+      const user = getUser();
+      const { data } = await api.get(`v1/disciplines/${user.discipline_id}/certifications`);
       let otCertificationFieldOptions = generateOtCertificationFormFieldOptions(data?.data)
       setOtCertificationOptions(otCertificationFieldOptions);
       setIsLoading(false);
@@ -39,7 +40,8 @@ export const useEducationCertification = () => {
   const getBonus = async () => {
     setIsLoading(true);
     try {
-      const { data } = await api.get("v1/disciplines/19b3e224-7b18-4653-b694-9b6f4b79f13c/special_certifications");
+      const user = getUser();
+      const { data } = await api.get(`v1/disciplines/${user.discipline_id}/special_certifications`);
       let bonusFieldOptions = generateBonusFormFieldOptions(data?.data)
       setBonusOptions(bonusFieldOptions);
       setIsLoading(false);
@@ -103,6 +105,12 @@ export const useEducationCertification = () => {
       return Promise.reject(e);
     }
   };
+
+  const getUser = () => {
+    let user = localStorage.getItem("user")
+    return JSON.parse(user || {})
+  }
+
   return {
     getEducation,
     educationOptions,
