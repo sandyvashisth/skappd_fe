@@ -96,6 +96,7 @@ export const JobPreferences = ({
   };
 
   // return array of values
+  // should be put to a common file
   const getLabels = (key: any, type: any) => {
     let selected;
     let selectedValues = getValues(key)

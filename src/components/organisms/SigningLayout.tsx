@@ -52,20 +52,25 @@ export const SigningLayout = ({ page = "login" }: { page: SchemaKeys }) => {
   } = formInstance;
   const isDesktop = useMediaQuery((theme: Theme) => theme.breakpoints.up("sm"));
   const { createAccount, login, isAuthenticated, loading } = useAuth();
+
+  const [user, setUser] = useState({});
+
   const [signingError, setSigningError] = useState<string>("");
   useEffect(() => {
     if (isAuthenticated) {
-      router.replace("/onboarding");
+      let redirectTo =  user.profile_completed > 40 ? '/dashboard' : '/onboarding'
+      router.replace(redirectTo);
     }
-  }, [router, isAuthenticated]);
+  }, [router, isAuthenticated, user]);
 
   const handleOnSubmit = async (formData: any) => {
     console.log("Form Data ===> ", formData);
     try {
       const onSubmit = page === PAGES.SIGN_UP ? createAccount : login;
       if (onSubmit) {
-        await onSubmit(formData.email, formData.password, formData.cnfPassword);
-        router.replace("/onboarding");
+        let resp = await onSubmit(formData.email, formData.password, formData.cnfPassword);
+        setUser(resp)
+        // router.replace(redirectTo);
       }
     } catch (e) {
       if (e instanceof AxiosError && e.response?.data.error) {

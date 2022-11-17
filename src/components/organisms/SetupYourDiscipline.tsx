@@ -3,6 +3,7 @@ import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { StepAccordion } from "@components/molecules/StepAccordion";
 import { FormCheckboxGrid } from "@components/atoms/FormCheckboxGrid";
+import { FormCustomRadioGroup } from "@components/atoms/FormCustomRadioGroup";
 import { SetupDiscipline } from "src/schema/onboardingSchema";
 import { useEffect, useState } from "react";
 import { OtSkillsSelector } from "@components/molecules/OtSkillsSelector";
@@ -17,13 +18,13 @@ export const SetupYourDiscipline = ({
 }: {
   showFooter?: Boolean;
 }) => {
-  const { getDiscipline, getOtSkills, disciplineOptions = [], otSkillsOption = [],  isLoading } =
+  const { getDiscipline, getSkills, disciplineOptions = [], otSkillsOption = [],  isLoading } =
     useDiscipline();
   const [expanded, setExpanded] = useState<string>("");
 
   useEffect(() => {
     getDiscipline();
-    getOtSkills();
+    getSkills();
   }, []);
 
   const formInstance = useForm({
@@ -42,6 +43,26 @@ export const SetupYourDiscipline = ({
     console.log("Form Data ===> ", formData);
     setStepComplete(activeStep?.id);
   };
+
+  // return array of values
+  // should be put to a common file
+  const getLabels = (key: any, type: any) => {
+    let selected;
+    let selectedValues = getValues(key)
+    if(type == 'job_status'){
+      selected = jobStatus.find(o => o.value === parseInt(selectedValues));
+      selected = selected?.label
+    } else if (type == 'positions'){
+      selected = typeOfPositions.filter(function (o) {
+        return selectedValues.includes(o.value)
+      }).map(function (obj) { return obj.label; });
+    } else if (type == 'shift') {
+      selected = shifts.filter(function (o) {
+        return selectedValues.includes(o.value)
+      }).map(function (obj) { return obj.label; });
+    }
+    return selected
+  }
 
   return (
     <>
@@ -72,7 +93,20 @@ export const SetupYourDiscipline = ({
                   isError={errors["discipline"]}
                 >
                   <Typography sx={{ mb: 2 }}></Typography>
-                  <FormCheckboxGrid
+                    <FormCustomRadioGroup
+                      field={{
+                        name: "discipline",
+                        label: "What is your Discipline?",
+                        control: control,
+                        options: {
+                          options: disciplineOptions,
+                        },
+                      }}
+                      formInstance={formInstance}
+                    />
+
+
+                  {/* <FormCheckboxGrid
                     field={{
                       name: "discipline",
                       label: "Select Discipline",
@@ -82,7 +116,7 @@ export const SetupYourDiscipline = ({
                       },
                     }}
                     formInstance={formInstance}
-                  />
+                  /> */}
                 </StepAccordion>
               </Grid>
               <StepAccordion

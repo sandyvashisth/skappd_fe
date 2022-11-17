@@ -10,7 +10,8 @@ export const useDiscipline = () => {
     setIsLoading(true);
     try {
       const { data } = await api.get("v1/disciplines");
-      setDisciplineOptions(genrateDisciplineformFieldOptions(data));
+      let disciplineFieldOptions = genrateDisciplineformFieldOptions(data?.data)
+      setDisciplineOptions(disciplineFieldOptions);
       setIsLoading(false);
       return data;
     } catch (e) {
@@ -18,11 +19,13 @@ export const useDiscipline = () => {
       return Promise.reject(e);
     }
   };
-  const getOtSkills = async () => {
+
+  const getSkills = async () => {
     setIsLoading(true);
     try {
       const { data } = await api.get("v1/skills");
-      setOtSkillsOption(genrateOtSkillsformFieldOptions(data));
+      let skillsFieldOPtion = genrateSkillsformFieldOptions(data?.data)
+      setOtSkillsOption(skillsFieldOPtion);
       setIsLoading(false);
       return data;
     } catch (e) {
@@ -32,7 +35,7 @@ export const useDiscipline = () => {
   };
   return {
     getDiscipline,
-    getOtSkills,
+    getSkills,
     disciplineOptions,
     otSkillsOption,
     isLoading,
@@ -43,16 +46,17 @@ export const useDiscipline = () => {
 // helpers
 
 const genrateDisciplineformFieldOptions = (apiResponse: any) => {
-  const { response } = apiResponse;
-  return response.map(({ title, id }: { title: string; id: string }) => ({
+  // const { response } = apiResponse;
+  return apiResponse.map(({ title, id }: { title: string; id: string }) => ({
     value: id,
     label: title,
   }));
 };
 
-const genrateOtSkillsformFieldOptions = (apiResponse: any) => {
+const genrateSkillsformFieldOptions = (apiResponse: any) => {
   const { response } = apiResponse;
-  return response.map(({ title, id }: { title: string; id: string }) => ({
+
+  return apiResponse.map(({ title, id }: { title: string; id: string }) => ({
     key: id,
     title,
   }));
