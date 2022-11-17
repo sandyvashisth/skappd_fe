@@ -1,4 +1,5 @@
 import { Box, Grid, Typography, Button } from "@mui/material";
+import AccessTimeIcon from "@mui/icons-material/AccessTime";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { FormCustomRadioGroup } from "@components/atoms/FormCustomRadioGroup";
@@ -17,9 +18,6 @@ export const JobPreferences = ({
 }) => {
   const [expanded, setExpanded] = useState<string>("");
   const formInstance = useForm({
-    defaultValues: {
-      jobStatus: "Looking Around",
-    },
     resolver: yupResolver(JobPreferencesSchema),
   });
 
@@ -65,6 +63,7 @@ export const JobPreferences = ({
                   name: "jobStatus",
                   label: "What is your current job status?",
                   control: control,
+                  defaultValue: "Ready to Mingle",
                   options: {
                     options: [
                       {
