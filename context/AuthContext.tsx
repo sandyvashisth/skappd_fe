@@ -69,6 +69,7 @@ export const AuthProvider: FC<{ children: ReactElement }> = ({ children }) => {
 
   const logout = () => {
     window.localStorage.removeItem("accessToken");
+    window.localStorage.removeItem("user");
     window.location.pathname = "/login";
   };
 
