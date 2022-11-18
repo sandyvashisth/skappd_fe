@@ -22,8 +22,9 @@ import {
 } from "@state/onboarding";
 import { useAtom } from "jotai";
 
-import * as React from "react";
-import PropTypes from "prop-types";
+import { useEffect } from "react";
+import * as React from 'react';
+import PropTypes from 'prop-types';
 import { SideBar } from "@components/layout/SideBar";
 import Button from "@mui/material/Button";
 import Dialog from "@mui/material/Dialog";
@@ -33,9 +34,7 @@ import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
 import { useTheme } from "@mui/material/styles";
 
-import { AccountProfile } from "@components/layout/my_profile/account-profile.js";
-import { Certifications } from "@components/layout/settings/certifications";
-import { Skills } from "@components/layout/settings/skills";
+
 import { Trophy } from "@components/layout/my_profile/Trophy";
 import { StatisticsCard } from "@components/layout/my_profile/StatisticsCard";
 import { WeeklyOverview } from "@components/layout/my_profile/WeeklyOverview";
@@ -43,6 +42,11 @@ import { TotalEarning } from "@components/layout/my_profile/TotalEarning";
 import CardStatisticsVerticalComponent from "@components/molecules/card-statistics";
 import PollOutlinedIcon from "@mui/icons-material/PollOutlined";
 import MonetizationOnOutlinedIcon from "@mui/icons-material/MonetizationOnOutlined";
+
+import { Loader } from "@components/atoms/Loader";
+import { useRouter } from "next/router";
+import { useAuth } from "context/AuthContext";
+
 
 const drawerWidth = 264;
 
@@ -57,7 +61,16 @@ export const ONBOARDING_VIEW = {
   benefits_priorities: BenefitsPriorities,
 };
 
-const Onboarding = (props: unknown) => {
+const Onboarding = (props: any) => {
+  const router = useRouter();
+  const { isAuthenticated, loading } = useAuth();
+
+  useEffect(() => {
+    if (!loading && !isAuthenticated) {
+      router.replace("/login");
+    }
+  }, [router, isAuthenticated, loading]);
+
   const [activeStepData, setActiveStep] = useAtom(update_step);
   const [allSteps] = useAtom(onboarding_steps);
   const [progressStatus] = useAtom(progress_status);
@@ -77,13 +90,16 @@ const Onboarding = (props: unknown) => {
   const handleClose = () => {
     setOpen(false);
   };
-  const container = window !== undefined ? window.document.body : undefined;
+  // const container = window !== undefined ? window.document.body : undefined;
 
   return (
     <main>
       <ResponsiveAppBar />
+      {loading ? (
+        <Loader />
+      ) : (
       <Grid container>
-        <SideBar isDesktopView={isDesktop} container={container} />
+        <SideBar isDesktopView={isDesktop} />
 
         <Grid
           item
@@ -205,6 +221,7 @@ const Onboarding = (props: unknown) => {
           </Dialog>
         </Grid>
       </Grid>
+      )}
     </main>
   );
 };

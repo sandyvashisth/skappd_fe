@@ -3,6 +3,7 @@ import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { StepAccordion } from "@components/molecules/StepAccordion";
 import { FormCheckboxGrid } from "@components/atoms/FormCheckboxGrid";
+import { FormCustomRadioGroup } from "@components/atoms/FormCustomRadioGroup";
 import { SetupDiscipline } from "src/schema/onboardingSchema";
 import { useEffect, useState } from "react";
 import { OtSkillsSelector } from "@components/molecules/OtSkillsSelector";
@@ -17,13 +18,13 @@ export const SetupYourDiscipline = ({
 }: {
   showFooter?: Boolean;
 }) => {
-  const { getDiscipline, getOtSkills, disciplineOptions = [], otSkillsOption = [],  isLoading } =
+  const { getDiscipline, getSkills, updateProfile, updateUserSkills, disciplineOptions = [], otSkillsOption = [],  isLoading } =
     useDiscipline();
   const [expanded, setExpanded] = useState<string>("");
 
   useEffect(() => {
     getDiscipline();
-    getOtSkills();
+    getSkills();
   }, []);
 
   const formInstance = useForm({
@@ -40,6 +41,8 @@ export const SetupYourDiscipline = ({
   const [activeStep, setStepComplete] = useAtom(set_step_completed);
   const onSubmit = (formData: any) => {
     console.log("Form Data ===> ", formData);
+    updateProfile(formData)
+    updateUserSkills(formData)
     setStepComplete(activeStep?.id);
   };
 
@@ -72,21 +75,21 @@ export const SetupYourDiscipline = ({
                   isError={errors["discipline"]}
                 >
                   <Typography sx={{ mb: 2 }}></Typography>
-                  <FormCheckboxGrid
-                    field={{
-                      name: "discipline",
-                      label: "Select Discipline",
-                      control: control,
-                      options: {
-                        options: disciplineOptions,
-                      },
-                    }}
-                    formInstance={formInstance}
-                  />
+                    <FormCustomRadioGroup
+                      field={{
+                        name: "discipline",
+                        label: "What is your Discipline?",
+                        control: control,
+                        options: {
+                          options: disciplineOptions,
+                        },
+                      }}
+                      formInstance={formInstance}
+                    />
                 </StepAccordion>
               </Grid>
               <StepAccordion
-                title="OT Skills and Experience"
+                title="Skills and Experience"
                 value={getValues("otSkills")}
                 name="otSkills"
                 expanded={expanded}
@@ -108,7 +111,7 @@ export const SetupYourDiscipline = ({
               {/* User this button when save the record from Diolo */}
               {!showFooter && (
                 <Grid item xs={12} sx={{ mt: 2, ml: 2 }}>
-                  <Button variant="outlined">Save</Button>
+                  <Button variant="outlined" type="submit">Save</Button>
                 </Grid>
               )}
             </Grid>

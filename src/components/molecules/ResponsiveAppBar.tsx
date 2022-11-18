@@ -43,11 +43,19 @@ export const ResponsiveAppBar = () => {
     setAnchorElNav(null);
   };
 
-  const handleCloseUserMenu = (event: any, key: string) => {
-    if (key === "Logout" && logout) {
+  const sessionLogout = (e: any) => {
+    if (logout) {
       logout();
     }
-    console.log("lele", event, key);
+    handleCloseUserMenu(e);
+  }
+
+  const myProfileRedirect = () => {
+    router.replace('/dashboard');
+  }
+
+  const handleCloseUserMenu = (event: any) => {
+    console.log("lele", event);
     setAnchorElUser(null);
   };
 
@@ -158,14 +166,18 @@ export const ResponsiveAppBar = () => {
                     open={Boolean(anchorElUser)}
                     onClose={handleCloseUserMenu}
                   >
-                    {settings.map((setting) => (
-                      <MenuItem
-                        key={setting}
-                        onClick={(e) => handleCloseUserMenu(e, setting)}
-                      >
-                        <Typography textAlign="center">{setting}</Typography>
-                      </MenuItem>
-                    ))}
+                    <MenuItem
+                      key="my-profile"
+                      onClick={() => myProfileRedirect()}
+                    >
+                      <Typography textAlign="center">My Profile</Typography>
+                    </MenuItem>
+                    <MenuItem
+                      key="Logout"
+                      onClick={(e) => sessionLogout(e)}
+                    >
+                      <Typography textAlign="center">Logout</Typography>
+                    </MenuItem>
                   </Menu>
                 </>
               ) : (

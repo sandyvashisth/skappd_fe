@@ -225,7 +225,7 @@ export const LocationPreferences = ({
           {/* User this button when save the record from Diolo */}
           {!showFooter && (
             <Grid container item xs={12} sx={{ mt: 2, ml: 2 }}>
-              <Button variant="outlined">Save</Button>
+              <Button variant="outlined" type="submit">Save</Button>
             </Grid>
           )}
         </Grid>
