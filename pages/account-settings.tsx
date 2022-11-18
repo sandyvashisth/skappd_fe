@@ -9,7 +9,7 @@ import { LocationPreferences } from "@components/organisms/LocationPreferences";
 import { LoginSetup } from "@components/organisms/LoginSetup";
 import { PersonalDetails } from "@components/organisms/PersonalDetails";
 import { SetupYourDiscipline } from "@components/organisms/SetupYourDiscipline";
-import { Theme, useMediaQuery, Card } from "@mui/material";
+import { Theme, useMediaQuery, Card, Button } from "@mui/material";
 import {
   onboarding_steps,
   progress_status,
@@ -44,6 +44,9 @@ import MuiTab from '@mui/material/Tab'
 import { Loader } from "@components/atoms/Loader";
 import { useRouter } from "next/router";
 import { useAuth } from "context/AuthContext";
+import api from "services/api";
+import { useToast } from "use-toast-mui";
+
 
 const drawerWidth = 264;
 
@@ -59,7 +62,8 @@ export const ONBOARDING_VIEW = {
 };
 
 
-const Onboarding = (props: any) => {
+const Onboarding = () => {
+  const toast = useToast();
   const router = useRouter();
   const { isAuthenticated, loading } = useAuth();
 
@@ -81,11 +85,37 @@ const Onboarding = (props: any) => {
   const hash = "personal_details"; // router.asPath.split('#')[1];
 
   const [value, setValue] = useState(hash);
+  const [userProfile, setUserProfile] = useState({});
+
 
   useEffect(() => {
     let requested_tab = router.asPath.split("#")[1];
-    setValue(requested_tab);
+    // setValue(requested_tab);
+
+    getUserProfile()
+
   }, [hash, router]);
+
+  const getUserProfile = async () => {
+    let profile = await api.get("v1/profile");
+    await api.get("v1/profile/notifications");
+    setUserProfile(profile?.data?.data)
+  }
+
+  const requestForReview = async() => {
+    try {
+      let resp = await api.put("v1/profile", {
+        user: {
+          review_request: true
+        },
+      });
+      setUserProfile(resp.data.data)
+      localStorage.setItem("user", JSON.stringify(resp?.data?.data));
+      toast.success("Review request has been submited");
+    } catch (err: any) {
+      toast.error(err?.message || err);
+    }    
+  }
 
   const handleChange = (event: React.SyntheticEvent, newValue: string) => {
     setValue(newValue);
@@ -282,8 +312,13 @@ const Onboarding = (props: any) => {
                       </Box>
                     </Box>
                   </TabPanel>
-                </TabContext>
+                </TabContext>                     
               </Card>
+
+              <Grid item xs={12} sx={{ mt: 2 }}>
+                <Button disabled={userProfile?.review_request} onClick={() => requestForReview()} variant="outlined" type="submit">Request for Review</Button>
+              </Grid>
+              
             </Container>
           </Box>
         </Grid>

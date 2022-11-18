@@ -6,6 +6,8 @@ import CardContent from '@mui/material/CardContent'
 import { styled, useTheme } from '@mui/material/styles'
 // ** Next Imports
 import Link from 'next/link'
+import { useState, useEffect } from "react";
+import api from "services/api";
 
 // Styled component for the triangle shaped background image
 const TriangleImg = styled('img')({
@@ -34,23 +36,37 @@ export const Trophy = () => {
   // ** Hook
   const theme = useTheme()
   const imageSrc = theme.palette.mode === 'light' ? 'triangle-light.png' : 'triangle-dark.png'
-  
+  const [userProfile, setUserProfile] = useState({});
+
+  useEffect (() => {
+    getUserProfile();
+  }, [])
+
+  const getUserProfile = async () => {
+    let profile = await api.get("v1/profile");
+    setUserProfile(profile.data.data)
+  }
+
   const LinkStyled = styled('a')(({ theme }) => ({
     textDecoration: 'none',
   }))
 
+  const redirectTo = () => {
+    router.replace("/dashboard");
+  }
+
   return (
     <Card sx={{ position: 'relative' }}>
       <CardContent>
-        <Typography variant='h6'>Welcome {user.name}! 🥳</Typography>
+        <Typography variant='h6'>Welcome {userProfile.full_name}! 🥳</Typography>
         <Typography variant='body2' sx={{ letterSpacing: '0.25px' }}>
           Your Profile is
         </Typography>
         <Typography variant='h5' sx={{ my: 4, color: 'primary.main' }}>
-          75% Completed and {user.account_status}
+        {userProfile.profile_completed}% Completed and {userProfile.account_status}
         </Typography>
         <Button size='small' variant='contained'>
-          <Link passHref href='/account-settings'>
+          <Link href='/account-settings'>
             <LinkStyled>Update Profile</LinkStyled>
           </Link>
           

@@ -11,7 +11,7 @@ import { SetupYourDiscipline } from "@components/organisms/SetupYourDiscipline";
 import { Grid, Theme, useMediaQuery, Box, Container, Typography, Divider } from "@mui/material";
 
 import * as React from 'react';
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 
 import PropTypes from 'prop-types';
 import { SideBar } from "@components/layout/SideBar";
@@ -20,7 +20,8 @@ import CardTwitter from '@components/layout/notifications/CardTwitter';
 import { Loader } from "@components/atoms/Loader";
 import { useRouter } from "next/router";
 import { useAuth } from "context/AuthContext";
-
+import api from "services/api";
+import { useToast } from "use-toast-mui";
 
 export const ONBOARDING_VIEW = {
   login_setup: LoginSetup,
@@ -33,7 +34,7 @@ export const ONBOARDING_VIEW = {
   benefits_priorities: BenefitsPriorities,
 };
 
-const Notification = (props: any) => {
+const Notification = () => {
   const router = useRouter();
   const { isAuthenticated, loading } = useAuth();
   
@@ -42,31 +43,19 @@ const Notification = (props: any) => {
       router.replace("/login");
     }
   }, [router, isAuthenticated, loading]);
+  
   const isDesktop = useMediaQuery((theme: Theme) => theme.breakpoints.up("sm"));
   
-  const { window } = props;
+  const [notifications, setNotifications] = useState([]);
 
-  const container = window !== undefined ? () => window().document.body : undefined;
+  useEffect(() => {
+    getUserProfile()
+  }, [])
 
-  const notifications = [
-    {
-      title: "Confirmation Email",
-      message:
-        "A confirmation email has been sent to your registered email, please check.",
-      time: "2 Nov 2022 10.45 pm",
-    },
-    {
-      title: "Profile Verification failed",
-      message:
-        "The uploaded resume seems incomplete, for better job reach please provide a valid resume.",
-      time: "4 Nov 2022 10.45 pm",
-    },
-    {
-      title: "Profile Verification Success",
-      message: "Your Profile has been activated. Happy Job huntung!!.",
-      time: "14 Nov 2022 10.45 pm",
-    },
-  ];
+  const getUserProfile = async () => {
+    let data = await api.get("v1/profile/notifications");
+    setNotifications(data?.data?.data)
+  }
 
   return (
     <main>
@@ -103,10 +92,10 @@ const Notification = (props: any) => {
               <Grid container spacing={3}>
                 <Grid item xs>
                   <h2>Account Notifications</h2>
-                  {notifications.map((notification, index) => (
+                    {notifications.map((notification: any, index: any) => (
                     <CardTwitter
                       key={index}
-                      title={notification.title}
+                      title={notification.message_type}
                       message={notification.message}
                       time={notification.time}
                     />
@@ -134,14 +123,6 @@ const Notification = (props: any) => {
       )}
     </main>
   );
-};
-
-Notification.propTypes = {
-  /**
-   * Injected by the documentation to work in an iframe.
-   * You won't need it on your project.
-   */
-  window: PropTypes.func,
 };
 
 export default Notification;
