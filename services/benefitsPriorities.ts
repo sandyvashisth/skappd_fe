@@ -21,8 +21,8 @@ export const useBenefitsPriorities = () => {
   };
   const getBenefitsPreferencesOptions = async () => {
     setIsLoading(true);
-    const response = await getPreferences("priorities_preference");
-    setBenefitsPreferencesOptions(genrateformFieldOptions(response));
+    const { data } = await getPreferences("priorities_preference");
+    setBenefitsPreferencesOptions(data);
     setIsLoading(false);
   };
   return {
@@ -32,12 +32,3 @@ export const useBenefitsPriorities = () => {
   };
 };
 
-// helpers
-
-const genrateformFieldOptions = (apiResponse: any) => {
-  const { response = [] } = apiResponse;
-  return response.map(({ title, id }: { title: string; id: string }) => ({
-    value: id,
-    label: title,
-  }));
-};
