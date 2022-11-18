@@ -35,8 +35,14 @@ export const JobPreferences = ({
   const [activeStep, setStepComplete] = useAtom(set_step_completed);
 
   const [jobStatus, setJobStatus] = useState([]);
+  const [jobStatusPreferenceId, setJobStatusPreferenceId] = useState();
+
   const [typeOfPositions, setTypeOfPositions] = useState([]);
+  const [typeOfPositionsPreferenceId, setTypeOfPositionsPreferenceId] = useState();
+
   const [shifts, setShifts] = useState([]);
+  const [shiftsPreferenceId, setShiftsPreferenceId] = useState();
+
 
   useEffect(() => {
     getJobStatusPreferences();
@@ -46,35 +52,38 @@ export const JobPreferences = ({
   }, [])
 
   // Get job Status possible values
+  // All below code should moved to service
   const getJobStatusPreferences = async () => {
     let profile = await apiWrapper("v1/job_status/preferences");
-    setJobStatus(profile)
+    setJobStatus(profile?.data)
+    setJobStatusPreferenceId(shifts?.preference_id)
   }
 
   // Get Type of positions
   const typeOfPositionPreference = async () => {
     let positions = await apiWrapper("v1/preferences?preference_name=type_of_position_preference")
-    setTypeOfPositions(positions)
+    setTypeOfPositions(positions?.data)
+    setTypeOfPositionsPreferenceId(positions?.preference_id)
   }
   
   // Get Shift Preferences
   const shiftPreference = async () => {
     let shifts = await apiWrapper("v1/preferences?preference_name=shift_preference")
-    setShifts(shifts)
+    setShifts(shifts?.data)
+    setShiftsPreferenceId(shifts?.preference_id)
   }
 
   // a common GET API wrapper
   const apiWrapper = async (end_point) => {
     try {
       let resp = await api.get(end_point);
-      return resp.data.data;
+      return resp.data;
     } catch (err: any) {
       toast.error(err?.message || err);
     } 
   }
 
   const onSubmit = async (formData: any) => {
-    console.log("Form Data ===> ", formData);
 
     try {
       let resp = await api.put("v1/profile", {
@@ -84,15 +93,44 @@ export const JobPreferences = ({
       });
 
       localStorage.setItem("user", JSON.stringify(resp?.data?.data));
-
-      // setNotificationMessage("Saving...")
-      // setOpen(true);
+      // call 2nd API
+      addShiftPreference(formData)
       setStepComplete(activeStep?.id);
     } catch (err: any) {
       toast.error(err?.message || err);
     }
-
   };
+
+  // Shift Preference
+  const addShiftPreference = async (obj) => {
+    try {
+      let resp = await api.post("v1/profile/user_preferences/", {
+        preferences: {
+          preference_id: shiftsPreferenceId,
+          preference_value_ids: obj.shifts
+        },
+      });
+      addPositionsPreference(obj)
+      // setStepComplete(activeStep?.id);
+    } catch (err: any) {
+      toast.error(err?.message || err);
+    }    
+  }
+
+  // Positions Preference
+  const addPositionsPreference = async (obj) => {
+    try {
+      let resp = await api.post("v1/profile/user_preferences/", {
+        preferences: {
+          preference_id: typeOfPositionsPreferenceId,
+          preference_value_ids: obj.typeOfPositions
+        },
+      });
+      // setStepComplete(activeStep?.id);
+    } catch (err: any) {
+      toast.error(err?.message || err);
+    }
+  }
 
   // return array of values
   // should be put to a common file
@@ -201,7 +239,7 @@ export const JobPreferences = ({
           {/* User this button when save the record from Diolo */}
           {!showFooter && (
             <Grid item xs={12} sx={{ mt: 2, ml: 2 }}>
-              <Button variant="outlined">Save</Button>
+              <Button variant="outlined" type="submit">Save</Button>
             </Grid>
           )}
         </Grid>

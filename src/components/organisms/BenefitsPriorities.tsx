@@ -115,7 +115,7 @@ export const BenefitsPriorities = ({
           {/* User this button when save the record from Diolo */}
           {!showFooter && (
             <Grid item xs={12}>
-              <Button variant="outlined">Save</Button>
+              <Button variant="outlined" type="submit">Save</Button>
             </Grid>
           )}
         </Grid>
