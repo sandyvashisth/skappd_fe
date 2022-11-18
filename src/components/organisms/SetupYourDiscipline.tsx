@@ -46,26 +46,6 @@ export const SetupYourDiscipline = ({
     setStepComplete(activeStep?.id);
   };
 
-  // return array of values
-  // should be put to a common file
-  const getLabels = (key: any, type: any) => {
-    let selected;
-    let selectedValues = getValues(key)
-    if(type == 'job_status'){
-      selected = jobStatus.find(o => o.value === parseInt(selectedValues));
-      selected = selected?.label
-    } else if (type == 'positions'){
-      selected = typeOfPositions.filter(function (o) {
-        return selectedValues.includes(o.value)
-      }).map(function (obj) { return obj.label; });
-    } else if (type == 'shift') {
-      selected = shifts.filter(function (o) {
-        return selectedValues.includes(o.value)
-      }).map(function (obj) { return obj.label; });
-    }
-    return selected
-  }
-
   return (
     <>
       {isLoading ? (

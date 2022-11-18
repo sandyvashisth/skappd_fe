@@ -54,7 +54,7 @@ export const SigningLayout = ({ page = "login" }: { page: SchemaKeys }) => {
   const isDesktop = useMediaQuery((theme: Theme) => theme.breakpoints.up("sm"));
   const { createAccount, login, isAuthenticated, loading } = useAuth();
 
-  const [user, setUser] = useState({});
+  const [user, setUser] = useState<any>({});
 
   const [signingError, setSigningError] = useState<string>("");
   useEffect(() => {

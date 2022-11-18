@@ -37,7 +37,7 @@ export const useDiscipline = () => {
     }
   };
 
-  const updateProfile = async (obj) => {
+    const updateProfile = async (obj: any) => {
     setIsLoading(true);
     try {
       const { data } = await api.put("v1/profile", {

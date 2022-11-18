@@ -23,7 +23,7 @@ export const PersonalDetails = ({
     fullName: string;
     address: string;
     city: string;
-    state: string;
+    state: any;
     zip: string;
   }>({
     resolver: yupResolver(PersonalDetailsSchema),
@@ -40,7 +40,7 @@ export const PersonalDetails = ({
   const [notificationMessage, setNotificationMessage] = React.useState<string>('');
 
   // For logged in user details
-  const [profile, setProfile] = useState({})
+  const [profile, setProfile] = useState<any>({})
 
   // Prefilled form
   useEffect(() => {
@@ -51,24 +51,23 @@ export const PersonalDetails = ({
   const getProfile = async () => {
     try {
       let profile = await api.get("v1/profile");
-      let user = profile.data.data;      
+      let user = profile.data.data;
       let stateObj = states.find(o => o.label === user.state);
       setProfile(user)
-      console.log("^^^^^^^^^^^^^^", stateObj)
       reset({
           fullName: user.full_name,
           address: user.address,
           zip: user.zip_code,
           city: user.city,
-          state: stateObj,
+          state: stateObj
         });
 
     } catch (err: any) {
       toast.error(err?.message || err);
-    }    
+    }
   }
 
-  // submit the form 
+  // submit the form
   const onSubmit = async (formData: any) => {
 
     console.log(formData, "===========")
@@ -97,12 +96,12 @@ export const PersonalDetails = ({
     <Box sx={{ p: [2, 4] }}>
       <Typography variant="h6">Personal Details</Typography>
       <Typography variant="body1">
-        Welcome on board {profile && ( profile.full_name )}!!;
+        Welcome on board {profile?.full_name}!!;
       </Typography>
       <Typography variant="body2">
-        As a part of registration please provide the following details to complete the profile. 
+        As a part of registration please provide the following details to complete the profile.
       </Typography>
-        
+
       <form onSubmit={handleSubmit(onSubmit)} >
         <Grid container spacing={4} sx={{ mt: 4, mb: 8 }}>
           <Grid item xs={12} md={6}>
@@ -186,9 +185,6 @@ export const PersonalDetails = ({
                 />
               </Grid>
 
-              
-
-              
               <Grid container>
                 <CardMedia
                   component="img"

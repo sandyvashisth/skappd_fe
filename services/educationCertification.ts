@@ -108,7 +108,7 @@ export const useEducationCertification = () => {
 
   const getUser = () => {
     let user = localStorage.getItem("user")
-    return JSON.parse(user || {})
+    return JSON.parse(user || '{}')
   }
 
   return {

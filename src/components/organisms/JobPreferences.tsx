@@ -56,7 +56,7 @@ export const JobPreferences = ({
   const getJobStatusPreferences = async () => {
     let profile = await apiWrapper("v1/job_status/preferences");
     setJobStatus(profile?.data)
-    setJobStatusPreferenceId(shifts?.preference_id)
+    setJobStatusPreferenceId(profile?.preference_id)
   }
 
   // Get Type of positions
@@ -74,7 +74,7 @@ export const JobPreferences = ({
   }
 
   // a common GET API wrapper
-  const apiWrapper = async (end_point) => {
+  const apiWrapper = async (end_point: string) => {
     try {
       let resp = await api.get(end_point);
       return resp.data;
@@ -102,7 +102,7 @@ export const JobPreferences = ({
   };
 
   // Shift Preference
-  const addShiftPreference = async (obj) => {
+  const addShiftPreference = async (obj: any) => {
     try {
       let resp = await api.post("v1/profile/user_preferences/", {
         preferences: {
@@ -118,7 +118,7 @@ export const JobPreferences = ({
   }
 
   // Positions Preference
-  const addPositionsPreference = async (obj) => {
+  const addPositionsPreference = async (obj: any) => {
     try {
       let resp = await api.post("v1/profile/user_preferences/", {
         preferences: {
@@ -135,19 +135,19 @@ export const JobPreferences = ({
   // return array of values
   // should be put to a common file
   const getLabels = (key: any, type: any) => {
-    let selected;
+    let selected: any;
     let selectedValues = getValues(key)
     if(type == 'job_status'){
-      selected = jobStatus.find(o => o.value === parseInt(selectedValues));
+      selected = jobStatus.find((o: any) => o.value === parseInt(selectedValues));
       selected = selected?.label
     } else if (type == 'positions'){
-      selected = typeOfPositions.filter(function (o) {
+        selected = typeOfPositions.filter(function (o: any) {
         return selectedValues.includes(o.value)
-      }).map(function (obj) { return obj.label; });
+      }).map(function (obj: any) { return obj.label; });
     } else if (type == 'shift') {
-      selected = shifts.filter(function (o) {
+      selected = shifts.filter(function (o: any) {
         return selectedValues.includes(o.value)
-      }).map(function (obj) { return obj.label; });
+      }).map(function (obj: any) { return obj.label; });
     }
     return selected
   }

@@ -10,7 +10,7 @@ export const useLevelOfConforts = () => {
   const [patientPopulationsPreferenceOptions, setPatientPopulationsPreferenceOptions] = useState();
   const [patientPopulationsPreferenceId, setPatientPopulationsPreferenceId] = useState();
 
-  const getPreferences = async (type) => {
+  const getPreferences = async (type: string) => {
     setIsLoading(true);
     try {
       const { data } = await api.get(`v1/preferences?preference_name=${type}`);
@@ -23,7 +23,7 @@ export const useLevelOfConforts = () => {
     }
   };
 
-  const setstateForType = (type, data) => {
+  const setstateForType = (type: string, data: any) => {
     if (type == 'comfort_setting_preference'){
       setSettingPreferenceOptions(data?.data);
       setSettingPreferenceId(data?.preference_id);
@@ -62,7 +62,7 @@ export const useLevelOfConforts = () => {
 
   const getUser = () => {
     let user = localStorage.getItem("user")
-    return JSON.parse(user || {})
+    return JSON.parse(user || '{}')
   }
 
   return {
