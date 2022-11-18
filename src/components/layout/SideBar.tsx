@@ -107,7 +107,7 @@ export const SideBar = ({
     },
   ];
 
-  const redirectTo = (path) => {
+  const redirectTo = (path: string) => {
     router.replace(path);
 
   }

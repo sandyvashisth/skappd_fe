@@ -85,7 +85,7 @@ const Onboarding = () => {
   const hash = "personal_details"; // router.asPath.split('#')[1];
 
   const [value, setValue] = useState(hash);
-  const [userProfile, setUserProfile] = useState({});
+  const [userProfile, setUserProfile] = useState<any>({});
 
 
   useEffect(() => {
