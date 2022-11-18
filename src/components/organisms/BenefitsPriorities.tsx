@@ -6,13 +6,16 @@ import { FormFooter } from "@components/atoms/FormFooter";
 import { FormSelectableChips } from "@components/atoms/FormSelectableChips";
 import { set_step_completed } from "@state/onboarding";
 import { useAtom } from "jotai";
-import { useBenefitsPriorities } from 'services/benefitsPriorities';
+import { useBenefitsPriorities } from "services/benefitsPriorities";
 import { useEffect } from "react";
+import { useRouter } from "next/router";
+
 export const BenefitsPriorities = ({
   showFooter = true,
 }: {
   showFooter?: Boolean;
 }) => {
+  const router = useRouter();
   const formInstance = useForm({
     resolver: yupResolver(BenefitsSchema),
   });
@@ -22,12 +25,16 @@ export const BenefitsPriorities = ({
     handleSubmit,
     formState: { errors },
   } = formInstance;
-  const { benefitsPreferencesOptions = [], getBenefitsPreferencesOptions } = useBenefitsPriorities();
+  const { benefitsPreferencesOptions = [], getBenefitsPreferencesOptions } =
+    useBenefitsPriorities();
   const [activeStep, setStepComplete] = useAtom(set_step_completed);
-  useEffect(()=>{getBenefitsPreferencesOptions()},[])
+  useEffect(() => {
+    getBenefitsPreferencesOptions();
+  }, []);
   const onSubmit = (formData: any) => {
     console.log("Form Data ===> ", formData);
     setStepComplete(activeStep?.id);
+    router.push("/dashboard");
   };
 
   return (
@@ -59,7 +66,9 @@ export const BenefitsPriorities = ({
           {/* User this button when save the record from Diolo */}
           {!showFooter && (
             <Grid item xs={12}>
-              <Button variant="outlined">Save</Button>
+              <Button type="button" variant="outlined">
+                Save
+              </Button>
             </Grid>
           )}
         </Grid>
