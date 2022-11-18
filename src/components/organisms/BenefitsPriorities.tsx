@@ -1,4 +1,5 @@
 import { Box, Grid, Typography, Button } from "@mui/material";
+import AccessTimeIcon from "@mui/icons-material/AccessTime";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { BenefitsSchema } from "src/schema/onboardingSchema";
@@ -6,8 +7,7 @@ import { FormFooter } from "@components/atoms/FormFooter";
 import { FormSelectableChips } from "@components/atoms/FormSelectableChips";
 import { set_step_completed } from "@state/onboarding";
 import { useAtom } from "jotai";
-import { useBenefitsPriorities } from 'services/benefitsPriorities';
-import { useEffect } from "react";
+
 export const BenefitsPriorities = ({
   showFooter = true,
 }: {
@@ -22,9 +22,8 @@ export const BenefitsPriorities = ({
     handleSubmit,
     formState: { errors },
   } = formInstance;
-  const { benefitsPreferencesOptions = [], getBenefitsPreferencesOptions } = useBenefitsPriorities();
+
   const [activeStep, setStepComplete] = useAtom(set_step_completed);
-  useEffect(()=>{getBenefitsPreferencesOptions()},[])
   const onSubmit = (formData: any) => {
     console.log("Form Data ===> ", formData);
     setStepComplete(activeStep?.id);
@@ -51,7 +50,64 @@ export const BenefitsPriorities = ({
               label: "What is the most important thing to you?",
               control: control,
               options: {
-                options: benefitsPreferencesOptions,
+                options: [
+                  {
+                    value: "Benefits",
+                    label: "Benefits",
+                  },
+                  {
+                    value: "Speciality",
+                    label: "Speciality",
+                  },
+                  {
+                    value: "Training",
+                    label: "Training",
+                  },
+                  {
+                    value: "Culture",
+                    label: "Culture",
+                  },
+                  {
+                    value: "Loan Repayment",
+                    label: "Loan Repayment",
+                  },
+                  {
+                    value: "Location",
+                    label: "Location",
+                  },
+                  {
+                    value: "Just need a job",
+                    label: "Just need a job",
+                  },
+                  {
+                    value: "Setting",
+                    label: "Setting",
+                  },
+                  {
+                    value: "Challenge of the role",
+                    label: "Challenge of the role",
+                  },
+                  {
+                    value: "Job Title",
+                    label: "Job Title",
+                  },
+                  {
+                    value: "Convenience",
+                    label: "Convenience",
+                  },
+                  {
+                    value: "Company Stability",
+                    label: "Company Stability",
+                  },
+                  {
+                    value: "Shift",
+                    label: "Shift",
+                  },
+                  {
+                    value: "Growth",
+                    label: "Growth",
+                  },
+                ],
               },
             }}
             formInstance={formInstance}

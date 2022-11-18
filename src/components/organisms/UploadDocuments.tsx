@@ -17,13 +17,11 @@ import { useRouter } from "next/router";
 import { useAtom } from "jotai";
 import { DragEvent, FormEvent } from "react";
 import DriveFolderUploadIcon from "@mui/icons-material/DriveFolderUpload";
-import { useProfile } from "services/profile";
 
 export const UploadDocuments = ({ showFooter = true }: { showFooter: Boolean }) => {
   const formInstance = useForm({
     resolver: yupResolver(uploadResumeSchema),
   });
-  const { uploadResume } = useProfile();
 const router = useRouter();
   const {
     control,
@@ -49,9 +47,8 @@ const router = useRouter();
 
   const [activeStep, setStepComplete] = useAtom(set_step_completed);
 
-  const onSubmit = async (formData: any) => {
+  const onSubmit = (formData: any) => {
     console.log("Form Data ===> ", formData);
-    await uploadResume(formData);
     setStepComplete(activeStep?.id);
     router.push("/dashboard");
   };
