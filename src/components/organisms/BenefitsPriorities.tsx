@@ -34,7 +34,6 @@ export const BenefitsPriorities = ({
   const onSubmit = (formData: any) => {
     console.log("Form Data ===> ", formData);
     setStepComplete(activeStep?.id);
-    router.push("/dashboard");
   };
 
   return (
