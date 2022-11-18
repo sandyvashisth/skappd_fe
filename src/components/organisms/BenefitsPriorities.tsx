@@ -7,12 +7,14 @@ import { FormFooter } from "@components/atoms/FormFooter";
 import { FormSelectableChips } from "@components/atoms/FormSelectableChips";
 import { set_step_completed } from "@state/onboarding";
 import { useAtom } from "jotai";
+import { useRouter } from "next/router";
 
 export const BenefitsPriorities = ({
   showFooter = true,
 }: {
   showFooter?: Boolean;
 }) => {
+  const router = useRouter();
   const formInstance = useForm({
     resolver: yupResolver(BenefitsSchema),
   });
@@ -27,6 +29,7 @@ export const BenefitsPriorities = ({
   const onSubmit = (formData: any) => {
     console.log("Form Data ===> ", formData);
     setStepComplete(activeStep?.id);
+    router.push("/dashboard");
   };
 
   return (
