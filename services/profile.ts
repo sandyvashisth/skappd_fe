@@ -12,11 +12,12 @@ export const useProfile = () => {
     setIsLoading(true);
     try {
       const { resume, summary } = resumeData;
+      // will do below changes for file upload once body structure finalized
       // var payload = new FormData();
       // payload.append("resume", resume[0]);
       // payload.append("summary", summary);
       await api.put("v1/profile", {
-        user: { resume: resume[0], summary },
+        user: { summary },
       });
       setStatus("success");
       setIsLoading(false);
