@@ -57,20 +57,20 @@ export const useDiscipline = () => {
   }
 
   const updateUserSkills = async (obj: any) => {
-    // setIsLoading(true);
-    // let skillExperience = generateUserSkillsParams(obj.otSkills)
+    setIsLoading(true);
+    let skillExperience = generateUserSkillsParams(obj.otSkills)
 
-    // try {
-    //   // API Not working getting 500
-    //   const { data } = await api.post("v1/profile/skills", {
-    //       skills: skillExperience
-    //   });
-    //   setIsLoading(false);
-    //   return data;
-    // } catch (e) {
-    //   setIsLoading(false);
-    //   return Promise.reject(e);
-    // }
+    try {
+      // API Not working getting 500
+      const { data } = await api.post("v1/profile/skills", {
+          skills: skillExperience
+      });
+      setIsLoading(false);
+      return data;
+    } catch (e) {
+      setIsLoading(false);
+      return Promise.reject(e);
+    }
   }
 
   return {

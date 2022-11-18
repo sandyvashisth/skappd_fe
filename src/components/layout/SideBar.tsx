@@ -107,6 +107,11 @@ export const SideBar = ({
     },
   ];
 
+  const redirectTo = (path) => {
+    router.replace(path);
+
+  }
+
   const drawer = (
     <div>
       <Toolbar />
@@ -131,7 +136,7 @@ export const SideBar = ({
             {profile_forms_settings.map((item, index) => (
               <ListItemButton
                 key={index}
-                href={`/account-settings#${item.path}`}
+                onClick={() => redirectTo('/account-settings')}
                 sx={{ pl: 4 }}
               >
                 <ListItemIcon>{item.icon}</ListItemIcon>
@@ -142,7 +147,7 @@ export const SideBar = ({
         </Collapse>
 
         <ListItem key="notification" disablePadding>
-          <ListItemButton href={textIconAndUrl["notification"].path}>
+          <ListItemButton onClick={() => redirectTo('/notifications')} >
             <ListItemIcon>
               <Badge badgeContent={4} color="primary">
                 {textIconAndUrl["notification"].icon}
