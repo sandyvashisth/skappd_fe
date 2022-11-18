@@ -39,6 +39,10 @@ export const Trophy = () => {
     textDecoration: 'none',
   }))
 
+  const redirectTo = () => {
+    router.replace("/dashboard");
+  }
+
   return (
     <Card sx={{ position: 'relative' }}>
       <CardContent>
@@ -50,7 +54,7 @@ export const Trophy = () => {
           75% Completed and {user.account_status}
         </Typography>
         <Button size='small' variant='contained'>
-          <Link passHref href='/account-settings'>
+          <Link href='/account-settings'>
             <LinkStyled>Update Profile</LinkStyled>
           </Link>
           
