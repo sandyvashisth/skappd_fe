@@ -9,7 +9,6 @@ import { useAtom } from "jotai";
 import { useBenefitsPriorities } from "services/benefitsPriorities";
 import { useEffect } from "react";
 import { useRouter } from "next/router";
-
 export const BenefitsPriorities = ({
   showFooter = true,
 }: {
