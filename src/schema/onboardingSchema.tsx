@@ -9,10 +9,12 @@ export const PersonalDetailsSchema = yup.object().shape({
   city: yup
     .object()
     .shape({ value: yup.string(), label: yup.string() })
+    .nullable()
     .required("Please select a city."),
   state: yup
     .object()
     .shape({ value: yup.string(), label: yup.string() })
+    .nullable()
     .required("Please select a state."),
   zip: yup
     .string()
@@ -100,4 +102,12 @@ export const SignUpSchema = yup.object().shape({
 export const uploadResumeSchema = yup.object().shape({
   resume: yup.mixed().required("Please select a resume"),
   summary: yup.string(),
+});
+
+export const ForgotPasswordSchema = yup.object().shape({
+  email: yup
+    .string()
+    .email("Must be a valid email")
+    .max(255)
+    .required("Email is required"),
 });

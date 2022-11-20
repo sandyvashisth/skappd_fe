@@ -3,6 +3,8 @@ import axios, { AxiosInstance, AxiosRequestConfig, AxiosError } from "axios";
 const singleton = Symbol();
 const singletonEnforcer = Symbol();
 
+const unprotectedRoutes = ["/login", "/sign-up"];
+
 class ApiService {
   session: AxiosInstance;
   constructor(enforcer: any) {
@@ -35,11 +37,13 @@ class ApiService {
       (error: AxiosError) => {
         if (error?.response?.status === 401 && typeof window !== "undefined") {
           window.localStorage.removeItem("accessToken");
-          window.location.pathname = "/login";
-          return;
-        } else {
-          return Promise.reject(error);
+          const pathIsProtected =
+            unprotectedRoutes.indexOf(window.location.pathname) === -1;
+          if (pathIsProtected) {
+            window.location.pathname = "/login";
+          }
         }
+        return Promise.reject(error);
       }
     );
   }

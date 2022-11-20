@@ -118,7 +118,7 @@ const router = useRouter();
                 : "Drag and Drop Your resume here"}
             </Typography>
           </label>
-          <Box sx={{ mt: "40px" }}>
+          <Box sx={{ mt: "40px", background: "#fff" }}>
             <TextField
               aria-label="Resume summary textarea"
               placeholder="Please enter a short summary"

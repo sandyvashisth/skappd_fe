@@ -57,7 +57,6 @@ const theme = createTheme({
     MuiTextField: {
       styleOverrides: {
         root: {
-          background: "#FFF !important",
           padding: "0 !important",
           "& ::before": {
             borderColor: "green",
