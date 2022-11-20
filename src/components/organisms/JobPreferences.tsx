@@ -72,12 +72,12 @@ export const JobPreferences = ({
                         label: "Ready to Mingle",
                       },
                       {
-                        value: "Looking Around",
-                        label: "Looking Around",
+                        value: "It’s complicated",
+                        label: "It’s complicated",
                       },
                       {
-                        value: "Currently off the Market",
-                        label: "Currently off the Market",
+                        value: "Off the market",
+                        label: "Off the market",
                       },
                     ],
                   },

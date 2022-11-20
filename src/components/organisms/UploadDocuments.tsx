@@ -15,22 +15,27 @@ import { FormFooter } from "@components/atoms/FormFooter";
 import { set_step_completed } from "@state/onboarding";
 import { useRouter } from "next/router";
 import { useAtom } from "jotai";
-import { DragEvent, FormEvent } from "react";
+import { DragEvent, FormEvent, useState } from "react";
 import DriveFolderUploadIcon from "@mui/icons-material/DriveFolderUpload";
 import { useProfile } from "services/profile";
+import { checkFileType } from "@/src/helpers/file.helper";
 
-export const UploadDocuments = ({ showFooter = true }: { showFooter: Boolean }) => {
+export const UploadDocuments = ({
+  showFooter = true,
+}: {
+  showFooter: Boolean;
+}) => {
   const formInstance = useForm({
     resolver: yupResolver(uploadResumeSchema),
   });
   const { uploadResume } = useProfile();
-const router = useRouter();
+  const router = useRouter();
   const {
     control,
     handleSubmit,
     formState: { errors },
   } = formInstance;
-
+  const [fileError, setFileError] = useState<string>("");
   const { field: controlledFieldResume } = useController({
     name: "resume",
     control,
@@ -58,14 +63,28 @@ const router = useRouter();
 
   const onDropFile = (e: DragEvent) => {
     e.preventDefault();
-    const resume = e.dataTransfer as DataTransfer;
-    onResumeFileChange(resume);
+    const resume = e.dataTransfer.files[0];
+    const isFileValid = checkFileType(resume.name);
+    if (isFileValid) {
+      setFileError("");
+      onResumeFileChange(resume);
+    } else {
+      setFileError("Please select a valid file, (pdf, Docx, RTF, txt)");
+    }
   };
 
   const onFileInput = (e: FormEvent<HTMLInputElement>) => {
     e.preventDefault();
     const target = e.target as HTMLInputElement;
-    onResumeFileChange(target.files);
+    const files = target.files || [];
+    const resume = files[0] || {};
+    const isFileValid = checkFileType(resume.name);
+    if (isFileValid) {
+      setFileError("");
+      onResumeFileChange(resume);
+    } else {
+      setFileError("Please select a valid file, (pdf, Docx, RTF, txt)");
+    }
   };
 
   const handleResumeSummaryChange = (e: React.SyntheticEvent) => {
@@ -108,16 +127,22 @@ const router = useRouter();
             </Box>
             <Typography
               style={{
-                color: selectedResume?.length ? "#1EC271" : "grey",
+                color: selectedResume ? "#1EC271" : "grey",
                 marginTop: "8px",
                 textAlign: "center",
               }}
             >
-              {selectedResume?.length
-                ? selectedResume[0].name
+              {selectedResume
+                ? selectedResume.name
                 : "Drag and Drop Your resume here"}
             </Typography>
           </label>
+          <FormHelperText
+            sx={{ paddingTop: 2, textAlign: "center" }}
+            error={!!fileError}
+          >
+            {fileError as string}
+          </FormHelperText>
           <Box sx={{ mt: "40px", background: "#fff" }}>
             <TextField
               aria-label="Resume summary textarea"
@@ -137,8 +162,7 @@ const router = useRouter();
             Select Resume
             <input
               hidden
-              accept="image/*"
-              multiple
+              accept=".txt,.RTF,.Docx,.doc,.DOC,.pdf,.PDF"
               type="file"
               onInput={onFileInput}
             />
