@@ -1,8 +1,10 @@
 import { Box, Grid, Typography, Button } from "@mui/material";
-import AccessTimeIcon from "@mui/icons-material/AccessTime";
+import FavoriteIcon from "@mui/icons-material/Favorite";
+import MonitorHeartIcon from "@mui/icons-material/MonitorHeart";
+import HeartBrokenIcon from "@mui/icons-material/HeartBroken";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
-import { FormCustomRadioGroup } from "@components/atoms/FormCustomRadioGroup";
+import { FormRadioWithIcon } from "@components/atoms/FormRadioWithIcon";
 import { StepAccordion } from "@components/molecules/StepAccordion";
 import { FormCheckboxGrid } from "@components/atoms/FormCheckboxGrid";
 import { JobPreferencesSchema } from "src/schema/onboardingSchema";
@@ -10,6 +12,7 @@ import { useState } from "react";
 import { FormFooter } from "@components/atoms/FormFooter";
 import { set_step_completed } from "@state/onboarding";
 import { useAtom } from "jotai";
+import { useRouter } from "next/router";
 
 export const JobPreferences = ({
   showFooter = true,
@@ -29,9 +32,10 @@ export const JobPreferences = ({
   } = formInstance;
 
   const [activeStep, setStepComplete] = useAtom(set_step_completed);
+  const router = useRouter();
   const onSubmit = (formData: any) => {
     console.log("Form Data ===> ", formData);
-    setStepComplete(activeStep?.id);
+    setStepComplete({ id: activeStep?.id, router });
   };
 
   return (
@@ -58,7 +62,7 @@ export const JobPreferences = ({
               handleChange={setExpanded}
               isError={errors["jobStatus"]}
             >
-              <FormCustomRadioGroup
+              <FormRadioWithIcon
                 field={{
                   name: "jobStatus",
                   label: "What is your current job status?",
@@ -68,14 +72,24 @@ export const JobPreferences = ({
                       {
                         value: "Ready to Mingle",
                         label: "Ready to Mingle",
+                        iconColor: "#008000",
+                        Icon: FavoriteIcon,
+                        subLabel:
+                          "Yes I am actively looking for new Opportunities",
                       },
                       {
-                        value: "Looking Around",
-                        label: "Looking Around",
+                        value: "It’s complicated",
+                        label: "It’s complicated",
+                        iconColor: "#ffff00",
+                        Icon: MonitorHeartIcon,
+                        subLabel: "I am not sure  the moment.",
                       },
                       {
-                        value: "Currently off the Market",
-                        label: "Currently off the Market",
+                        value: "Off the market",
+                        label: "Off the market",
+                        iconColor: "#ff0000",
+                        Icon: HeartBrokenIcon,
+                        subLabel: "I am done for now, I'll think later",
                       },
                     ],
                   },

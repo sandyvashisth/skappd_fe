@@ -8,6 +8,7 @@ import { set_step_completed } from "@state/onboarding";
 import { useAtom } from "jotai";
 import { useBenefitsPriorities } from 'services/benefitsPriorities';
 import { useEffect } from "react";
+import { useRouter } from "next/router";
 export const BenefitsPriorities = ({
   showFooter = true,
 }: {
@@ -16,7 +17,6 @@ export const BenefitsPriorities = ({
   const formInstance = useForm({
     resolver: yupResolver(BenefitsSchema),
   });
-
   const {
     control,
     handleSubmit,
@@ -25,9 +25,10 @@ export const BenefitsPriorities = ({
   const { benefitsPreferencesOptions = [], getBenefitsPreferencesOptions } = useBenefitsPriorities();
   const [activeStep, setStepComplete] = useAtom(set_step_completed);
   useEffect(()=>{getBenefitsPreferencesOptions()},[])
+  const router = useRouter();
   const onSubmit = (formData: any) => {
     console.log("Form Data ===> ", formData);
-    setStepComplete(activeStep?.id);
+    setStepComplete({id: activeStep?.id, router});
   };
 
   return (

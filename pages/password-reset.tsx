@@ -17,33 +17,18 @@ import { useRouter } from "next/router";
 import { FormTextField } from "@components/atoms/FormTextField";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
-import { SignUpSchema } from "src/schema/onboardingSchema";
-import { SignInSchema } from "src/schema/onboardingSchema";
+import { ForgotPasswordSchema } from "src/schema/onboardingSchema";
 import { useAuth } from "context/AuthContext";
 import { AxiosError } from "axios";
 import { ResponsiveAppBar } from "@components/molecules/ResponsiveAppBar";
 import { formatMultiErrors } from "@/src/helpers/error.helper";
 
-type SchemaKeys = keyof typeof yupSchema;
-
-export const PAGES = {
-  LOGIN: "login",
-  SIGN_UP: "signup",
-};
-
-const yupSchema = {
-  login: SignInSchema,
-  signup: SignUpSchema,
-};
-
-export const SigningLayout = ({ page = "login" }: { page: SchemaKeys }) => {
+const PasswordReset = () => {
   const router = useRouter();
   const formInstance = useForm<{
     email?: string;
-    password?: string;
-    cnfPassword?: string;
   }>({
-    resolver: yupResolver(yupSchema[page]),
+    resolver: yupResolver(ForgotPasswordSchema),
   });
   const [adornmentMap, setAdornmentMap] = useState<{ [k: string]: any }>({});
   const {
@@ -53,8 +38,8 @@ export const SigningLayout = ({ page = "login" }: { page: SchemaKeys }) => {
     trigger,
   } = formInstance;
   const isDesktop = useMediaQuery((theme: Theme) => theme.breakpoints.up("sm"));
-  const { createAccount, login, isAuthenticated, loading } = useAuth();
-  const [signingError, setSigningError] = useState<string>("");
+  const { passwordReset, isAuthenticated, loading } = useAuth();
+  const [formError, setFormError] = useState<string>("");
   useEffect(() => {
     if (isAuthenticated) {
       router.replace("/onboarding");
@@ -63,22 +48,6 @@ export const SigningLayout = ({ page = "login" }: { page: SchemaKeys }) => {
 
   const handleOnSubmit = async (formData: any) => {
     console.log("Form Data ===> ", formData);
-    setSigningError("");
-    try {
-      const onSubmit = page === PAGES.SIGN_UP ? createAccount : login;
-      if (onSubmit) {
-        await onSubmit(formData.email, formData.password, formData.cnfPassword);
-      }
-    } catch (e) {
-      if (e instanceof AxiosError && e.response?.data) {
-        const errorResponse = e.response?.data;
-        if (errorResponse?.error) setSigningError(errorResponse.error);
-        if (errorResponse?.errors)
-          setSigningError(formatMultiErrors(errorResponse.errors));
-      } else {
-        setSigningError("Wrong email or password");
-      }
-    }
   };
 
   const onBlur = (event: any) => {
@@ -88,7 +57,7 @@ export const SigningLayout = ({ page = "login" }: { page: SchemaKeys }) => {
     setAdornmentMap({ ...adornmentMap, [fieldName]: true });
   };
 
-  const getAdornmentIcon = (field: "email" | "password" | "cnfPassword") => {
+  const getAdornmentIcon = (field: "email") => {
     if (adornmentMap[field] && !errors[field]?.message)
       return (
         <InputAdornment position="end">
@@ -131,18 +100,11 @@ export const SigningLayout = ({ page = "login" }: { page: SchemaKeys }) => {
             </Typography>
           </Box>
           <Box>
-            <Button
-              variant="outlined"
-              sx={{ padding: "8px 10px", borderRadius: "30px", mb: "30px" }}
-              startIcon={<GoogleLogo />}
-            >
-              Sign Up with Google
-            </Button>
             <Typography sx={{ color: "#012333", mb: "28px" }}>
-              Or Sign Up using your email
+              Please enter your email address to reset your account.
             </Typography>
-            <FormHelperText sx={{ paddingBottom: 2 }} error={!!signingError}>
-              {signingError as string}
+            <FormHelperText sx={{ paddingBottom: 2 }} error={!!formError}>
+              {formError as string}
             </FormHelperText>
             <Grid
               sx={{ flexDirection: "coloum", maxWidth: "456px", gap: "25px" }}
@@ -163,38 +125,6 @@ export const SigningLayout = ({ page = "login" }: { page: SchemaKeys }) => {
                   onBlur={onBlur}
                   formInstance={formInstance}
                 />
-                <FormTextField
-                  field={{
-                    name: "password",
-                    label: "Password",
-                    control: control,
-                    options: {
-                      type: "password",
-                      endAdornment: getAdornmentIcon("password"),
-                      style: { mb: "24px" },
-                    },
-                    error: errors?.password,
-                  }}
-                  onBlur={onBlur}
-                  formInstance={formInstance}
-                />
-                {page === PAGES.SIGN_UP && (
-                  <FormTextField
-                    field={{
-                      name: "cnfPassword",
-                      label: "Confirm Password",
-                      control: control,
-                      options: {
-                        type: "password",
-                        endAdornment: getAdornmentIcon("cnfPassword"),
-                        style: { mb: "24px" },
-                      },
-                      error: errors?.password,
-                    }}
-                    onBlur={onBlur}
-                    formInstance={formInstance}
-                  />
-                )}
                 <LoadingButton
                   loading={loading}
                   loadingPosition="start"
@@ -203,34 +133,9 @@ export const SigningLayout = ({ page = "login" }: { page: SchemaKeys }) => {
                   endIcon={<ArrowForwardIcon />}
                   type="submit"
                 >
-                  Let’s get started
+                  Send Reset Link
                 </LoadingButton>
               </form>
-              <Box sx={{ width: "100%", textAlign: "center" }}>
-                <Typography sx={{ color: "#012333", mb: "28px" }}>
-                  {page == PAGES.SIGN_UP && !loading
-                    ? "If you already have an account please"
-                    : "If you dont have an account please"}
-                  <Button
-                    href={`/${
-                      page == PAGES.SIGN_UP ? PAGES.LOGIN : PAGES.SIGN_UP
-                    }`}
-                    sx={{ textTransform: "capitalize" }}
-                  >
-                    {page == PAGES.SIGN_UP ? "Log In" : "Sign Up"}
-                  </Button>
-                </Typography>
-              </Box>
-              <Box sx={{ width: "100%", textAlign: "center" }}>
-                <Typography sx={{ color: "#012333", mb: "28px" }}>
-                  <Button
-                    href="/password-reset"
-                    sx={{ textTransform: "capitalize" }}
-                  >
-                    Forgot Password ?
-                  </Button>
-                </Typography>
-              </Box>
             </Grid>
           </Box>
         </Grid>
@@ -248,3 +153,5 @@ export const SigningLayout = ({ page = "login" }: { page: SchemaKeys }) => {
     </main>
   );
 };
+
+export default PasswordReset;

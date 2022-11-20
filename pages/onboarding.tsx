@@ -45,7 +45,11 @@ const Onboarding = () => {
 
   const router = useRouter();
   const { isAuthenticated, loading } = useAuth();
-
+  useEffect(() => {
+    const { asPath } = router;
+    const subPath = asPath.split("#")[1] || "personal_details";
+    setActiveStep({ id: subPath, router });
+  }, []);
   useEffect(() => {
     if (!loading && !isAuthenticated) {
       router.replace("/login");
@@ -73,7 +77,10 @@ const Onboarding = () => {
                 active={activeStepId}
                 progressStatus={progressStatus}
                 setActive={(value) =>
-                  setActiveStep(value as keyof typeof ONBOARDING_VIEW)
+                  setActiveStep({
+                    id: value as keyof typeof ONBOARDING_VIEW,
+                    router,
+                  })
                 }
               />
             </Grid>
@@ -90,7 +97,10 @@ const Onboarding = () => {
                 active={activeStepId}
                 progressStatus={progressStatus}
                 setActive={(value) =>
-                  setActiveStep(value as keyof typeof ONBOARDING_VIEW)
+                  setActiveStep({
+                    id: value as keyof typeof ONBOARDING_VIEW,
+                    router,
+                  })
                 }
               />
             </Grid>

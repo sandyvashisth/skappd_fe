@@ -11,6 +11,7 @@ import { set_step_completed } from "@state/onboarding";
 import { useAtom } from "jotai";
 import { useDiscipline } from "services/discipline";
 import { Loader } from "@components/atoms/Loader";
+import { useRouter } from "next/router";
 
 export const SetupYourDiscipline = ({
   showFooter = true,
@@ -38,9 +39,10 @@ export const SetupYourDiscipline = ({
   } = formInstance;
 
   const [activeStep, setStepComplete] = useAtom(set_step_completed);
+  const router = useRouter();
   const onSubmit = (formData: any) => {
     console.log("Form Data ===> ", formData);
-    setStepComplete(activeStep?.id);
+    setStepComplete({ id: activeStep?.id, router });
   };
 
   return (

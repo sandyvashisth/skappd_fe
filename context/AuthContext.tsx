@@ -22,6 +22,7 @@ interface IAuthContext {
   isAuthenticated: boolean;
   loading: boolean;
   login: (email: string, password: string) => Promise<User>;
+  passwordReset: (email: string) => Promise<User>;
   createAccount: (
     email: string,
     password: string,
@@ -67,6 +68,20 @@ export const AuthProvider: FC<{ children: ReactElement }> = ({ children }) => {
     }
   };
 
+  const passwordReset = async (email: string): Promise<User> => {
+    setLoading(true);
+    try {
+      const res = await api.post("users/forgot_password", {
+        user: { email },
+      });
+      setLoading(false);
+      return res.data;
+    } catch (e) {
+      setLoading(false);
+      return Promise.reject(e);
+    }
+  };
+
   const logout = () => {
     window.localStorage.removeItem("accessToken");
     window.location.pathname = "/login";
@@ -98,6 +113,7 @@ export const AuthProvider: FC<{ children: ReactElement }> = ({ children }) => {
         loading,
         logout,
         createAccount,
+        passwordReset,
       }}
     >
       {children}
