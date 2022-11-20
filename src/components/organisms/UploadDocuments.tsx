@@ -52,7 +52,7 @@ const router = useRouter();
   const onSubmit = async (formData: any) => {
     console.log("Form Data ===> ", formData);
     await uploadResume(formData);
-    setStepComplete(activeStep?.id);
+    setStepComplete({ id: activeStep?.id, router });
     router.push("/dashboard");
   };
 

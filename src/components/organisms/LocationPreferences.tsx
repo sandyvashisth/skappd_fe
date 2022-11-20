@@ -16,6 +16,7 @@ import {
 import { languages, states } from "src/constants/onboarding";
 import { FormTextField } from "@components/atoms/FormTextField";
 import { StyledLabel } from "@components/atoms/common";
+import { useRouter } from "next/router";
 
 export const LocationPreferences = ({
   showFooter = true,
@@ -36,10 +37,11 @@ export const LocationPreferences = ({
     getValues,
   } = formInstance;
 
-  const onSubmit = (formData: any) => {
-    console.log("Form Data ===> ", formData);
-    setStepComplete(activeStep?.id);
-  };
+ const router = useRouter();
+ const onSubmit = (formData: any) => {
+   console.log("Form Data ===> ", formData);
+   setStepComplete({ id: activeStep?.id, router });
+ };
 
   const getSanitisedList = (
     key: "stateLicenses" | "languages" | "statePrefer"

@@ -84,20 +84,24 @@ export const update_step = atom(
     });
     return { activeStepIndex, activeStep };
   },
-  (get, set, id: string) =>
-    set(onboarding_steps, setActiveStepById(get(onboarding_steps), id))
+  (get, set, { id, router }: { id: string, router: any}) => {
+    updateRoute(router, id);
+    return set(onboarding_steps, setActiveStepById(get(onboarding_steps), id));
+  }
 );
 
 export const set_step_completed = atom(
   (get) => get(onboarding_steps).find((item) => item.active === true),
-  (get, set, id) => {
+  (get, set, { id, router }: { id?: string; router: any }) => {
     set(
       onboarding_steps,
       get(onboarding_steps).map((step) =>
         step.id === id ? { ...step, status: "completed" } : step
       )
     );
-    set(onboarding_steps, setNextStepActive(get(onboarding_steps)));
+    const { steps, activeStepId } = setNextStepActive(get(onboarding_steps));
+    updateRoute(router, activeStepId);
+    set(onboarding_steps, steps);
   }
 );
 
@@ -117,13 +121,16 @@ function setActiveStepById(steps: TStep[], id: string) {
 }
 
 function setNextStepActive(steps: TStep[]) {
+  let activeStepId = '';
   const currentActiveStepIndex = steps.findIndex((step) => step.active);
+  activeStepId = steps[currentActiveStepIndex].id;
   const newActiveStepIndex = currentActiveStepIndex + 1;
   if (newActiveStepIndex < steps.length) {
     steps[currentActiveStepIndex].active = false;
     steps[newActiveStepIndex].active = true;
+    activeStepId = steps[newActiveStepIndex].id;
   }
-  return steps;
+  return { steps, activeStepId };
 }
 
 function getProgressStatus(steps: TStep[]) {
@@ -138,4 +145,23 @@ function getProgressStatus(steps: TStep[]) {
   remainingTime = totalTime - timeCompleted;
   const progressPercent = (timeCompleted / totalTime) * 100;
   return { totalTime, remainingTime, progressPercent };
+}
+
+function updateRoute(router: any, subRoute?: string) {
+    router
+      .push(
+        {
+          pathname: "/onboarding",
+          hash: subRoute,
+        },
+        undefined,
+        {
+          shallow: true,
+        }
+      )
+      .catch((e: any) => {
+        if (!e.cancelled) {
+          throw e;
+        }
+      });
 }

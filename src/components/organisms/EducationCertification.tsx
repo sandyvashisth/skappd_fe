@@ -9,6 +9,7 @@ import { useState } from "react";
 import { FormFooter } from "@components/atoms/FormFooter";
 import { set_step_completed } from "@state/onboarding";
 import { useAtom } from "jotai";
+import { useRouter } from "next/router";
 
 export const EducationCertification = ({
   showFooter = true,
@@ -28,9 +29,10 @@ export const EducationCertification = ({
   } = formInstance;
 
   const [activeStep, setStepComplete] = useAtom(set_step_completed);
+  const router = useRouter();
   const onSubmit = (formData: any) => {
     console.log("Form Data ===> ", formData);
-    setStepComplete(activeStep?.id);
+    setStepComplete({ id: activeStep?.id, router });
   };
 
   return (

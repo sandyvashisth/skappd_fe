@@ -11,6 +11,7 @@ import { FormMultipleSelect } from "@components/atoms/FormMultipleSelect";
 import { states } from "src/constants/onboarding";
 import api from "@/services/api";
 import { useToast } from "use-toast-mui";
+import { useRouter } from "next/router";
 
 export const PersonalDetails = ({
   showFooter = true,
@@ -33,6 +34,7 @@ export const PersonalDetails = ({
     formState: { errors },
   } = formInstance;
   const [activeStep, setStepComplete] = useAtom(set_step_completed);
+  const router = useRouter();
   const onSubmit = async (formData: any) => {
     console.log("Form Data ===> ", formData);
 
@@ -43,7 +45,7 @@ export const PersonalDetails = ({
           address: `${formData.address} ${formData.city.label} ${formData.state.label} ${formData.zip}`,
         },
       });
-      setStepComplete(activeStep?.id);
+      setStepComplete({ id: activeStep?.id, router });
     } catch (err: any) {
       toast.error(err?.message || err);
     }
