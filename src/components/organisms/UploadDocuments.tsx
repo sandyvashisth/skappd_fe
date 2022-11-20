@@ -15,7 +15,7 @@ import { FormFooter } from "@components/atoms/FormFooter";
 import { set_step_completed } from "@state/onboarding";
 import { useRouter } from "next/router";
 import { useAtom } from "jotai";
-import { DragEvent, FormEvent, useState } from "react";
+import { DragEvent, FormEvent, useEffect, useState } from "react";
 import DriveFolderUploadIcon from "@mui/icons-material/DriveFolderUpload";
 import { useProfile } from "services/profile";
 import { checkFileType } from "@/src/helpers/file.helper";
@@ -61,6 +61,13 @@ export const UploadDocuments = ({
     router.push("/dashboard");
   };
 
+  useEffect(() => {
+    const isValidResume = checkFileType(selectedResume?.name);
+    if (selectedResume?.name && !isValidResume) {
+      setFileError("Please select a valid file, (pdf, Docx, RTF, txt)");
+    }
+  }, [selectedResume]);
+
   const onDropFile = (e: DragEvent) => {
     e.preventDefault();
     const resume = e.dataTransfer.files[0];
@@ -68,8 +75,6 @@ export const UploadDocuments = ({
     if (isFileValid) {
       setFileError("");
       onResumeFileChange(resume);
-    } else {
-      setFileError("Please select a valid file, (pdf, Docx, RTF, txt)");
     }
   };
 
@@ -82,8 +87,6 @@ export const UploadDocuments = ({
     if (isFileValid) {
       setFileError("");
       onResumeFileChange(resume);
-    } else {
-      setFileError("Please select a valid file, (pdf, Docx, RTF, txt)");
     }
   };
 
