@@ -5,7 +5,7 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import { StepAccordion } from "@components/molecules/StepAccordion";
 import { FormCustomRadioGroup } from "@components/atoms/FormCustomRadioGroup";
 import { LocationPreferenceSchema } from "src/schema/onboardingSchema";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { FormFooter } from "@components/atoms/FormFooter";
 import { set_step_completed } from "@state/onboarding";
 import { useAtom } from "jotai";
@@ -16,6 +16,7 @@ import {
 import { languages, states } from "src/constants/onboarding";
 import { FormTextField } from "@components/atoms/FormTextField";
 import { StyledLabel } from "@components/atoms/common";
+import { useLocationPreferences } from "services/locationPreferences";
 
 export const LocationPreferences = ({
   showFooter = true,
@@ -30,14 +31,26 @@ export const LocationPreferences = ({
   });
 
   const {
+    getRelocation,
+    relocationOptions=[],
+    setPreference,
+    isLoading
+  } = useLocationPreferences();
+
+  const {
     control,
     handleSubmit,
     formState: { errors },
     getValues,
   } = formInstance;
 
+  useEffect(() => {
+    getRelocation();
+  }, [])
+
   const onSubmit = (formData: any) => {
     console.log("Form Data ===> ", formData);
+    setPreference('relocation_preference', [formData.relocating])
     setStepComplete(activeStep?.id);
   };
 
@@ -82,16 +95,7 @@ export const LocationPreferences = ({
                   label: "Are you open to relocating?",
                   control: control,
                   options: {
-                    options: [
-                      {
-                        value: "Yes",
-                        label: "Yes",
-                      },
-                      {
-                        value: "No",
-                        label: "No",
-                      },
-                    ],
+                    options: relocationOptions,
                   },
                 }}
                 formInstance={formInstance}
