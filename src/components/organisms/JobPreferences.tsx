@@ -63,6 +63,7 @@ export const JobPreferences = ({
                   name: "jobStatus",
                   label: "What is your current job status?",
                   control: control,
+                  defaultValue: "Ready to Mingle",
                   options: {
                     options: [
                       {
